@@ -19,24 +19,22 @@
     overflow: hidden;
   }
 
-  /* Cosmic starfield container */
   #stars {
     position: fixed;
     top: 0; left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     z-index: 0;
     pointer-events: none;
   }
 
   .star {
     position: absolute;
-    width: 2px;
-    height: 2px;
+    width: 2px; height: 2px;
     background: white;
     border-radius: 50%;
     opacity: 0.8;
     animation: drift linear infinite;
+    transition: transform 0.3s, opacity 0.3s;
   }
 
   @keyframes drift {
@@ -51,75 +49,27 @@
     z-index: 1;
   }
 
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(90deg, #FF63E7, #7F5AF0, #2AF5E1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientMove 5s ease infinite;
-  }
+  img.logo { width:120px; margin-bottom:1rem; border-radius:12px; box-shadow:0 0 15px #FF63E7aa; }
 
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    color: #2AF5E1;
-    text-shadow: 0 0 10px #2AF5E1aa;
-  }
+  h1 { font-size:3rem; margin-bottom:0.5rem; background:linear-gradient(90deg,#FF63E7,#7F5AF0,#2AF5E1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:gradientMove 5s ease infinite; }
+  h2 { font-size:1.5rem; margin-bottom:2rem; color:#2AF5E1; text-shadow:0 0 10px #2AF5E1aa; }
+  @keyframes gradientMove { 0% {background-position:0% 50%;} 50% {background-position:100% 50%;} 100% {background-position:0% 50%;} }
 
-  @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
+  .token-container { margin:1rem 0; padding:1rem 2rem; border-radius:12px; font-size:1.25rem; background:rgba(47,42,63,0.6); box-shadow:0 0 15px #FF63E7aa,0 0 25px #2AF5E1aa; z-index:1; text-align:center; transition: transform 0.3s; }
+  .token-container:hover { transform: scale(1.03); }
 
-  .token-container {
-    margin: 1rem 0;
-    padding: 1rem 2rem;
-    border-radius: 12px;
-    font-size: 1.25rem;
-    background: rgba(47, 42, 63, 0.6);
-    box-shadow: 0 0 15px #FF63E7aa, 0 0 25px #2AF5E1aa;
-    z-index: 1;
-    text-align: center;
-  }
+  .total-supply { margin-top:0.5rem; font-weight:bold; color:#FF63E7; text-shadow:0 0 5px #FF63E7aa,0 0 10px #2AF5E1aa; animation:pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { text-shadow:0 0 5px #FF63E7aa,0 0 10px #2AF5E1aa; transform:scale(1);} 50%{ text-shadow:0 0 15px #FF63E7ff,0 0 25px #2AF5E1ff; transform:scale(1.05);} }
 
-  .total-supply {
-    margin-top: 0.5rem;
-    font-weight: bold;
-    color: #FF63E7;
-    text-shadow: 0 0 5px #FF63E7aa, 0 0 10px #2AF5E1aa;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { text-shadow: 0 0 5px #FF63E7aa, 0 0 10px #2AF5E1aa; transform: scale(1); }
-    50% { text-shadow: 0 0 15px #FF63E7ff, 0 0 25px #2AF5E1ff; transform: scale(1.05); }
-  }
-
-  .connect-wallet {
-    background: linear-gradient(90deg, #FF63E7, #7F5AF0, #2AF5E1);
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    color: #ffffff;
-    font-size: 1.25rem;
-    cursor: pointer;
-    box-shadow: 0 0 25px #FF63E7aa, 0 0 35px #2AF5E1aa;
-    transition: all 0.3s ease-in-out;
-    z-index: 1;
-  }
-
-  .connect-wallet:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 40px #FF63E7ff, 0 0 50px #2AF5E1ff;
-  }
+  .connect-wallet { background:linear-gradient(90deg,#FF63E7,#7F5AF0,#2AF5E1); border:none; padding:1rem 2rem; border-radius:10px; color:#fff; font-size:1.25rem; cursor:pointer; box-shadow:0 0 25px #FF63E7aa,0 0 35px #2AF5E1aa; transition: all 0.3s ease-in-out; z-index:1; }
+  .connect-wallet:hover { transform:scale(1.05); box-shadow:0 0 50px #FF63E7ff,0 0 60px #2AF5E1ff; }
 </style>
 </head>
 <body>
 <div id="stars"></div>
 
 <header>
+  <img src="assets/monetmoney.png" alt="Monet Money Logo" class="logo">
   <h1>BetterhavemyMonet Project</h1>
   <h2>Libra ⚖️ & Monet Money 💵</h2>
 </header>
@@ -140,43 +90,59 @@
 
 <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
 <script>
-  // Generate drifting stars
+  // Generate 100 drifting stars
   const starContainer = document.getElementById('stars');
+  const stars=[];
   for(let i=0;i<100;i++){
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.style.top = Math.random()*100 + 'vh';
-    star.style.left = Math.random()*100 + 'vw';
-    star.style.animationDuration = (5 + Math.random()*10) + 's';
-    starContainer.appendChild(star);
+    const s=document.createElement('div');
+    s.className='star';
+    s.style.top=Math.random()*100+'vh';
+    s.style.left=Math.random()*100+'vw';
+    s.style.animationDuration=(5+Math.random()*10)+'s';
+    starContainer.appendChild(s);
+    stars.push(s);
   }
 
-  const LIBRA_MINT = "BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR";
-  const MONET_MINT = "9CHAHvaDhPyiOgg4TKfvJ9iVp7dZaQqVao9uU7W7B5ZD";
-
-  let walletAddress = null;
-  const connectWalletBtn = document.getElementById('connectWalletBtn');
-
-  connectWalletBtn.addEventListener('click', async () => {
-    if (window.solana && window.solana.isPhantom) {
-      const resp = await window.solana.connect();
-      walletAddress = resp.publicKey.toString();
-      connectWalletBtn.innerText = `Connected: ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}`;
-      updateBalances();
-    } else {
-      alert("Phantom Wallet not detected!");
-    }
+  // Interactive twinkle on hover
+  const hoverTargets=document.querySelectorAll('.token-container, .connect-wallet');
+  hoverTargets.forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      stars.forEach(s=>{
+        s.style.opacity=(0.5+Math.random()*0.5).toString();
+        s.style.transform=`scale(${1+Math.random()*0.5})`;
+      });
+    });
+    el.addEventListener('mouseleave',()=>{
+      stars.forEach(s=>{
+        s.style.opacity='0.8';
+        s.style.transform='scale(1)';
+      });
+    });
   });
 
-  async function updateBalances() {
-    if (!walletAddress) return;
-    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
-    try {
-      const libraBalance = await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(LIBRA_MINT));
-      const monetBalance = await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(MONET_MINT));
-      document.querySelector('#libraToken div:nth-child(1)').innerText = `Libra Balance: ${libraBalance.value.uiAmount || 0}`;
-      document.querySelector('#monetToken div:nth-child(1)').innerText = `Monet Money Balance: ${monetBalance.value.uiAmount || 0}`;
-    } catch(e) { console.error(e); }
+  const LIBRA_MINT="BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR";
+  const MONET_MINT="9CHAHvaDhPyiOgg4TKfvJ9iVp7dZaQqVao9uU7W7B5ZD";
+  let walletAddress=null;
+  const connectWalletBtn=document.getElementById('connectWalletBtn');
+
+  connectWalletBtn.addEventListener('click',async()=>{
+    if(window.solana&&window.solana.isPhantom){
+      const resp=await window.solana.connect();
+      walletAddress=resp.publicKey.toString();
+      connectWalletBtn.innerText=`Connected: ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}`;
+      updateBalances();
+    }else{ alert("Phantom Wallet not detected!"); }
+  });
+
+  async function updateBalances(){
+    if(!walletAddress) return;
+    const connection=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
+    try{
+      const libraBalance=await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(LIBRA_MINT));
+      const monetBalance=await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(MONET_MINT));
+      document.querySelector('#libraToken div:nth-child(1)').innerText=`Libra Balance: ${libraBalance.value.uiAmount||0}`;
+      document.querySelector('#monetToken div:nth-child(1)').innerText=`Monet Money Balance: ${monetBalance.value.uiAmount||0}`;
+    }catch(e){console.error(e);}
   }
 </script>
 </body>
