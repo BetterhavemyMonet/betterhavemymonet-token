@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MonetMoney - Libra Token</title>
+  <link rel="icon" href="Monet.png" />
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background: #f7f7f7; color: #333; text-align: center; }
+    header { background: #0b3d91; color: white; padding: 2rem; }
+    header img { max-width: 120px; margin-bottom: 1rem; }
+    button { background: #0b3d91; color: white; border: none; padding: 0.75rem 1.5rem; font-size: 1rem; border-radius: 8px; cursor: pointer; margin-top: 1rem; }
+    button:disabled { background: gray; cursor: not-allowed; }
+    section { padding: 2rem; }
+    .token-info { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+    .token-card { background: white; padding: 1rem 2rem; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Monet.png" alt="MonetMoney Logo" />
+    <h1>MonetMoney - Libra Token</h1>
+    <p>Connect your wallet to claim your airdrop!</p>
+    <button id="connectWallet">Connect Phantom Wallet</button>
+  </header>
+
+  <section>
+    <h2>Token Info</h2>
+    <div class="token-info">
+      <div class="token-card"><h3>Symbol</h3><p>💵</p></div>
+      <div class="token-card"><h3>Total Supply</h3><p>1,000,000</p></div>
+      <div class="token-card"><h3>Your Balance</h3><p id="balance">0</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Airdrop Claim</h2>
+    <button id="claimAirdrop" disabled>Claim Airdrop</button>
+    <p id="airdropStatus"></p>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.js"></script>
+  <script>
+    const connectButton = document.getElementById('connectWallet');
+    const claimButton = document.getElementById('claimAirdrop');
+    const balanceEl = document.getElementById('balance');
+    const airdropStatus = document.getElementById('airdropStatus');
+
+    let wallet = null;
+    const MAX_PER_USER = 100;
+    const MAX_TOTAL = 100000;
+    let totalDistributed = 0;
+    const userClaims = {};
+
+    connectButton.addEventListener('click', async () => {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          const resp = await window.solana.connect();
+          wallet = resp.publicKey.toString();
+          connectButton.innerText = `Connected: ${wallet.slice(0,4)}...${wallet.slice(-4)}`;
+          claimButton.disabled = false;
+          updateBalance();
+        } catch (err) { console.error('Wallet connection failed:', err); }
+      } else { alert('Phantom Wallet not found. Please install it!'); }
+    });
+
+    async function updateBalance() {
+      try {
+        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
+        const publicKey = new solanaWeb3.PublicKey(wallet);
+        const balance = await connection.getBalance(publicKey);
+        balanceEl.innerText = (balance / solanaWeb3.LAMPORTS_PER_SOL).toFixed(4) + ' SOL';
+      } catch (err) { console.error(err); }
+    }
+
+    claimButton.addEventListener('click', async () => {
+      if (!wallet) return;
+
+      const alreadyClaimed = userClaims[wallet] || 0;
+
+      if (alreadyClaimed >= MAX_PER_USER) {
+        airdropStatus.innerText = `You have already claimed the maximum of ${MAX_PER_USER} tokens.`;
+        return;
+      }
+
+      if (totalDistributed >= MAX_TOTAL) {
+        airdropStatus.innerText = `All ${MAX_TOTAL} tokens have been distributed.`;
+        return;
+      }
+
+      const remainingForUser = MAX_PER_USER - alreadyClaimed;
+      const remainingTotal = MAX_TOTAL - totalDistributed;
+      const amountToAirdrop = Math.min(remainingForUser, remainingTotal);
+
+      airdropStatus.innerText = `Processing airdrop of ${amountToAirdrop} tokens...`;
+
+      setTimeout(() => {
+        totalDistributed += amountToAirdrop;
+        userClaims[wallet] = alreadyClaimed + amountToAirdrop;
+        airdropStatus.innerText = `Airdrop successful! You received ${amountToAirdrop} tokens.`;
+        updateBalance();
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
