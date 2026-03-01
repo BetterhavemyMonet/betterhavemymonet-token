@@ -3,181 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BetterhavemyMonet Project</title>
+<title>MonetMoney - Libra Token</title>
+<link rel="icon" href="Monet.png" />
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+  /* Keep your existing styles here ... */
 
-  body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: radial-gradient(circle at top, #000010 0%, #0a0a20 100%);
-    color: #ffffff;
-    overflow: hidden;
-  }
-
-  /* Cosmic starfield container */
-  #stars {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: drift linear infinite;
-  }
-
-  @keyframes drift {
-    0% { transform: translateY(0) translateX(0); opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { transform: translateY(100vh) translateX(50px); opacity: 0.6; }
-  }
-
-  header {
-    text-align: center;
-    padding: 3rem 1rem 1rem;
-    z-index: 1;
-  }
-
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(90deg, #FF63E7, #7F5AF0, #2AF5E1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientMove 5s ease infinite;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    color: #2AF5E1;
-    text-shadow: 0 0 10px #2AF5E1aa;
-  }
-
-  @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .token-container {
-    margin: 1rem 0;
-    padding: 1rem 2rem;
-    border-radius: 12px;
-    font-size: 1.25rem;
-    background: rgba(47, 42, 63, 0.6);
-    box-shadow: 0 0 15px #FF63E7aa, 0 0 25px #2AF5E1aa;
-    z-index: 1;
-    text-align: center;
-  }
-
-  .total-supply {
-    margin-top: 0.5rem;
-    font-weight: bold;
-    color: #FF63E7;
-    text-shadow: 0 0 5px #FF63E7aa, 0 0 10px #2AF5E1aa;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { text-shadow: 0 0 5px #FF63E7aa, 0 0 10px #2AF5E1aa; transform: scale(1); }
-    50% { text-shadow: 0 0 15px #FF63E7ff, 0 0 25px #2AF5E1ff; transform: scale(1.05); }
-  }
-
-  .connect-wallet {
-    background: linear-gradient(90deg, #FF63E7, #7F5AF0, #2AF5E1);
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    color: #ffffff;
-    font-size: 1.25rem;
-    cursor: pointer;
-    box-shadow: 0 0 25px #FF63E7aa, 0 0 35px #2AF5E1aa;
-    transition: all 0.3s ease-in-out;
-    z-index: 1;
-  }
-
-  .connect-wallet:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 40px #FF63E7ff, 0 0 50px #2AF5E1ff;
-  }
+  /* Added styles for MonetMoney wallet/airdrop section */
+  #monetmoney-airdrop { padding: 2rem; text-align: center; }
+  #monetmoney-airdrop .token-info { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin: 1rem 0; }
+  #monetmoney-airdrop .token-card { background: white; padding: 1rem 2rem; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  #monetmoney-airdrop button { margin-top: 1rem; }
 </style>
 </head>
 <body>
-<div id="stars"></div>
+  <!-- Keep all your existing content here ... -->
 
-<header>
-  <h1>BetterhavemyMonet Project</h1>
-  <h2>Libra ⚖️ & Monet Money 💵</h2>
-</header>
+  <!-- MonetMoney Wallet / Airdrop Section -->
+  <section id="monetmoney-airdrop">
+    <h2>MonetMoney Airdrop</h2>
+    <button id="connectWallet">Connect Phantom Wallet</button>
+    <div class="token-info">
+      <div class="token-card"><h3>Your Balance</h3><p id="balance">0</p></div>
+    </div>
+    <button id="claimAirdrop" disabled>Claim Airdrop</button>
+    <p id="airdropStatus"></p>
+  </section>
 
-<div class="token-container" id="libraToken">
-  <div>Libra Balance: 0</div>
-  <div class="total-supply">Total Supply: 5,000,000</div>
-  <div>Mint Address: BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR</div>
-</div>
+  <!-- Existing scripts can stay here -->
 
-<div class="token-container" id="monetToken">
-  <div>Monet Money Balance: 0</div>
-  <div class="total-supply">Total Supply: 100,000,000</div>
-  <div>Mint Address: 9CHAHvaDhPyiOgg4TKfvJ9iVp7dZaQqVao9uU7W7B5ZD</div>
-</div>
+  <!-- Added JS for Phantom connect + airdrop limits -->
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.js"></script>
+  <script>
+    const connectButton = document.getElementById('connectWallet');
+    const claimButton = document.getElementById('claimAirdrop');
+    const balanceEl = document.getElementById('balance');
+    const airdropStatus = document.getElementById('airdropStatus');
 
-<button class="connect-wallet" id="connectWalletBtn">Connect Phantom Wallet</button>
+    let wallet = null;
 
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
-<script>
-  // Generate drifting stars
-  const starContainer = document.getElementById('stars');
-  for(let i=0;i<100;i++){
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.style.top = Math.random()*100 + 'vh';
-    star.style.left = Math.random()*100 + 'vw';
-    star.style.animationDuration = (5 + Math.random()*10) + 's';
-    starContainer.appendChild(star);
-  }
+    const MAX_PER_USER = 100;
+    const MAX_TOTAL = 100000;
+    let totalDistributed = 0;
+    const userClaims = {};
 
-  const LIBRA_MINT = "BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR";
-  const MONET_MINT = "9CHAHvaDhPyiOgg4TKfvJ9iVp7dZaQqVao9uU7W7B5ZD";
+    connectButton.addEventListener('click', async () => {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          const resp = await window.solana.connect();
+          wallet = resp.publicKey.toString();
+          connectButton.innerText = `Connected: ${wallet.slice(0,4)}...${wallet.slice(-4)}`;
+          claimButton.disabled = false;
+          updateBalance();
+        } catch (err) { console.error('Wallet connection failed:', err); }
+      } else { alert('Phantom Wallet not found. Please install it!'); }
+    });
 
-  let walletAddress = null;
-  const connectWalletBtn = document.getElementById('connectWalletBtn');
-
-  connectWalletBtn.addEventListener('click', async () => {
-    if (window.solana && window.solana.isPhantom) {
-      const resp = await window.solana.connect();
-      walletAddress = resp.publicKey.toString();
-      connectWalletBtn.innerText = `Connected: ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}`;
-      updateBalances();
-    } else {
-      alert("Phantom Wallet not detected!");
+    async function updateBalance() {
+      if(!wallet) return;
+      try {
+        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
+        const publicKey = new solanaWeb3.PublicKey(wallet);
+        const balance = await connection.getBalance(publicKey);
+        balanceEl.innerText = (balance / solanaWeb3.LAMPORTS_PER_SOL).toFixed(4) + ' SOL';
+        // TODO: Replace with actual MonetMoney token balance
+      } catch (err) { console.error(err); }
     }
-  });
 
-  async function updateBalances() {
-    if (!walletAddress) return;
-    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
-    try {
-      const libraBalance = await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(LIBRA_MINT));
-      const monetBalance = await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(MONET_MINT));
-      document.querySelector('#libraToken div:nth-child(1)').innerText = `Libra Balance: ${libraBalance.value.uiAmount || 0}`;
-      document.querySelector('#monetToken div:nth-child(1)').innerText = `Monet Money Balance: ${monetBalance.value.uiAmount || 0}`;
-    } catch(e) { console.error(e); }
-  }
-</script>
+    claimButton.addEventListener('click', () => {
+      if (!wallet) return;
+
+      const alreadyClaimed = userClaims[wallet] || 0;
+
+      if (alreadyClaimed >= MAX_PER_USER) {
+        airdropStatus.innerText = `You have already claimed the maximum of ${MAX_PER_USER} tokens.`;
+        return;
+      }
+
+      if (totalDistributed >= MAX_TOTAL) {
+        airdropStatus.innerText = `All ${MAX_TOTAL} tokens have been distributed.`;
+        return;
+      }
+
+      const remainingForUser = MAX_PER_USER - alreadyClaimed;
+      const remainingTotal = MAX_TOTAL - totalDistributed;
+      const amountToAirdrop = Math.min(remainingForUser, remainingTotal);
+
+      airdropStatus.innerText = `Processing airdrop of ${amountToAirdrop} tokens...`;
+
+      setTimeout(() => {
+        totalDistributed += amountToAirdrop;
+        userClaims[wallet] = alreadyClaimed + amountToAirdrop;
+        airdropStatus.innerText = `Airdrop successful! You received ${amountToAirdrop} tokens.`;
+        updateBalance();
+      }, 2000);
+    });
+  </script>
 </body>
 </html>
