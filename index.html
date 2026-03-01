@@ -3,77 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BetterhavemyMonet Token</title>
+<title>BetterhavemyMonet Project</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
   body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at center, #1E1B4B, #312E81 60%, #000000 100%);
-    color: #F5D06F;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
+    background: radial-gradient(circle at top, #000010 0%, #0a0a20 100%);
+    color: #ffffff;
+    overflow: hidden;
   }
+
+  /* Cosmic starfield container */
+  #stars {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: drift linear infinite;
+  }
+
+  @keyframes drift {
+    0% { transform: translateY(0) translateX(0); opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { transform: translateY(100vh) translateX(50px); opacity: 0.6; }
+  }
+
   header {
     text-align: center;
     padding: 3rem 1rem 1rem;
-    color: #F5D06F;
-    text-shadow: 0 0 10px #F5D06F, 0 0 20px #1ED760;
+    z-index: 1;
   }
+
   h1 {
     font-size: 3rem;
     margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, #FF63E7, #7F5AF0, #2AF5E1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 5s ease infinite;
   }
+
   h2 {
     font-size: 1.5rem;
-    color: #1ED760; /* Monet Money glow */
+    margin-bottom: 2rem;
+    color: #2AF5E1;
+    text-shadow: 0 0 10px #2AF5E1aa;
   }
-  .token-balance {
-    margin: 2rem 0;
+
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .token-container {
+    margin: 1rem 0;
     padding: 1rem 2rem;
-    border: 2px solid #1ED760;
     border-radius: 12px;
-    box-shadow: 0 0 20px #1ED76044;
     font-size: 1.25rem;
+    background: rgba(47, 42, 63, 0.6);
+    box-shadow: 0 0 15px #FF63E7aa, 0 0 25px #2AF5E1aa;
+    z-index: 1;
+    text-align: center;
   }
+
+  .total-supply {
+    margin-top: 0.5rem;
+    font-weight: bold;
+    color: #FF63E7;
+    text-shadow: 0 0 5px #FF63E7aa, 0 0 10px #2AF5E1aa;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { text-shadow: 0 0 5px #FF63E7aa, 0 0 10px #2AF5E1aa; transform: scale(1); }
+    50% { text-shadow: 0 0 15px #FF63E7ff, 0 0 25px #2AF5E1ff; transform: scale(1.05); }
+  }
+
   .connect-wallet {
-    background: linear-gradient(90deg, #312E81, #1E1B4B);
+    background: linear-gradient(90deg, #FF63E7, #7F5AF0, #2AF5E1);
     border: none;
     padding: 1rem 2rem;
-    border-radius: 8px;
-    color: #F5D06F;
+    border-radius: 10px;
+    color: #ffffff;
     font-size: 1.25rem;
     cursor: pointer;
-    box-shadow: 0 0 15px #F5D06F66, 0 0 25px #1ED76044;
+    box-shadow: 0 0 25px #FF63E7aa, 0 0 35px #2AF5E1aa;
     transition: all 0.3s ease-in-out;
+    z-index: 1;
   }
+
   .connect-wallet:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 30px #F5D06FAA, 0 0 40px #1ED760AA;
+    box-shadow: 0 0 40px #FF63E7ff, 0 0 50px #2AF5E1ff;
   }
 </style>
 </head>
 <body>
+<div id="stars"></div>
+
 <header>
-  <h1>BetterhavemyMonet</h1>
+  <h1>BetterhavemyMonet Project</h1>
   <h2>Libra ⚖️ & Monet Money 💵</h2>
 </header>
 
-<div class="token-balance" id="libraBalance">Libra Balance: 0</div>
-<div class="token-balance" id="monetBalance">Monet Money Balance: 0</div>
+<div class="token-container" id="libraToken">
+  <div>Libra Balance: 0</div>
+  <div class="total-supply">Total Supply: 5,000,000</div>
+  <div>Mint Address: BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR</div>
+</div>
+
+<div class="token-container" id="monetToken">
+  <div>Monet Money Balance: 0</div>
+  <div class="total-supply">Total Supply: 100,000,000</div>
+  <div>Mint Address: YourMonetMoneyMintAddressHere</div>
+</div>
 
 <button class="connect-wallet" id="connectWalletBtn">Connect Phantom Wallet</button>
 
 <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
 <script>
+  // Generate drifting stars
+  const starContainer = document.getElementById('stars');
+  for(let i=0;i<100;i++){
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.top = Math.random()*100 + 'vh';
+    star.style.left = Math.random()*100 + 'vw';
+    star.style.animationDuration = (5 + Math.random()*10) + 's';
+    starContainer.appendChild(star);
+  }
+
   const LIBRA_MINT = "BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR";
   const MONET_MINT = "YourMonetMoneyMintAddressHere";
 
   let walletAddress = null;
-
   const connectWalletBtn = document.getElementById('connectWalletBtn');
+
   connectWalletBtn.addEventListener('click', async () => {
     if (window.solana && window.solana.isPhantom) {
       const resp = await window.solana.connect();
@@ -88,10 +171,12 @@
   async function updateBalances() {
     if (!walletAddress) return;
     const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
-    const libraBalance = await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(LIBRA_MINT));
-    const monetBalance = await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(MONET_MINT));
-    document.getElementById('libraBalance').innerText = `Libra Balance: ${libraBalance.value.uiAmount || 0}`;
-    document.getElementById('monetBalance').innerText = `Monet Money Balance: ${monetBalance.value.uiAmount || 0}`;
+    try {
+      const libraBalance = await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(LIBRA_MINT));
+      const monetBalance = await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(MONET_MINT));
+      document.querySelector('#libraToken div:nth-child(1)').innerText = `Libra Balance: ${libraBalance.value.uiAmount || 0}`;
+      document.querySelector('#monetToken div:nth-child(1)').innerText = `Monet Money Balance: ${monetBalance.value.uiAmount || 0}`;
+    } catch(e) { console.error(e); }
   }
 </script>
 </body>
