@@ -1,34 +1,16 @@
-# BetterhavemyMonet Token
+# React + Vite
 
-Welcome to the BetterhavemyMonet token project! 🚀
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Token Overview
+Currently, two official plugins are available:
 
-- **Libra ⚖️** – Main governance token  
-- **Monet Money 💵** – Community token supporting the ecosystem  
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Landing Page & Wallet Connect
+## React Compiler
 
-Our dual-token landing page lets users:
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-- Connect a **Phantom Wallet**  
-- View **Libra & Monet Money balances**  
-- Explore token information  
+## Expanding the ESLint configuration
 
-🌐 **Visit the landing page:** [BetterhavemyMonet.com](https://BetterhavemyMonet.com)
-
-## Metadata
-
-- Monet Money metadata JSON: [`monet-metadata.json`](https://BetterhavemyMonet.com/Monetmoney.json)  
-- Libra token metadata: [link if available]  
-
-## How to Use
-
-1. Connect your Phantom wallet.  
-2. Check your balances using the buttons on the page.  
-3. Claim tokens or interact with the ecosystem as directed.
-
-## Contributing
-
-- Feel free to submit issues or pull requests to improve the page or token ecosystem.  
-- All contributions should respect the Solana network standards.
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+<<<<<<< HEAD
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -179,4 +180,60 @@ document.getElementById("jupiter-btn").addEventListener("click",connectJupiter);
 </script>
 </section>
 </body>
+=======
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>betterhavemymonet-token</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+>>>>>>> a539cb9 (Add Solana wallet connect + balance detection)
 </html>
+
+<!-- Monet Wallet Connect -->
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+
+<script>
+const connectButton = document.getElementById("connectWallet");
+let wallet = null;
+
+async function connectWallet() {
+
+    if (window.solana) {
+        wallet = window.solana;
+
+        const response = await wallet.connect();
+        const publicKey = response.publicKey.toString();
+
+        document.getElementById("walletAddress").innerText =
+        publicKey.slice(0,4) + "..." + publicKey.slice(-4);
+
+        loadBalances(publicKey);
+    } else {
+        alert("No Solana wallet detected. Install Phantom or Solflare.");
+    }
+}
+
+async function loadBalances(address){
+
+    const connection = new solanaWeb3.Connection(
+        "https://api.mainnet-beta.solana.com"
+    );
+
+    const pubKey = new solanaWeb3.PublicKey(address);
+
+    const balance = await connection.getBalance(pubKey);
+
+    document.getElementById("solBalance").innerText =
+    (balance / solanaWeb3.LAMPORTS_PER_SOL).toFixed(4) + " SOL";
+}
+
+if(connectButton){
+connectButton.onclick = connectWallet;
+}
+</script>
+
