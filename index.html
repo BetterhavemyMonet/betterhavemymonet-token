@@ -1,96 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Better Have My Monet</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <style>
 body{
-background:#0a0a0a;
+background:#0b0b0f;
 color:white;
-font-family:Arial,Helvetica,sans-serif;
+font-family:Arial;
 text-align:center;
-padding:40px;
+padding-top:80px
 }
-
 .logo{
 width:180px;
-margin-top:30px;
+margin:20px auto
 }
-
 button{
-padding:14px 22px;
-margin:10px;
+background:#7a3cff;
 border:none;
-border-radius:8px;
-background:#9945FF;
 color:white;
+padding:15px 30px;
+margin:10px;
 font-size:16px;
-cursor:pointer;
+border-radius:8px;
+cursor:pointer
 }
-
 button:hover{
-background:#7c34d6;
-}
-
-.wallet{
-margin-top:30px;
-font-size:14px;
-color:#ccc;
+background:#9b5cff
 }
 </style>
 </head>
 
 <body>
 
-<img src="MonetMoney.png" class="logo">
+<img src="MonetMoney.png" class="logo" onerror="this.src='Libra.png'">
 
 <h1>Better Have My Monet</h1>
-<p>Solana SPL Token • Libra Monet Ecosystem</p>
+<p>Official MonetMoney Token Portal</p>
 
-<div>
+<button onclick="alert('Phantom wallet connect placeholder')">
+Connect Phantom
+</button>
 
-<button onclick="connectPhantom()">Connect Phantom</button>
-<button onclick="connectSolflare()">Connect Solflare</button>
+<button onclick="alert('Solflare wallet connect placeholder')">
+Connect Solflare
+</button>
 
-</div>
-
-<div class="wallet" id="walletStatus">
-Wallet not connected
-</div>
-
-<script>
-
-async function connectPhantom(){
-if("solana" in window){
-try{
-const resp = await window.solana.connect()
-document.getElementById("walletStatus").innerText =
-"Phantom Connected: " + resp.publicKey.toString()
-}catch(e){
-alert("Connection rejected")
-}
-}else{
-alert("Phantom wallet not installed")
-}
-}
-
-async function connectSolflare(){
-if("solflare" in window){
-try{
-const resp = await window.solflare.connect()
-document.getElementById("walletStatus").innerText =
-"Solflare Connected"
-}catch(e){
-alert("Connection rejected")
-}
-}else{
-alert("Solflare wallet not installed")
-}
-}
-
-</script>
+<button onclick="alert('Jupiter integration coming')">
+Jupiter Swap
+</button>
 
 </body>
 </html>
