@@ -1,239 +1,28 @@
 <!doctype html>
-<html lang="en">
-<<<<<<< HEAD
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BetterhavemyMonet Project</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
 
-  body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: radial-gradient(circle at top, #000010 0%, #0a0a20 100%);
-    color: #ffffff;
-    overflow: hidden;
+  <title>requirejs</title>
+
+  <style>
+  .draggie {
+    width: 100px;
+    height: 100px;
+    background: #09F;
   }
+  </style>
 
-  #stars {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    pointer-events: none;
-  }
 
-  .star {
-    position: absolute;
-    width: 2px; height: 2px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: drift linear infinite;
-    transition: transform 0.3s, opacity 0.3s;
-  }
+  <script data-main="main" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.js"></script>
 
-  @keyframes drift {
-    0% { transform: translateY(0) translateX(0); opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { transform: translateY(100vh) translateX(50px); opacity: 0.6; }
-  }
-
-  header {
-    text-align: center;
-    padding: 3rem 1rem 1rem;
-    z-index: 1;
-  }
-
-  img.logo { width:120px; margin-bottom:1rem; border-radius:12px; box-shadow:0 0 15px #FF63E7aa; }
-
-  h1 { font-size:3rem; margin-bottom:0.5rem; background:linear-gradient(90deg,#FF63E7,#7F5AF0,#2AF5E1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:gradientMove 5s ease infinite; }
-  h2 { font-size:1.5rem; margin-bottom:2rem; color:#2AF5E1; text-shadow:0 0 10px #2AF5E1aa; }
-  @keyframes gradientMove { 0% {background-position:0% 50%;} 50% {background-position:100% 50%;} 100% {background-position:0% 50%;} }
-
-  .token-container { margin:1rem 0; padding:1rem 2rem; border-radius:12px; font-size:1.25rem; background:rgba(47,42,63,0.6); box-shadow:0 0 15px #FF63E7aa,0 0 25px #2AF5E1aa; z-index:1; text-align:center; transition: transform 0.3s; }
-  .token-container:hover { transform: scale(1.03); }
-
-  .total-supply { margin-top:0.5rem; font-weight:bold; color:#FF63E7; text-shadow:0 0 5px #FF63E7aa,0 0 10px #2AF5E1aa; animation:pulse 2s ease-in-out infinite; }
-  @keyframes pulse { 0%,100% { text-shadow:0 0 5px #FF63E7aa,0 0 10px #2AF5E1aa; transform:scale(1);} 50%{ text-shadow:0 0 15px #FF63E7ff,0 0 25px #2AF5E1ff; transform:scale(1.05);} }
-
-  .connect-wallet { background:linear-gradient(90deg,#FF63E7,#7F5AF0,#2AF5E1); border:none; padding:1rem 2rem; border-radius:10px; color:#fff; font-size:1.25rem; cursor:pointer; box-shadow:0 0 25px #FF63E7aa,0 0 35px #2AF5E1aa; transition: all 0.3s ease-in-out; z-index:1; }
-  .connect-wallet:hover { transform:scale(1.05); box-shadow:0 0 50px #FF63E7ff,0 0 60px #2AF5E1ff; }
-</style>
 </head>
 <body>
-<div id="stars"></div>
 
-<header>
-  <img src="assets/monetmoney.png" alt="Monet Money Logo" class="logo">
-  <h1>BetterhavemyMonet Project</h1>
-  <h2>Libra ⚖️ & Monet Money 💵</h2>
-</header>
+  <h1>requirejs</h1>
 
-<div class="token-container" id="libraToken">
-  <div>Libra Balance: 0</div>
-  <div class="total-supply">Total Supply: 5,000,000</div>
-  <div>Mint Address: BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR</div>
-</div>
+  <div class="draggie"></div>
 
-<div class="token-container" id="monetToken">
-  <div>Monet Money Balance: 0</div>
-  <div class="total-supply">Total Supply: 100,000,000</div>
-  <div>Mint Address: 9CHAHvaDhPyiOgg4TKfvJ9iVp7dZaQqVao9uU7W7B5ZD</div>
-</div>
-
-<button class="connect-wallet" id="connectWalletBtn">Connect Phantom Wallet</button>
-
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
-<script>
-  // Generate 100 drifting stars
-  const starContainer = document.getElementById('stars');
-  const stars=[];
-  for(let i=0;i<100;i++){
-    const s=document.createElement('div');
-    s.className='star';
-    s.style.top=Math.random()*100+'vh';
-    s.style.left=Math.random()*100+'vw';
-    s.style.animationDuration=(5+Math.random()*10)+'s';
-    starContainer.appendChild(s);
-    stars.push(s);
-  }
-
-  // Interactive twinkle on hover
-  const hoverTargets=document.querySelectorAll('.token-container, .connect-wallet');
-  hoverTargets.forEach(el=>{
-    el.addEventListener('mouseenter',()=>{
-      stars.forEach(s=>{
-        s.style.opacity=(0.5+Math.random()*0.5).toString();
-        s.style.transform=`scale(${1+Math.random()*0.5})`;
-      });
-    });
-    el.addEventListener('mouseleave',()=>{
-      stars.forEach(s=>{
-        s.style.opacity='0.8';
-        s.style.transform='scale(1)';
-      });
-    });
-  });
-
-  const LIBRA_MINT="BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR";
-  const MONET_MINT="9CHAHvaDhPyiOgg4TKfvJ9iVp7dZaQqVao9uU7W7B5ZD";
-  let walletAddress=null;
-  const connectWalletBtn=document.getElementById('connectWalletBtn');
-
-  connectWalletBtn.addEventListener('click',async()=>{
-    if(window.solana&&window.solana.isPhantom){
-      const resp=await window.solana.connect();
-      walletAddress=resp.publicKey.toString();
-      connectWalletBtn.innerText=`Connected: ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}`;
-      updateBalances();
-    }else{ alert("Phantom Wallet not detected!"); }
-  });
-
-  async function updateBalances(){
-    if(!walletAddress) return;
-    const connection=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
-    try{
-      const libraBalance=await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(LIBRA_MINT));
-      const monetBalance=await connection.getTokenAccountBalance(new solanaWeb3.PublicKey(MONET_MINT));
-      document.querySelector('#libraToken div:nth-child(1)').innerText=`Libra Balance: ${libraBalance.value.uiAmount||0}`;
-      document.querySelector('#monetToken div:nth-child(1)').innerText=`Monet Money Balance: ${monetBalance.value.uiAmount||0}`;
-    }catch(e){console.error(e);}
-  }
-</script>
-<section id="airdrop-signup" style="text-align:center; padding:60px 20px; background:linear-gradient(135deg,#0b0b0f,#1a1a2e);">
-<h2 style="color:#14F195; font-size:32px;">Airdrop Registration</h2>
-<p style="color:#ffffff;">Enter your Solana wallet address to register for the upcoming ecosystem airdrop.</p>
-<form action="https://betterhavemymonet.com/airdrop.php" method="POST">
-<input type="text" name="wallet" placeholder="Your Solana Wallet Address" pattern="[1-9A-HJ-NP-Za-km-z]{32,44}" required style="padding:12px; width:80%; max-width:420px; margin:10px 0; border-radius:6px;">
-<br>
-<input type="email" name="email" placeholder="Email (optional)" style="padding:12px; width:80%; max-width:420px; margin:10px 0; border-radius:6px;">
-<br>
-<button type="submit" style="padding:14px 30px; background:linear-gradient(90deg,#9945FF,#14F195); color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">Register for Airdrop</button>
-</form>
-</section>
-<section id="airdrop-signup" style="text-align:center; padding:60px 20px; background:linear-gradient(135deg,#0b0b0f,#1a1a2e);">
-<h2 style="color:#14F195; font-size:32px;">Airdrop Registration</h2>
-<p style="color:#ffffff;">Connect your wallet or enter your Solana address to register for the upcoming ecosystem airdrop.</p>
-<div id="wallet-connect-buttons" style="margin:20px 0;">
-<button id="solflare-btn" style="padding:12px 25px; margin:5px; background:#14F195; color:white; border:none; border-radius:6px; cursor:pointer;">Connect with Solflare</button>
-<button id="jupiter-btn" style="padding:12px 25px; margin:5px; background:#6E48AA; color:white; border:none; border-radius:6px; cursor:pointer;">Connect with Jupiter</button>
-</div>
-<form id="manual-wallet-form" action="https://betterhavemymonet.com/airdrop.php" method="POST">
-<input type="text" name="wallet" placeholder="Your Solana Wallet Address" pattern="[1-9A-HJ-NP-Za-km-z]{32,44}" required style="padding:12px; width:80%; max-width:420px; margin:10px 0; border-radius:6px;">
-<br>
-<input type="email" name="email" placeholder="Email (optional)" style="padding:12px; width:80%; max-width:420px; margin:10px 0; border-radius:6px;">
-<br>
-<button type="submit" style="padding:14px 30px; background:linear-gradient(90deg,#9945FF,#14F195); color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">Register for Airdrop</button>
-</form>
-<script src="https://unpkg.com/@solana/wallet-adapter-wallets@latest/lib/index.iife.js"></script>
-<script>
-async function connectSolflare(){if(window.solflare){try{await window.solflare.connect();alert("Connected: "+window.solflare.publicKey.toString());document.getElementById("manual-wallet-form").wallet.value=window.solflare.publicKey.toString();document.getElementById("manual-wallet-form").submit();}catch(e){console.error(e);alert("Solflare connection failed")}}else{alert("Solflare wallet not installed!")}}
-async function connectJupiter(){if(window.jupiter){try{await window.jupiter.connect();alert("Connected: "+window.jupiter.publicKey.toString());document.getElementById("manual-wallet-form").wallet.value=window.jupiter.publicKey.toString();document.getElementById("manual-wallet-form").submit();}catch(e){console.error(e);alert("Jupiter connection failed")}}else{alert("Jupiter wallet not installed!")}}
-document.getElementById("solflare-btn").addEventListener("click",connectSolflare);
-document.getElementById("jupiter-btn").addEventListener("click",connectJupiter);
-</script>
-</section>
 </body>
-=======
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>betterhavemymonet-token</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
->>>>>>> a539cb9 (Add Solana wallet connect + balance detection)
 </html>
-
-<!-- Monet Wallet Connect -->
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
-
-<script>
-const connectButton = document.getElementById("connectWallet");
-let wallet = null;
-
-async function connectWallet() {
-
-    if (window.solana) {
-        wallet = window.solana;
-
-        const response = await wallet.connect();
-        const publicKey = response.publicKey.toString();
-
-        document.getElementById("walletAddress").innerText =
-        publicKey.slice(0,4) + "..." + publicKey.slice(-4);
-
-        loadBalances(publicKey);
-    } else {
-        alert("No Solana wallet detected. Install Phantom or Solflare.");
-    }
-}
-
-async function loadBalances(address){
-
-    const connection = new solanaWeb3.Connection(
-        "https://api.mainnet-beta.solana.com"
-    );
-
-    const pubKey = new solanaWeb3.PublicKey(address);
-
-    const balance = await connection.getBalance(pubKey);
-
-    document.getElementById("solBalance").innerText =
-    (balance / solanaWeb3.LAMPORTS_PER_SOL).toFixed(4) + " SOL";
-}
-
-if(connectButton){
-connectButton.onclick = connectWallet;
-}
-</script>
-
