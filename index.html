@@ -1,28 +1,96 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
+<meta charset="UTF-8">
+<title>Better Have My Monet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>requirejs</title>
+<style>
+body{
+background:#0a0a0a;
+color:white;
+font-family:Arial,Helvetica,sans-serif;
+text-align:center;
+padding:40px;
+}
 
-  <style>
-  .draggie {
-    width: 100px;
-    height: 100px;
-    background: #09F;
-  }
-  </style>
+.logo{
+width:180px;
+margin-top:30px;
+}
 
+button{
+padding:14px 22px;
+margin:10px;
+border:none;
+border-radius:8px;
+background:#9945FF;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
 
-  <script data-main="main" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.js"></script>
+button:hover{
+background:#7c34d6;
+}
 
+.wallet{
+margin-top:30px;
+font-size:14px;
+color:#ccc;
+}
+</style>
 </head>
+
 <body>
 
-  <h1>requirejs</h1>
+<img src="MonetMoney.png" class="logo">
 
-  <div class="draggie"></div>
+<h1>Better Have My Monet</h1>
+<p>Solana SPL Token • Libra Monet Ecosystem</p>
+
+<div>
+
+<button onclick="connectPhantom()">Connect Phantom</button>
+<button onclick="connectSolflare()">Connect Solflare</button>
+
+</div>
+
+<div class="wallet" id="walletStatus">
+Wallet not connected
+</div>
+
+<script>
+
+async function connectPhantom(){
+if("solana" in window){
+try{
+const resp = await window.solana.connect()
+document.getElementById("walletStatus").innerText =
+"Phantom Connected: " + resp.publicKey.toString()
+}catch(e){
+alert("Connection rejected")
+}
+}else{
+alert("Phantom wallet not installed")
+}
+}
+
+async function connectSolflare(){
+if("solflare" in window){
+try{
+const resp = await window.solflare.connect()
+document.getElementById("walletStatus").innerText =
+"Solflare Connected"
+}catch(e){
+alert("Connection rejected")
+}
+}else{
+alert("Solflare wallet not installed")
+}
+}
+
+</script>
 
 </body>
 </html>
