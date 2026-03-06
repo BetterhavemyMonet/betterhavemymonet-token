@@ -54,3 +54,92 @@ Jupiter Swap
 
 </body>
 </html>
+
+<div id="walletInfo" style="margin-top:20px;font-size:16px;">
+<p><b>Wallet:</b> <span id="walletAddress">Not Connected</span></p>
+<p><b>SOL Balance:</b> <span id="solBalance">0</span></p>
+<p><b>MonetMoney Balance:</b> <span id="monetBalance">0</span></p>
+<p><b>Libra Balance:</b> <span id="libraBalance">0</span></p>
+</div>
+
+<button onclick="connectWallet()" style="padding:12px 20px;font-size:16px;border-radius:8px;background:#111;color:#fff;">
+Connect Wallet
+</button>
+
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+
+<script>
+
+const connection = new solanaWeb3.Connection(
+ "https://api.mainnet-beta.solana.com"
+);
+
+const MONET_MINT = "9CHAHyqDhPyiQgg4TKfyJ9iVp7dZaQqVao9uU7W7B5ZD";
+const LIBRA_MINT = "BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR";
+
+let wallet=null;
+
+async function connectWallet(){
+
+ if(window.solana && window.solana.isPhantom){
+   wallet = window.solana;
+   await wallet.connect();
+ }
+ else if(window.solflare){
+   wallet = window.solflare;
+   await wallet.connect();
+ }
+ else{
+   alert("Install Phantom or Solflare wallet.");
+   return;
+ }
+
+ const pubKey = wallet.publicKey;
+
+ document.getElementById("walletAddress").innerText = pubKey.toString();
+
+ loadBalances(pubKey);
+
+}
+
+async function loadBalances(pubkey){
+
+ const sol = await connection.getBalance(pubkey);
+ const solAmount = sol / solanaWeb3.LAMPORTS_PER_SOL;
+
+ document.getElementById("solBalance").innerText = solAmount;
+
+ const monetAccounts =
+ await connection.getParsedTokenAccountsByOwner(
+   pubkey,
+   { mint: new solanaWeb3.PublicKey(MONET_MINT) }
+ );
+
+ let monetBalance=0;
+
+ if(monetAccounts.value.length>0){
+   monetBalance =
+   monetAccounts.value[0].account.data.parsed.info.tokenAmount.uiAmount;
+ }
+
+ document.getElementById("monetBalance").innerText = monetBalance;
+
+ const libraAccounts =
+ await connection.getParsedTokenAccountsByOwner(
+   pubkey,
+   { mint: new solanaWeb3.PublicKey(LIBRA_MINT) }
+ );
+
+ let libraBalance=0;
+
+ if(libraAccounts.value.length>0){
+   libraBalance =
+   libraAccounts.value[0].account.data.parsed.info.tokenAmount.uiAmount;
+ }
+
+ document.getElementById("libraBalance").innerText = libraBalance;
+
+}
+
+</script>
+
