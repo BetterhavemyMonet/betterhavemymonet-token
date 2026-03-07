@@ -1,87 +1,59 @@
-const express = require("express");
-const cors = require("cors");
-const { Connection, Keypair, PublicKey } = require("@solana/web3.js");
-const { getOrCreateAssociatedTokenAccount, transfer } = require("@solana/spl-token");
-const fs = require("fs");
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const {Connection, Keypair, PublicKey} = require('@solana/web3.js');
+const {getOrCreateAssociatedTokenAccount, transfer} = require('@solana/spl-token');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const connection = new Connection("https://api.mainnet-beta.solana.com");
+const connection = new Connection('https://api.mainnet-beta.solana.com');
+const LIBRA_MINT = new PublicKey('BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR');
+const AIRDROP_AMOUNT = 100;
+const MAX_AIRDROP = 250000;
 
-const SECRET = JSON.parse(fs.readFileSync("id.json"));
-const payer = Keypair.fromSecretKey(new Uint8Array(SECRET));
-
-const MINT = new PublicKey("BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR");
-
-const AIRDROP_AMOUNT = 100000000000;      // 100 tokens
-const MAX_DISTRIBUTION = 250000000000000; // 250,000 tokens
-
-let data = JSON.parse(fs.readFileSync("claims.json"));
-let totalDistributed = data.totalDistributed;
-let sentWallets = new Set(data.wallets);
-
-function saveState(){
-fs.writeFileSync("claims.json",JSON.stringify({
-wallets:[...sentWallets],
-totalDistributed:totalDistributed
-}));
+let claimed = {};
+if(fs.existsSync('claims.json')){
+  claimed = JSON.parse(fs.readFileSync('claims.json'));
 }
 
-app.get("/status",(req,res)=>{
-res.send({
-distributed:totalDistributed,
-remaining:MAX_DISTRIBUTION-totalDistributed,
-participants:sentWallets.size
-});
-});
+// Replace with your treasury secret key JSON array
+const TREASURY = Keypair.generate();
 
-app.post("/airdrop",async(req,res)=>{
-try{
-const wallet=new PublicKey(req.body.wallet);
+app.post('/claim', async (req,res)=>{
+  try{
+    const wallet = new PublicKey(req.body.wallet).toString();
 
-if(sentWallets.has(wallet.toString())){
-return res.send({status:"already received"});
-}
+    if(claimed[wallet]){
+      return res.json({success:false,error:'Already claimed'});
+    }
 
-if(totalDistributed + AIRDROP_AMOUNT > MAX_DISTRIBUTION){
-return res.send({status:"airdrop ended"});
-}
+    const totalClaimed = Object.keys(claimed).length * AIRDROP_AMOUNT;
+    if(totalClaimed + AIRDROP_AMOUNT > MAX_AIRDROP){
+      return res.json({success:false,error:'Airdrop fully claimed'});
+    }
 
-const source=await getOrCreateAssociatedTokenAccount(
-connection,
-payer,
-MINT,
-payer.publicKey
-);
+    const walletKey = new PublicKey(wallet);
+    const treasuryToken = await getOrCreateAssociatedTokenAccount(connection, TREASURY, LIBRA_MINT, TREASURY.publicKey);
+    const userToken = await getOrCreateAssociatedTokenAccount(connection, TREASURY, LIBRA_MINT, walletKey);
+    const tx = await transfer(connection, TREASURY, treasuryToken.address, userToken.address, TREASURY.publicKey, AIRDROP_AMOUNT);
 
-const dest=await getOrCreateAssociatedTokenAccount(
-connection,
-payer,
-MINT,
-wallet
-);
-
-await transfer(
-connection,
-payer,
-source.address,
-dest.address,
-payer.publicKey,
-AIRDROP_AMOUNT
-);
-
-sentWallets.add(wallet.toString());
-totalDistributed+=AIRDROP_AMOUNT;
-
-saveState();
-
-res.send({status:"airdrop sent"});
-}catch(err){
-console.error(err);
-res.status(500).send({error:"airdrop failed"});
-}
+    claimed[wallet] = true;
+    fs.writeFileSync('claims.json', JSON.stringify(claimed));
+    res.json({success:true, tx});
+  }catch(e){
+    res.json({success:false,error:e.toString()});
+  }
 });
 
-app.listen(3000,()=>console.log("Libra persistent airdrop engine running"));
+app.get('/status', (req,res)=>{
+  const totalClaimed = Object.keys(claimed).length * AIRDROP_AMOUNT;
+  res.json({
+    success:true,
+    claimed: totalClaimed,
+    remaining: Math.max(MAX_AIRDROP - totalClaimed, 0)
+  });
+});
+
+app.listen(3000, ()=>console.log('LIBRA airdrop server running'));
