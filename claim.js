@@ -1,1 +1,31 @@
-const AIRDROP_AMOUNT=100;const TREASURY="YOUR_TREASURY_WALLET";async function claimAirdrop(){if(!window.solana){alert("Install Phantom Wallet");return;}const resp=await window.solana.connect();const wallet=resp.publicKey.toString();document.getElementById("claimStatus").innerText="Wallet connected: "+wallet.slice(0,4)+"..."+wallet.slice(-4);try{const eligibility=true;if(!eligibility){document.getElementById("claimStatus").innerText="Wallet not eligible";return;}document.getElementById("claimStatus").innerText="Preparing LIBRA claim...";setTimeout(()=>{document.getElementById("claimStatus").innerText=AIRDROP_AMOUNT+" LIBRA scheduled for distribution.";let claimed=document.getElementById("airdropClaimed");let remaining=document.getElementById("airdropRemaining");if(claimed&&remaining){claimed.innerText=parseInt(claimed.innerText||0)+1;remaining.innerText=parseInt(remaining.innerText||0)-AIRDROP_AMOUNT;}},2000);}catch(e){document.getElementById("claimStatus").innerText="Claim failed";console.log(e);}}document.getElementById("claimAirdrop").onclick=claimAirdrop;
+async function claimAirdrop(){
+
+ if(!window.solana){
+  alert("Install Phantom");
+  return;
+ }
+
+ const resp = await window.solana.connect();
+ const wallet = resp.publicKey.toString();
+
+ document.getElementById("claimStatus").innerText="Submitting claim...";
+
+ const r = await fetch("/claim",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({wallet})
+ });
+
+ const d = await r.json();
+
+ if(d.success){
+  document.getElementById("claimStatus").innerText =
+  "Airdrop sent! TX: "+d.tx;
+ }else{
+  document.getElementById("claimStatus").innerText =
+  d.error;
+ }
+
+}
+
+document.getElementById("claimAirdrop").onclick = claimAirdrop;
