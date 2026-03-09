@@ -1,0 +1,12 @@
+{
+"name":"Libra",
+"symbol":"⚖️",
+"description":"Libra ⚖️ is the community-powered partner token of the BetterHaveMyMonet ecosystem, supporting liquidity, rewards, and community participation.",
+"image":"https://betterhavemymonet.com/assets/libra.png",
+"external_url":"https://betterhavemymonet.com",
+"attributes":[
+{"trait_type":"Ecosystem","value":"BetterHaveMyMonet"},
+{"trait_type":"Network","value":"Solana"},
+{"trait_type":"Role","value":"Community Support Token"}
+]
+}
