@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 const connection = new Connection('https://api.mainnet-beta.solana.com');
-const LIBRA_MINT = new PublicKey('BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR');
+const LIBRA_MINT = new PublicKey('8AGu8Li9s9yWaGuGLxJKPe5V4irEENjtJYeYKuWQ1ray');
 const AIRDROP_AMOUNT = 100;
 const MAX_AIRDROP = 250000;
 

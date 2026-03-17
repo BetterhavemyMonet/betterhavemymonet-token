@@ -33,7 +33,7 @@ async function claimAirdrop(){
 // Jupiter swap + price
 async function getLibraPrice(){
   try{
-    const res = await fetch("https://quote-api.jup.ag/v1/quote?inputMint=So11111111111111111111111111111111111111112&outputMint=BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR&amount=100000000");
+    const res = await fetch("https://quote-api.jup.ag/v1/quote?inputMint=So11111111111111111111111111111111111111112&outputMint=8AGu8Li9s9yWaGuGLxJKPe5V4irEENjtJYeYKuWQ1ray&amount=100000000");
     const data = await res.json();
     if(data.data && data.data.length > 0){
       document.getElementById('libraPrice').innerText = (data.data[0].outAmount/1e9).toFixed(2)+" LIBRA per 0.1 SOL";
@@ -46,7 +46,7 @@ async function swapLibra(){
   const resp = await window.solana.connect();
   const wallet = resp.publicKey.toString();
   try{
-    const quoteRes = await fetch("https://quote-api.jup.ag/v1/quote?inputMint=So11111111111111111111111111111111111111112&outputMint=BYqHJvvtJSgXQi9iuL6PcXmVNADqBDxNGkyAhY8zwTWR&amount=100000000");
+    const quoteRes = await fetch("https://quote-api.jup.ag/v1/quote?inputMint=So11111111111111111111111111111111111111112&outputMint=8AGu8Li9s9yWaGuGLxJKPe5V4irEENjtJYeYKuWQ1ray&amount=100000000");
     const quoteData = await quoteRes.json();
     const route = quoteData.data[0].route;
     const swapRes = await fetch("https://quote-api.jup.ag/v1/swap", {
