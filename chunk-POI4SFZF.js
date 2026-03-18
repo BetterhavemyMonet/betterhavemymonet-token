@@ -15,7 +15,7 @@ var BaseError = class _BaseError extends Error {
       shortMessage || "An error occurred.",
       "",
       ...args.metaMessages ? [...args.metaMessages, ""] : [],
-      ...docsPath6 ? [`Docs: https://abitype.dev${docsPath6}`] : [],
+      ...docsPath6 ? [`Docs: https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4
       ...details ? [`Details: ${details}`] : [],
       `Version: abitype@${version}`
     ].join("\n");
@@ -246,7 +246,7 @@ var SolidityProtectedKeywordError = class extends BaseError {
     super("Invalid ABI parameter.", {
       details: param,
       metaMessages: [
-        `"${name}" is a protected Solidity keyword. More info: https://docs.soliditylang.org/en/latest/cheatsheet.html`
+        `"${name}" is a protected Solidity keyword. More info: https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4
       ]
     });
     Object.defineProperty(this, "name", {
@@ -1110,7 +1110,7 @@ Object.defineProperty(BaseError2, "defaultStaticOptions", {
   configurable: true,
   writable: true,
   value: {
-    docsOrigin: "https://oxlib.sh",
+    docsOrigin: "https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4",
     showVersion: false,
     version: `ox@${getVersion()}`
   }
@@ -2070,7 +2070,7 @@ var version3 = "2.46.3";
 
 // node_modules/viem/_esm/errors/base.js
 var errorConfig = {
-  getDocsUrl: ({ docsBaseUrl, docsPath: docsPath6 = "", docsSlug }) => docsPath6 ? `${docsBaseUrl ?? "https://viem.sh"}${docsPath6}${docsSlug ? `#${docsSlug}` : ""}` : void 0,
+  getDocsUrl: ({ docsBaseUrl, docsPath: docsPath6 = "", docsSlug }) => docsPath6 ? `${docsBaseUrl ?? "https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4"}${docsPath6}${docsSlug ? `#${docsSlug}` : ""}` : void 0,
   version: `viem@${version3}`
 };
 var BaseError3 = class _BaseError extends Error {
@@ -2382,7 +2382,7 @@ var AbiErrorSignatureNotFoundError = class extends BaseError3 {
     super([
       `Encoded error signature "${signature}" not found on ABI.`,
       "Make sure you are using the correct ABI and that the error exists on it.",
-      `You can look up the decoded signature here: https://4byte.sourcify.dev/?q=${signature}.`
+      `You can look up the decoded signature here: https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4
     ].join("\n"), {
       docsPath: docsPath6,
       name: "AbiErrorSignatureNotFoundError"
@@ -2424,7 +2424,7 @@ var AbiFunctionSignatureNotFoundError = class extends BaseError3 {
     super([
       `Encoded function signature "${signature}" not found on ABI.`,
       "Make sure you are using the correct ABI and that the function exists on it.",
-      `You can look up the signature here: https://4byte.sourcify.dev/?q=${signature}.`
+      `You can look up the signature here: https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4
     ].join("\n"), {
       docsPath: docsPath6,
       name: "AbiFunctionSignatureNotFoundError"
@@ -4080,7 +4080,7 @@ var ContractFunctionRevertedError = class extends BaseError3 {
       metaMessages = [
         `Unable to decode signature "${signature}" as it was not found on the provided ABI.`,
         "Make sure you are using the correct ABI and that the error exists on it.",
-        `You can look up the decoded signature here: https://4byte.sourcify.dev/?q=${signature}.`
+        `You can look up the decoded signature here: https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4
       ];
     }
     super(reason && reason !== "execution reverted" || signature ? [

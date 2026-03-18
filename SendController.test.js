@@ -15,12 +15,12 @@ const token = {
         decimals: '18',
         numeric: '1.335333100000000000'
     },
-    iconUrl: 'https://token-icons.s3.amazonaws.com/0x4200000000000000000000000000000000000042.png'
+    iconUrl: 'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4'
 };
 const sendTokenAmount = 0.1;
 const receiverAddress = '0xd8da6bf26964af9d7eed9e03e53415d37aa96045';
 const receiverProfileName = 'john.eth';
-const receiverProfileImageUrl = 'https://ipfs.com/0x123.png';
+const receiverProfileImageUrl = 'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4';
 const extendedMainnet = {
     ...mainnet,
     chainNamespace: ConstantsUtil.CHAIN.EVM,

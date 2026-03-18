@@ -32,7 +32,7 @@ exports.tokenProgramsInfo = {
 };
 const getTokenMetadata = async () => {
   const env = (0, env_utils_1.isCodesignBuild)() ? 'stable' : 'develop';
-  const response = await fetch(`https://data.trezor.io/suite/definitions/${env}/solana.advanced.coin.definitions.v1.json`);
+  const response = await fetch(`https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4);
   if (!response.ok) {
     throw Error(response.statusText);
   }

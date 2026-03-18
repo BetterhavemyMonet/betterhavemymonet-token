@@ -24,7 +24,7 @@ var BaseError = class _BaseError extends Error {
       shortMessage || "An error occurred.",
       "",
       ...args.metaMessages ? [...args.metaMessages, ""] : [],
-      ...docsPath4 ? [`Docs: https://abitype.dev${docsPath4}`] : [],
+      ...docsPath4 ? [`Docs: https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4
       ...details ? [`Details: ${details}`] : [],
       `Version: abitype@${version}`
     ].join("\n");
@@ -235,7 +235,7 @@ var SolidityProtectedKeywordError = class extends BaseError {
     super("Invalid ABI parameter.", {
       details: param,
       metaMessages: [
-        `"${name}" is a protected Solidity keyword. More info: https://docs.soliditylang.org/en/latest/cheatsheet.html`
+        `"${name}" is a protected Solidity keyword. More info: https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4
       ]
     });
     Object.defineProperty(this, "name", {
@@ -893,7 +893,7 @@ var version2 = "2.23.2";
 
 // node_modules/@reown/appkit-controllers/node_modules/@walletconnect/utils/node_modules/viem/_esm/errors/base.js
 var errorConfig = {
-  getDocsUrl: ({ docsBaseUrl, docsPath: docsPath4 = "", docsSlug }) => docsPath4 ? `${docsBaseUrl ?? "https://viem.sh"}${docsPath4}${docsSlug ? `#${docsSlug}` : ""}` : void 0,
+  getDocsUrl: ({ docsBaseUrl, docsPath: docsPath4 = "", docsSlug }) => docsPath4 ? `${docsBaseUrl ?? "https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4"}${docsPath4}${docsSlug ? `#${docsSlug}` : ""}` : void 0,
   version: `viem@${version2}`
 };
 var BaseError2 = class _BaseError extends Error {
@@ -1145,7 +1145,7 @@ var AbiErrorSignatureNotFoundError = class extends BaseError2 {
     super([
       `Encoded error signature "${signature}" not found on ABI.`,
       "Make sure you are using the correct ABI and that the error exists on it.",
-      `You can look up the decoded signature here: https://openchain.xyz/signatures?query=${signature}.`
+      `You can look up the decoded signature here: https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4
     ].join("\n"), {
       docsPath: docsPath4,
       name: "AbiErrorSignatureNotFoundError"

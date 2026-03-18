@@ -14,17 +14,17 @@ exports.metisSepolia = (0, defineChain_js_1.defineChain)({
         default: {
             http: [
                 'wss://metis-sepolia-rpc.publicnode.com',
-                'https://sepolia.metisdevops.link',
-                'https://metis-sepolia-rpc.publicnode.com',
-                'https://metis-sepolia.gateway.tenderly.co',
+                'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
+                'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
+                'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
             ],
         },
     },
     blockExplorers: {
         default: {
             name: 'Metis Sepolia Explorer',
-            url: 'https://sepolia-explorer.metisdevops.link',
-            apiUrl: 'https://sepolia-explorer.metisdevops.link/api-docs',
+            url: 'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
+            apiUrl: 'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
         },
     },
     contracts: {

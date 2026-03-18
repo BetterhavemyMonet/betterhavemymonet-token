@@ -13,24 +13,24 @@ exports.metis = (0, defineChain_js_1.defineChain)({
     rpcUrls: {
         default: {
             http: [
-                'https://metis.rpc.hypersync.xyz',
-                'https://metis-pokt.nodies.app',
-                'https://api.blockeden.xyz/metis/67nCBdZQSH9z3YqDDjdm',
-                'https://metis-andromeda.rpc.thirdweb.com',
-                'https://metis-andromeda.gateway.tenderly.co',
-                'https://metis.api.onfinality.io/public',
+                'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
+                'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
+                'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
+                'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
+                'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
+                'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
                 'wss://metis-rpc.publicnode.com',
-                'https://andromeda.metis.io/?owner=1088',
+                'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
                 'wss://metis.drpc.org',
-                'https://metis-mainnet.public.blastapi.io',
+                'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
             ],
         },
     },
     blockExplorers: {
         default: {
             name: 'Metis Explorer',
-            url: 'https://explorer.metis.io',
-            apiUrl: 'https://api.routescan.io/v2/network/mainnet/evm/1088/etherscan/api',
+            url: 'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
+            apiUrl: 'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
         },
     },
     contracts: {

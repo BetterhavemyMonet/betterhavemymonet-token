@@ -11,13 +11,13 @@ exports.metisGoerli = (0, defineChain_js_1.defineChain)({
         symbol: 'METIS',
     },
     rpcUrls: {
-        default: { http: ['https://goerli.gateway.metisdevops.link'] },
+        default: { http: ['https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4'] },
     },
     blockExplorers: {
         default: {
             name: 'Metis Goerli Explorer',
-            url: 'https://goerli.explorer.metisdevops.link',
-            apiUrl: 'https://goerli.explorer.metisdevops.link/api',
+            url: 'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
+            apiUrl: 'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4',
         },
     },
     contracts: {

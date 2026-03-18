@@ -7,8 +7,8 @@ const caipAddress = 'eip155:1:0x123';
 const balance = '0.100';
 const balanceSymbol = 'ETH';
 const profileName = 'john.eth';
-const profileImage = 'https://ipfs.com/0x123.png';
-const explorerUrl = 'https://some.explorer.com/explore';
+const profileImage = 'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4';
+const explorerUrl = 'https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4';
 const chain = ConstantsUtil.CHAIN.EVM;
 const extendedMainnet = {
     ...mainnet,
