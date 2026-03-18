@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Monet Money</title>
-
 <style>
 body {
   margin: 0;
@@ -18,88 +17,23 @@ body {
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
-
-img {
-  max-width: 280px;
-  animation: fadeIn 2s ease, glow 3s infinite alternate;
-}
-
-@keyframes glow {
-  from { filter: drop-shadow(0 0 10px #00ffa3); }
-  to { filter: drop-shadow(0 0 25px #00ffa3); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.button {
-  margin-top: 25px;
-  padding: 14px 28px;
-  background: #00ffa3;
-  color: #000;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.copy-box {
-  margin-top: 15px;
-  padding: 10px 15px;
-  border: 1px solid #222;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #aaa;
-}
-.copy-box:hover {
-  color: #00ffa3;
-}
-
-.dot {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #00ffa3;
-  border-radius: 50%;
-  opacity: 0.2;
-  animation: float 10s linear infinite;
-}
-
-@keyframes float {
-  from { transform: translateY(100vh); }
-  to { transform: translateY(-10vh); }
-}
+img { max-width: 280px; animation: fadeIn 2s ease, glow 3s infinite alternate; }
+@keyframes glow { from { filter: drop-shadow(0 0 10px #00ffa3); } to { filter: drop-shadow(0 0 25px #00ffa3); } }
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+.button { margin-top: 25px; padding: 14px 28px; background: #00ffa3; color: #000; text-decoration: none; border-radius: 8px; font-weight: bold; }
+.copy-box { margin-top: 15px; padding: 10px 15px; border: 1px solid #222; border-radius: 8px; cursor: pointer; font-size: 14px; color: #aaa; }
+.copy-box:hover { color: #00ffa3; }
+.dot { position: absolute; width: 4px; height: 4px; background: #00ffa3; border-radius: 50%; opacity: 0.2; animation: float 10s linear infinite; }
+@keyframes float { from { transform: translateY(100vh); } to { transform: translateY(-10vh); } }
 </style>
 </head>
-
 <body>
-
 <img src="logo.png" alt="Monet Money Logo">
-
-<a class="button" href="https://jup.ag/swap/SOL-9CHAHyqDhPyiQgg4TKfyJ9iVp7dZaQqVao9uU7W7B5ZD" target="_blank">
-Buy Monet Money
-</a>
-
-<div class="copy-box" onclick="copyAddress()">
-Copy Contract: 9CHAHyqDhPyiQgg4TKfyJ9iVp7dZaQqVao9uU7W7B5ZD
-</div>
-
+<a class="button" href="https://jup.ag/swap/SOL-9CHAHyqDhPyiQgg4TKfyJ9iVp7dZaQqVao9uU7W7B5ZD" target="_blank">Buy Monet Money</a>
+<div class="copy-box" onclick="copyAddress()">Copy Contract: 9CHAHyqDhPyiQgg4TKfyJ9iVp7dZaQqVao9uU7W7B5ZD</div>
 <script>
-function copyAddress() {
-  navigator.clipboard.writeText("9CHAHyqDhPyiQgg4TKfyJ9iVp7dZaQqVao9uU7W7B5ZD");
-  alert("Contract copied!");
-}
-
-for (let i = 0; i < 30; i++) {
-  let dot = document.createElement("div");
-  dot.className = "dot";
-  dot.style.left = Math.random() * 100 + "vw";
-  dot.style.animationDuration = (5 + Math.random() * 10) + "s";
-  document.body.appendChild(dot);
-}
+function copyAddress() { navigator.clipboard.writeText("9CHAHyqDhPyiQgg4TKfyJ9iVp7dZaQqVao9uU7W7B5ZD"); alert("Contract copied!"); }
+for (let i = 0; i < 30; i++) { let dot = document.createElement("div"); dot.className = "dot"; dot.style.left = Math.random() * 100 + "vw"; dot.style.animationDuration = (5 + Math.random() * 10) + "s"; document.body.appendChild(dot); }
 </script>
-
 </body>
 </html>
