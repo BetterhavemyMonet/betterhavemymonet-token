@@ -633,3 +633,25 @@ button:hover {
   box-shadow: 0 0 20px #ff4de3, 0 0 40px #aa00ff;
 }
 </style>
+<style>
+/* Hero text with neon pink/purple glow and light blue outline */
+h1 {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ff4de3; /* neon pink */
+  -webkit-text-stroke: 1px #66ffff; /* light blue outline */
+  text-shadow:
+    2px 2px 0 #000,       /* subtle black depth */
+    0 0 8px #ff4de3,      /* pink core glow */
+    0 0 16px #aa00ff;     /* purple aura */
+  animation: neonPulse 2s infinite alternate;
+}
+
+/* Pulsing glow animation */
+@keyframes neonPulse {
+  0%,100% { text-shadow: 2px 2px 0 #000, 0 0 8px #ff4de3, 0 0 16px #aa00ff; }
+  50% { text-shadow: 2px 2px 0 #000, 0 0 16px #ff4de3, 0 0 32px #aa00ff; }
+}
+</style>
