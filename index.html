@@ -116,7 +116,7 @@ p {
 
 <div class="hero">
   <img class="logo" src="https://beige-acute-krill-722.mypinata.cloud/ipfs/bafybeicdemlmg5iatjlspuozot2kzlsiadtb6mac7jm2oh63ysizmpxs4y">
-  <h1>Monet Money</h1>
+  <h1 data-text="Monet Money">Monet Money</h1>
   <p>The future of decentralized finance on Solana. Fast. Secure. Unstoppable.</p>
   <br>
   <button class="btn">Buy Token</button>
@@ -131,3 +131,43 @@ p {
 
 </body>
 </html>
+<style>
+/* Dimensional glowing text for Monet Money */
+h1 {
+  font-size: 3rem;
+  color: #fff;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* Layered neon effect */
+h1::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  z-index: -1;
+  color: #8a2be2;
+  filter: blur(4px);
+}
+
+h1::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: -2;
+  color: #00d4ff;
+  filter: blur(8px);
+}
+
+/* Optional subtle glow */
+h1 {
+  text-shadow:
+    0 0 5px #8a2be2,
+    0 0 10px #8a2be2,
+    0 0 20px #00d4ff,
+    0 0 30px #00d4ff;
+}
+</style>
