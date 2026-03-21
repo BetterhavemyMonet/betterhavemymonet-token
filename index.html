@@ -3,37 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Monet Money</title>
+<title>Better Have My Monet</title>
+
 <style>
 body {
-  margin: 0;
-  background: radial-gradient(circle at center, #0a0a0a, #000);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  color: white;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
+  margin:0;
+  font-family:Arial, sans-serif;
+  background: radial-gradient(circle at center, #0a0014 0%, #000000 100%);
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
 }
-img { max-width: 280px; animation: fadeIn 2s ease, glow 3s infinite alternate; }
-@keyframes glow { from { filter: drop-shadow(0 0 10px #00ffa3); } to { filter: drop-shadow(0 0 25px #00ffa3); } }
-@keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-.button { margin-top: 25px; padding: 14px 28px; background: #00ffa3; color: #000; text-decoration: none; border-radius: 8px; font-weight: bold; }
-.copy-box { margin-top: 15px; padding: 10px 15px; border: 1px solid #222; border-radius: 8px; cursor: pointer; font-size: 14px; color: #aaa; }
-.copy-box:hover { color: #00ffa3; }
-.dot { position: absolute; width: 4px; height: 4px; background: #00ffa3; border-radius: 50%; opacity: 0.2; animation: float 10s linear infinite; }
-@keyframes float { from { transform: translateY(100vh); } to { transform: translateY(-10vh); } }
+.container { padding:60px 20px; }
+h1 {
+  font-size:3rem;
+  background: linear-gradient(90deg,#b026ff,#ff00cc);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.tagline { font-size:1.2rem; margin-top:10px; opacity:0.8; }
+.buttons { margin-top:30px; }
+.btn {
+  display:inline-block;
+  margin:10px;
+  padding:15px 30px;
+  border-radius:30px;
+  text-decoration:none;
+  color:white;
+  font-weight:bold;
+  background:linear-gradient(90deg,#7b2ff7,#f107a3);
+  box-shadow:0 0 20px rgba(177,38,255,0.6);
+  transition:0.3s;
+}
+.btn:hover {
+  transform:scale(1.1);
+  box-shadow:0 0 40px rgba(255,0,204,0.9);
+}
+.section { margin-top:80px; }
+.card {
+  background:rgba(255,255,255,0.05);
+  padding:20px;
+  border-radius:20px;
+  margin:20px auto;
+  max-width:400px;
+  box-shadow:0 0 20px rgba(255,0,204,0.2);
+}
+.footer { margin-top:80px; opacity:0.5; font-size:0.9rem; }
 </style>
 </head>
+
 <body>
-<img src="Monetmoney.png">
-<a class="button" href="https://gateway.irys.xyz/AWW45zHgRDaTbonRYsJDCBTkmfYyToZpsmSyQoZd9QDr?v=4" target="_blank">Buy Monet Money</a>
-<div class="copy-box" onclick="copyAddress()">Copy Contract: 9CHAHyqDhPyiQgg4TKfyJ9iVp7dZaQqVao9uU7W7B5ZD</div>
-<script>
-function copyAddress() { navigator.clipboard.writeText("9CHAHyqDhPyiQgg4TKfyJ9iVp7dZaQqVao9uU7W7B5ZD"); alert("Contract copied!"); }
-for (let i = 0; i < 30; i++) { let dot = document.createElement("div"); dot.className = "dot"; dot.style.left = Math.random() * 100 + "vw"; dot.style.animationDuration = (5 + Math.random() * 10) + "s"; document.body.appendChild(dot); }
-</script>
+<div class="container">
+  <h1>💸 Better Have My Monet</h1>
+  <div class="tagline">Built on Solana. Designed to move fast.</div>
+
+  <div class="buttons">
+    <a href="#" class="btn">💰 Buy Token</a>
+    <a href="https://t.me/Libra_Token_Solana" target="_blank" class="btn">💬 Join Telegram</a>
+  </div>
+
+  <div class="section">
+    <h2>Token Info</h2>
+    <div class="card">
+      <p><strong>Name:</strong> Money Money</p>
+      <p><strong>Symbol:</strong> 💵</p>
+      <p><strong>Supply:</strong> 100,000,000</p>
+      <p><strong>Chain:</strong> Solana</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Roadmap</h2>
+    <div class="card">
+      <p>🚀 Phase 1: Launch</p>
+      <p>🌍 Phase 2: Community Growth</p>
+      <p>📈 Phase 3: Listings</p>
+      <p>🔥 Phase 4: Utility Expansion</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    © 2026 Better Have My Monet
+  </div>
+</div>
 </body>
 </html>
