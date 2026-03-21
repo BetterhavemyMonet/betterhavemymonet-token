@@ -343,3 +343,50 @@ button:hover {
   box-shadow: 0 0 20px #ccff33, 0 0 40px #dfff00;
 }
 </style>
+<!-- Exo 2 font for body, cards, buttons, footer -->
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+/* Apply Exo 2 to all page text except hero */
+body, p, .card, .box, section, .container, footer, button {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1.15rem; /* slightly bigger for readability */
+  color: #ccff33; /* match hero yellow-green */
+  text-shadow: 0 0 3px #000, 0 0 5px #ccff33; /* subtle glow */
+}
+
+/* Buttons with neon glow */
+button {
+  font-size: 1.15rem;
+  padding: 12px 24px;
+  border-radius: 25px;
+  border: none;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ccff33, #dfff00);
+  box-shadow: 0 0 8px #ccff33, 0 0 16px #dfff00;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  box-shadow: 0 0 16px #ccff33, 0 0 32px #dfff00;
+  transform: scale(1.05);
+}
+
+/* Cards and sections with glow */
+.card, .box, section, .container {
+  font-size: 1.15rem;
+  box-shadow: 0 0 8px #ccff33, 0 0 16px #dfff00;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s;
+}
+
+.card:hover, .box:hover, section:hover {
+  box-shadow: 0 0 20px #ccff33, 0 0 40px #dfff00;
+}
+</style>
