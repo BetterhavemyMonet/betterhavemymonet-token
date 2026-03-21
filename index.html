@@ -725,3 +725,48 @@ button:hover {
   box-shadow: 0 0 20px #d4ff33, 0 0 40px #e5ff33;
 }
 </style>
+<!-- Rajdhani font for body, cards, buttons, footer -->
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+/* Apply Rajdhani font to all page text (body, cards, buttons, footer) */
+body, p, .card, .box, section, .container, footer, button {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+  font-size: 1.15rem;
+  color: #d4ff33; /* slightly yellow-green for neon consistency */
+  text-shadow: 0 0 4px #b8ff00, 0 0 8px #d4ff33; /* neon glow */
+}
+
+/* Buttons */
+button {
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 12px 24px;
+  border-radius: 25px;
+  border: none;
+  background: linear-gradient(90deg, #d4ff33, #e5ff33);
+  box-shadow: 0 0 8px #d4ff33, 0 0 16px #e5ff33;
+  transition: 0.3s;
+}
+button:hover {
+  box-shadow: 0 0 16px #d4ff33, 0 0 32px #e5ff33;
+  transform: scale(1.05);
+}
+
+/* Cards / sections / boxes */
+.card, .box, section, .container {
+  font-size: 1.15rem;
+  box-shadow: 0 0 8px #d4ff33, 0 0 16px #e5ff33;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s;
+}
+.card:hover, .box:hover, section:hover {
+  box-shadow: 0 0 20px #d4ff33, 0 0 40px #e5ff33;
+}
+</style>
