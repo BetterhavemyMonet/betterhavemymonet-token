@@ -2,132 +2,54 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Monet Money</title>
-
 <style>
-body {
+body{
   margin:0;
-  font-family:Arial;
+  background:radial-gradient(circle at center,#0a0014 0%,#000 100%);
   color:white;
-  background: radial-gradient(circle at top, #140028, #000);
-  overflow-x:hidden;
-}
-
-/* Animated glow */
-body::before {
-  content:"";
-  position:fixed;
-  width:600px;
-  height:600px;
-  background: radial-gradient(circle, #8a2be2, transparent);
-  top:-200px;
-  left:-200px;
-  filter:blur(120px);
-  opacity:0.6;
-}
-
-body::after {
-  content:"";
-  position:fixed;
-  width:600px;
-  height:600px;
-  background: radial-gradient(circle, #00d4ff, transparent);
-  bottom:-200px;
-  right:-200px;
-  filter:blur(120px);
-  opacity:0.6;
-}
-
-/* NAV */
-.nav {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px;
-}
-
-.btn {
-  padding:10px 20px;
-  border-radius:25px;
-  border:none;
-  background:linear-gradient(90deg,#8a2be2,#00d4ff);
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-/* HERO */
-.hero {
+  font-family:Arial,sans-serif;
   text-align:center;
-  padding:60px 20px;
+  overflow:hidden;
 }
-
-.logo {
-  width:140px;
-  border-radius:50%;
-  box-shadow:0 0 40px #8a2be2;
+.container{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
 }
-
-h1 {
+h1{
   font-size:3rem;
-  background:linear-gradient(90deg,#8a2be2,#00d4ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  color:#d8a6ff;
+  text-shadow:0 0 20px #a855f7,0 0 40px #9333ea;
+  margin-bottom:25px;
 }
-
-p {
-  color:#bbb;
-  max-width:400px;
-  margin:auto;
+img{
+  width:220px;
+  filter:drop-shadow(0 0 25px #a855f7);
 }
-
-/* CARDS */
-.card {
-  margin:20px;
-  padding:25px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(15px);
-  border:1px solid rgba(255,255,255,0.1);
-  transition:0.3s;
+button{
+  margin-top:30px;
+  padding:12px 25px;
+  background:#7e22ce;
+  border:none;
+  border-radius:10px;
+  color:white;
+  font-size:1rem;
+  cursor:pointer;
+  box-shadow:0 0 15px #9333ea;
 }
-
-.card:hover {
-  transform:translateY(-5px);
-  box-shadow:0 0 20px #8a2be2;
-}
-
-/* FOOTER */
-.footer {
-  text-align:center;
-  padding:30px;
-  color:#777;
+button:hover{
+  background:#a855f7;
 }
 </style>
-<link rel="stylesheet" href="styles.css"></head>
-
+</head>
 <body>
-
-<div class="nav">
-  <div><strong>Monet Money</strong></div>
-  <button class="btn">Select Wallet</button>
-</div>
-
-<div class="hero">
-  <img class="logo" src="https://beige-acute-krill-722.mypinata.cloud/ipfs/bafybeicdemlmg5iatjlspuozot2kzlsiadtb6mac7jm2oh63ysizmpxs4y">
+<div class="container">
   <h1>Monet Money</h1>
-  <p>The future of decentralized finance on Solana. Fast. Secure. Unstoppable.</p>
+  <img src="https://beige-acute-krill-722.mypinata.cloud/ipfs/bafybeicdemlmg5iatjlspuozot2kzlsiadtb6mac7jm2oh63ysizmpxs4y" alt="Monet Logo">
   <br>
-  <button class="btn">Buy Token</button>
+  <button>Enter</button>
 </div>
-
-<div class="card">📜 Contract: 9CHAHyqD...U7w7B5ZD</div>
-<div class="card">📊 Live Chart (coming soon)</div>
-<div class="card">🔄 Swap (coming soon)</div>
-<div class="card">💰 Supply: 100M<br>⚡ Network: Solana<br>🔢 Decimals: 9</div>
-
-<div class="footer">© 2025 Monet Money</div>
-
 </body>
 </html>
