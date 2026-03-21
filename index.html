@@ -505,3 +505,66 @@ button:hover {
   box-shadow: 0 0 20px #ff4de3, 0 0 40px #aa00ff;
 }
 </style>
+<style>
+/* Hero text - neon pink + purple aura */
+h1 {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ff4de3; /* neon pink */
+  -webkit-text-stroke: 1px white; /* crisp outline */
+  text-shadow:
+    2px 2px 0 #000,        /* subtle black depth */
+    0 0 8px #ff4de3,       /* pink glow core */
+    0 0 16px #aa00ff;      /* purple aura */
+  animation: neonPulse 2s infinite alternate;
+}
+
+/* Pulse animation for hero text */
+@keyframes neonPulse {
+  0%,100% { text-shadow: 2px 2px 0 #000, 0 0 8px #ff4de3, 0 0 16px #aa00ff; }
+  50% { text-shadow: 2px 2px 0 #000, 0 0 16px #ff4de3, 0 0 32px #aa00ff; }
+}
+
+/* Page font and neon glow for body text, cards, buttons */
+body, p, .card, .box, section, .container, footer, button {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1.15rem;
+  color: #ff4de3; /* match hero pink */
+  text-shadow: 0 0 3px #aa00ff, 0 0 6px #ff4de3; /* subtle purple aura + pink core */
+}
+
+/* Buttons neon glow */
+button {
+  font-size: 1.15rem;
+  padding: 12px 24px;
+  border-radius: 25px;
+  border: none;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ff4de3, #aa00ff);
+  box-shadow: 0 0 8px #ff4de3, 0 0 16px #aa00ff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  box-shadow: 0 0 16px #ff4de3, 0 0 32px #aa00ff;
+  transform: scale(1.05);
+}
+
+/* Cards / sections neon glow */
+.card, .box, section, .container {
+  font-size: 1.15rem;
+  box-shadow: 0 0 8px #ff4de3, 0 0 16px #aa00ff;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s;
+}
+.card:hover, .box:hover, section:hover {
+  box-shadow: 0 0 20px #ff4de3, 0 0 40px #aa00ff;
+}
+</style>
