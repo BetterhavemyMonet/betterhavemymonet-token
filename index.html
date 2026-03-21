@@ -228,3 +228,49 @@ h1 {
   50% { text-shadow: 0 0 12px #39ff14, 0 0 20px #00ff00; }
 }
 </style>
+<style>
+/* Neon glow buttons */
+button {
+  background: linear-gradient(90deg, #39ff14, #00ff00);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px #39ff14, 0 0 20px #00ff00;
+  transition: 0.3s;
+}
+
+button:hover {
+  box-shadow: 0 0 20px #39ff14, 0 0 40px #00ff00;
+  transform: scale(1.05);
+}
+
+/* Neon glow cards */
+.card, .box, section, .container {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 8px #39ff14, 0 0 16px #00ff00;
+  transition: 0.3s;
+}
+
+.card:hover, .box:hover, section:hover {
+  box-shadow: 0 0 20px #39ff14, 0 0 40px #00ff00;
+  transform: translateY(-5px);
+}
+
+/* Optional small pulse for cards */
+@keyframes cardPulse {
+  0%, 100% { box-shadow: 0 0 8px #39ff14, 0 0 16px #00ff00; }
+  50% { box-shadow: 0 0 16px #39ff14, 0 0 32px #00ff00; }
+}
+
+.card, .box {
+  animation: cardPulse 4s infinite alternate;
+}
+</style>
