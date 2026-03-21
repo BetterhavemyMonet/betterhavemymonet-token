@@ -184,3 +184,23 @@ h1 {
   -webkit-text-stroke: 1px white; /* crisp white outline */
 }
 </style>
+<style>
+/* CRISP DIMENSIONAL NEON TEXT */
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #8a2be2, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px white; /* crisp outline */
+  text-shadow: 0 0 6px #8a2be2, 0 0 10px #00d4ff; /* subtle neon glow */
+  animation: neonPulse 2s infinite alternate;
+}
+
+/* PULSING ANIMATION */
+@keyframes neonPulse {
+  0%, 100% { text-shadow: 0 0 6px #8a2be2, 0 0 10px #00d4ff; }
+  50% { text-shadow: 0 0 12px #8a2be2, 0 0 20px #00d4ff; }
+}
+</style>
