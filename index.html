@@ -116,7 +116,7 @@ p {
 
 <div class="hero">
   <img class="logo" src="https://beige-acute-krill-722.mypinata.cloud/ipfs/bafybeicdemlmg5iatjlspuozot2kzlsiadtb6mac7jm2oh63ysizmpxs4y">
-  <h1>Monet Money</h1>
+  <h1><img src="YOUR_LOGO_M.png" class="logo-letter" alt="M">onet <img src="YOUR_LOGO_M.png" class="logo-letter" alt="M">oney</h1>
   <p>The future of decentralized finance on Solana. Fast. Secure. Unstoppable.</p>
   <br>
   <button class="btn">Buy Token</button>
@@ -854,5 +854,16 @@ button:hover {
 }
 .card:hover, .box:hover, section:hover {
   box-shadow: 0 0 16px #b8ff33, 0 0 32px #d0ff33;
+}
+</style>
+<style>
+/* Ensure the logo M scales and glows like text */
+h1 img.logo-letter {
+  width: 1.2em;
+  vertical-align: middle;
+  filter:
+    drop-shadow(0 0 4px #000)
+    drop-shadow(0 0 6px #ff4de3)
+    drop-shadow(0 0 12px #aa00ff);
 }
 </style>
