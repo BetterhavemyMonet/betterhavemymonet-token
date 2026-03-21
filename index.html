@@ -204,3 +204,27 @@ h1 {
   50% { text-shadow: 0 0 12px #8a2be2, 0 0 20px #00d4ff; }
 }
 </style>
+<!-- Orbitron Font -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
+<style>
+/* Monet Money text with Orbitron + neon green glow + pulse */
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #39ff14, #00ff00); /* neon green */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px white; /* crisp outline */
+  text-shadow: 0 0 6px #39ff14, 0 0 10px #00ff00; /* subtle neon glow */
+  animation: neonPulse 2s infinite alternate;
+}
+
+/* Pulsing glow animation */
+@keyframes neonPulse {
+  0%, 100% { text-shadow: 0 0 6px #39ff14, 0 0 10px #00ff00; }
+  50% { text-shadow: 0 0 12px #39ff14, 0 0 20px #00ff00; }
+}
+</style>
