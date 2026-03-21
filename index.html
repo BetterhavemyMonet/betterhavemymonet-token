@@ -701,3 +701,27 @@ body::before {
   z-index: -1;
 }
 </style>
+<style>
+/* Update neon yellow-green accents to slightly more yellow */
+body, p, .card, .box, section, .container, footer, button {
+  color: #d4ff33; /* slightly more yellow-green */
+  text-shadow: 0 0 4px #b8ff00, 0 0 8px #d4ff33; /* subtle glow with yellow tint */
+}
+
+/* Buttons */
+button {
+  background: linear-gradient(90deg, #d4ff33, #e5ff33);
+  box-shadow: 0 0 8px #d4ff33, 0 0 16px #e5ff33;
+}
+button:hover {
+  box-shadow: 0 0 16px #d4ff33, 0 0 32px #e5ff33;
+}
+
+/* Cards / boxes / sections */
+.card, .box, section, .container {
+  box-shadow: 0 0 8px #d4ff33, 0 0 16px #e5ff33;
+}
+.card:hover, .box:hover, section:hover {
+  box-shadow: 0 0 20px #d4ff33, 0 0 40px #e5ff33;
+}
+</style>
