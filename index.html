@@ -14,15 +14,41 @@ body {
   text-align:center;
   overflow-x:hidden;
 }
-.container { padding:60px 20px; }
+
+/* subtle animated glow */
+body::before {
+  content:'';
+  position:fixed;
+  width:200%;
+  height:200%;
+  background: radial-gradient(circle, rgba(176,38,255,0.15), transparent 70%);
+  animation: float 10s infinite linear;
+}
+@keyframes float {
+  0% { transform:translate(-25%,-25%); }
+  50% { transform:translate(-10%,-10%); }
+  100% { transform:translate(-25%,-25%); }
+}
+
+.container { padding:60px 20px; position:relative; z-index:1; }
+
 h1 {
   font-size:3rem;
   background: linear-gradient(90deg,#b026ff,#ff00cc);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
+
 .tagline { font-size:1.2rem; margin-top:10px; opacity:0.8; }
+
+.logo {
+  width:120px;
+  margin-top:20px;
+  filter: drop-shadow(0 0 20px #b026ff);
+}
+
 .buttons { margin-top:30px; }
+
 .btn {
   display:inline-block;
   margin:10px;
@@ -35,11 +61,14 @@ h1 {
   box-shadow:0 0 20px rgba(177,38,255,0.6);
   transition:0.3s;
 }
+
 .btn:hover {
   transform:scale(1.1);
   box-shadow:0 0 40px rgba(255,0,204,0.9);
 }
+
 .section { margin-top:80px; }
+
 .card {
   background:rgba(255,255,255,0.05);
   padding:20px;
@@ -48,18 +77,38 @@ h1 {
   max-width:400px;
   box-shadow:0 0 20px rgba(255,0,204,0.2);
 }
+
+/* copy button */
+.copy-btn {
+  margin-top:10px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#b026ff;
+  color:white;
+  cursor:pointer;
+}
+
 .footer { margin-top:80px; opacity:0.5; font-size:0.9rem; }
 </style>
 </head>
 
 <body>
 <div class="container">
+
+  <!-- LOGO (replace if needed) -->
+  <img src="https://beige-acute-krill-722.mypinata.cloud/ipfs/bafybeicdemlmg5iatjlspuozot2kzlsiadtb6mac7jm2oh63ysizmpxs4y" class="logo">
+
   <h1>💸 Better Have My Monet</h1>
   <div class="tagline">Built on Solana. Designed to move fast.</div>
 
   <div class="buttons">
+    <!-- replace # later with Jupiter or Dex link -->
     <a href="#" class="btn">💰 Buy Token</a>
-    <a href="https://t.me/Libra_Token_Solana" target="_blank" class="btn">💬 Join Telegram</a>
+
+    <a href="https://t.me/Libra_Token_Solana" target="_blank" class="btn">
+      💬 Join Telegram
+    </a>
   </div>
 
   <div class="section">
@@ -69,6 +118,10 @@ h1 {
       <p><strong>Symbol:</strong> 💵</p>
       <p><strong>Supply:</strong> 100,000,000</p>
       <p><strong>Chain:</strong> Solana</p>
+
+      <!-- CONTRACT -->
+      <p id="contract">Contract: Coming Soon</p>
+      <button class="copy-btn" onclick="copyContract()">Copy Contract</button>
     </div>
   </div>
 
@@ -86,5 +139,14 @@ h1 {
     © 2026 Better Have My Monet
   </div>
 </div>
+
+<script>
+function copyContract() {
+  const text = document.getElementById("contract").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Contract copied!");
+}
+</script>
+
 </body>
 </html>
