@@ -655,3 +655,27 @@ h1 {
   50% { text-shadow: 2px 2px 0 #000, 0 0 16px #ff4de3, 0 0 32px #aa00ff; }
 }
 </style>
+<style>
+/* Hero text: rounded, neon pink + purple aura, white outline, black shadow */
+h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ff4de3; /* neon pink */
+  -webkit-text-stroke: 1px #66ffff; /* light blue outline */
+  text-shadow:
+    0 0 2px #000,
+    1px 1px 2px #000,
+    2px 2px 3px #000,      /* layered black shadow for dimensional effect */
+    0 0 8px #ff4de3,       /* pink core glow */
+    0 0 16px #aa00ff;      /* purple aura */
+  animation: neonPulse 2s infinite alternate;
+}
+
+/* Pulsing glow animation */
+@keyframes neonPulse {
+  0%,100% { text-shadow: 0 0 2px #000, 1px 1px 2px #000, 2px 2px 3px #000, 0 0 8px #ff4de3, 0 0 16px #aa00ff; }
+  50% { text-shadow: 0 0 2px #000, 1px 1px 2px #000, 2px 2px 3px #000, 0 0 16px #ff4de3, 0 0 32px #aa00ff; }
+}
+</style>
