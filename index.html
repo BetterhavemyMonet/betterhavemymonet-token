@@ -770,3 +770,51 @@ button:hover {
   box-shadow: 0 0 20px #d4ff33, 0 0 40px #e5ff33;
 }
 </style>
+<style>
+/* Hero text: neon pink/purple glow with soft vignette-style outline */
+h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ff4de3; /* neon pink fill */
+  text-shadow:
+    /* soft black “outline” for depth */
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000,
+    0 0 4px #000,
+    /* glow */
+    0 0 8px #ff4de3,
+    0 0 16px #aa00ff,
+    0 0 32px #aa00ff;
+  animation: neonPulse 2s infinite alternate;
+}
+
+/* Pulsing glow animation */
+@keyframes neonPulse {
+  0%,100% {
+    text-shadow:
+      -2px -2px 0 #000,
+      2px -2px 0 #000,
+      -2px 2px 0 #000,
+      2px 2px 0 #000,
+      0 0 4px #000,
+      0 0 8px #ff4de3,
+      0 0 16px #aa00ff,
+      0 0 32px #aa00ff;
+  }
+  50% {
+    text-shadow:
+      -2px -2px 0 #000,
+      2px -2px 0 #000,
+      -2px 2px 0 #000,
+      2px 2px 0 #000,
+      0 0 4px #000,
+      0 0 16px #ff4de3,
+      0 0 32px #aa00ff,
+      0 0 48px #aa00ff;
+  }
+}
+</style>
