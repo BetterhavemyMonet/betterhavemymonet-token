@@ -274,3 +274,25 @@ button:hover {
   animation: cardPulse 4s infinite alternate;
 }
 </style>
+<style>
+/* Neon text with white outline and black shadow for pop */
+h1 {
+  font-family: 'Audiowide', sans-serif; /* clean futuristic font */
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ccff33; /* bright yellow-green */
+  -webkit-text-stroke: 2px white; /* crisp white outline */
+  text-shadow:
+    2px 2px 0 #000,   /* subtle black shadow for depth */
+    0 0 6px #ccff33,
+    0 0 12px #dfff00; /* neon glow */
+  animation: neonPulse 2s infinite alternate;
+}
+
+/* Pulsing glow animation */
+@keyframes neonPulse {
+  0%,100% { text-shadow: 2px 2px 0 #000, 0 0 6px #ccff33, 0 0 12px #dfff00; }
+  50% { text-shadow: 2px 2px 0 #000, 0 0 12px #ccff33, 0 0 24px #dfff00; }
+}
+</style>
