@@ -1,107 +1,92 @@
-* {
-    box-sizing: border-box;
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: #161230;
-}
-
 body {
-    font-size: 18px;
-    background-color: #fafafa;
+  margin:0;
+  font-family:Arial, sans-serif;
+  background: radial-gradient(circle at top, #140028, #000);
+  color:white;
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
+/* Glow background */
+body::before {
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  background: radial-gradient(circle, #8a2be2, transparent);
+  top:-150px;
+  left:-150px;
+  filter:blur(120px);
+  opacity:0.5;
 }
 
-form {
+body::after {
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  background: radial-gradient(circle, #00d4ff, transparent);
+  bottom:-150px;
+  right:-150px;
+  filter:blur(120px);
+  opacity:0.5;
 }
 
-label {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
+/* Navbar fix */
+nav, .nav {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px;
 }
 
-input,
-select,
+/* Buttons */
 button {
-    /* flex-grow: 1; */
-    font-size: 1rem;
-    padding: 0.25rem;
-    border: 1px solid;
-    border-radius: 4px;
+  padding:10px 20px;
+  border-radius:25px;
+  border:none;
+  background:linear-gradient(90deg,#8a2be2,#00d4ff);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-input[type="checkbox"] {
-    width: 1.5rem;
-    height: 1.5rem;
+/* Hero text */
+h1 {
+  font-size:2.8rem;
+  background:linear-gradient(90deg,#8a2be2,#00d4ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
-button {
-    cursor: pointer;
-    align-self: center;
-    padding: 0.5rem 1.5rem;
-    background-color: #161230;
-    color: #fafafa;
-    font-size: 1.5rem;
+/* Cards (THIS is the big upgrade) */
+.card, .box, .section {
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(15px);
+  border-radius:20px;
+  padding:20px;
+  margin:20px;
+  border:1px solid rgba(255,255,255,0.1);
+  transition:0.3s;
 }
 
-summary {
-    cursor: pointer;
+.card:hover, .box:hover {
+  transform:translateY(-5px);
+  box-shadow:0 0 20px #8a2be2;
 }
 
-code,
-code > input,
-code > select {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.5rem;
+/* Grid sections */
+.grid {
+  display:grid;
+  gap:15px;
 }
 
-code {
-    display: flex;
-    align-items: center;
+/* Fix spacing everywhere */
+section {
+  margin:30px 0;
 }
 
-code input,
-code select {
-    border-color: #a9b7c9;
-}
-
-code button {
-    margin-left: 2rem;
-}
-
-details {
-    width: 100%;
-}
-
-summary {
-    margin-bottom: 0.5rem;
-}
-
-details code {
-    display: inline-block;
-    font-size: 1.1rem;
-    margin-left: 0.2rem;
-    font-weight: 600;
-}
-
-.code-container {
-    width: 80vw;
-    max-width: 800px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    border: 1px solid;
-    border-radius: 4px;
-    background-color: #eaf3ff;
-    padding: 1rem;
-    flex-wrap: wrap;
+/* Footer */
+footer {
+  text-align:center;
+  padding:30px;
+  color:#777;
 }
