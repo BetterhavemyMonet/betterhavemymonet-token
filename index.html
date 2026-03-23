@@ -1,1 +1,123 @@
-404: Not Found
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Monet Money</title>
+
+<style>
+body {
+  margin: 0;
+  background: radial-gradient(circle at center, #0a0a0a 0%, #000 80%);
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+}
+
+/* Title */
+.title {
+  margin-top: 20vh;
+  font-size: 4rem;
+  letter-spacing: 4px;
+  color: #fff;
+  text-shadow:
+    0 0 10px #aaff00,
+    0 0 20px #88ff00,
+    0 0 40px #66ff00;
+}
+
+/* Subtitle */
+.subtitle {
+  margin-top: 20px;
+  font-size: 1.3rem;
+  color: #ccc;
+}
+
+/* Airdrop */
+.airdrop {
+  margin-top: 15px;
+  color: #aaff00;
+  font-size: 1rem;
+}
+
+/* Buttons */
+.buttons {
+  margin-top: 40px;
+}
+
+.btn {
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: white;
+  border: 1px solid #66ff00;
+  transition: 0.3s;
+  box-shadow: 0 0 10px #66ff00;
+}
+
+.btn:hover {
+  background: #66ff00;
+  color: black;
+  box-shadow: 0 0 20px #aaff00;
+}
+
+/* Glow pulse */
+@keyframes glow {
+  from { text-shadow: 0 0 10px #88ff00; }
+  to { text-shadow: 0 0 30px #aaff00; }
+}
+
+.title {
+  animation: glow 2s infinite alternate;
+}
+
+/* Floating particles */
+.particle {
+  position: fixed;
+  width: 3px;
+  height: 3px;
+  background: #88ff00;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: float linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-10vh); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="title">Monet Money</div>
+
+<div class="subtitle">
+  Money Moves by trading with Monet Money
+</div>
+
+<div class="airdrop">
+  🎁 First 500 users receive a surprise airdrop
+</div>
+
+<div class="buttons">
+  <a href="#" class="btn">Buy Token</a>
+  <a href="#" class="btn">View Chart</a>
+  <a href="#" class="btn">Connect Wallet</a>
+</div>
+
+<script>
+// particles
+for (let i = 0; i < 50; i++) {
+  let p = document.createElement("div");
+  p.className = "particle";
+  p.style.left = Math.random() * 100 + "vw";
+  p.style.animationDuration = (5 + Math.random() * 10) + "s";
+  document.body.appendChild(p);
+}
+</script>
+
+</body>
+</html>
