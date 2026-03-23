@@ -1,123 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Monet Money</title>
+<title>BetterHaveMyMonet</title>
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script src="app.js"></script>
 
 <style>
 body {
-  margin: 0;
-  background: radial-gradient(circle at center, #0a0a0a 0%, #000 80%);
-  color: white;
-  font-family: 'Segoe UI', sans-serif;
-  text-align: center;
+  margin:0;
+  background: radial-gradient(circle at center,#050505,#000);
+  color:white;
+  font-family: 'Orbitron', sans-serif;
+  overflow-x:hidden;
 }
 
-/* Title */
-.title {
-  margin-top: 20vh;
-  font-size: 4rem;
-  letter-spacing: 4px;
-  color: #fff;
-  text-shadow:
-    0 0 10px #aaff00,
-    0 0 20px #88ff00,
-    0 0 40px #66ff00;
+.glow {
+  font-size:48px;
+  text-align:center;
+  margin-top:60px;
+  background: linear-gradient(90deg,#00ffcc,#66ff99);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 40px rgba(0,255,150,0.4);
 }
 
-/* Subtitle */
-.subtitle {
-  margin-top: 20px;
-  font-size: 1.3rem;
-  color: #ccc;
+.sub {
+  text-align:center;
+  opacity:.8;
 }
 
-/* Airdrop */
-.airdrop {
-  margin-top: 15px;
-  color: #aaff00;
-  font-size: 1rem;
+.center {
+  text-align:center;
+  margin-top:30px;
 }
 
-/* Buttons */
-.buttons {
-  margin-top: 40px;
+button {
+  padding:14px 24px;
+  border:none;
+  border-radius:14px;
+  font-weight:bold;
+  background:linear-gradient(135deg,#00ffcc,#33ff88);
+  cursor:pointer;
 }
 
-.btn {
-  display: inline-block;
-  margin: 10px;
-  padding: 12px 24px;
-  border-radius: 10px;
-  text-decoration: none;
-  color: white;
-  border: 1px solid #66ff00;
-  transition: 0.3s;
-  box-shadow: 0 0 10px #66ff00;
+.panel {
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  background:#000;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 0 25px rgba(0,255,150,0.3);
 }
 
-.btn:hover {
-  background: #66ff00;
-  color: black;
-  box-shadow: 0 0 20px #aaff00;
-}
-
-/* Glow pulse */
-@keyframes glow {
-  from { text-shadow: 0 0 10px #88ff00; }
-  to { text-shadow: 0 0 30px #aaff00; }
-}
-
-.title {
-  animation: glow 2s infinite alternate;
-}
-
-/* Floating particles */
-.particle {
-  position: fixed;
-  width: 3px;
-  height: 3px;
-  background: #88ff00;
-  border-radius: 50%;
-  opacity: 0.6;
-  animation: float linear infinite;
-}
-
-@keyframes float {
-  from { transform: translateY(100vh); }
-  to { transform: translateY(-10vh); }
+.feed {
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:220px;
+  background:#000;
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 0 25px rgba(0,255,150,0.3);
+  font-size:12px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="title">Monet Money</div>
+<h1 class="glow">Better Have My Monet</h1>
+<p class="sub">Money Moves by trading with Monet Money</p>
 
-<div class="subtitle">
-  Money Moves by trading with Monet Money
+<div class="center">
+  <button onclick="connectWallet()">Connect Wallet</button>
 </div>
 
-<div class="airdrop">
-  🎁 First 500 users receive a surprise airdrop
+<div class="center">
+  <p>Wallet: <span id="wallet">Not Connected</span></p>
+  <p>🎁 Spots Left: <span id="spots">500</span></p>
+  <p>🏆 Your Rank: <span id="rank">-</span></p>
 </div>
 
-<div class="buttons">
-  <a href="#" class="btn">Buy Token</a>
-  <a href="#" class="btn">View Chart</a>
-  <a href="#" class="btn">Connect Wallet</a>
+<div class="panel">
+  <b>🚀 Early Access</b><br>
+  First 500 wallets qualify<br>
+  Stay connected 👀
 </div>
 
-<script>
-// particles
-for (let i = 0; i < 50; i++) {
-  let p = document.createElement("div");
-  p.className = "particle";
-  p.style.left = Math.random() * 100 + "vw";
-  p.style.animationDuration = (5 + Math.random() * 10) + "s";
-  document.body.appendChild(p);
-}
-</script>
+<div class="feed" id="feed">
+  <b>Live Activity</b>
+</div>
 
 </body>
 </html>
