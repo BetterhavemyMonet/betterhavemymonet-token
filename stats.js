@@ -1,1 +1,0 @@
-const LIBRA_MINT='sMessageSignatureNeededResponsePay';async function loadStats(){try{const r=await fetch('https://public-api.solscan.io/token/meta?tokenAddress='+LIBRA_MINT);const d=await r.json();document.getElementById('holders').innerText=d.holder;document.getElementById('supply').innerText=d.supply;}catch(e){console.log(e)}}loadStats();setInterval(loadStats,15000);
