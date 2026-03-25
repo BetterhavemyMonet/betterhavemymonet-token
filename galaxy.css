@@ -5,3 +5,7 @@ body {
   color: white;
   font-family: Arial, sans-serif;
 }
+h1 {
+  color: #fff;
+  text-shadow: 0 0 10px #00f, 0 0 20px #0ff, 0 0 30px #0ff;
+}
