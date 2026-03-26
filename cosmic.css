@@ -1,0 +1,12 @@
+body, html { margin:0; height:100%; overflow-x:hidden; background:#000; font-family:sans-serif; }
+#cosmic-container { position:relative; width:100%; height:100vh; overflow:hidden; }
+.stars-layer { position:absolute; width:200%; height:200%; top:-50%; left:-50%; }
+.layer1 .star, .layer2 .star, .layer3 .star { background:white; border-radius:50%; position:absolute; }
+.layer1 .star { width:1px; height:1px; opacity:0.5; animation:twinkle 5s infinite alternate; }
+.layer2 .star { width:2px; height:2px; opacity:0.7; animation:twinkle 7s infinite alternate; }
+.layer3 .star { width:3px; height:3px; opacity:0.9; animation:twinkle 9s infinite alternate; }
+@keyframes twinkle { 0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2} }
+#logo-text { position:absolute; top:40%; left:50%; transform:translate(-50%,-50%); display:flex; gap:0.3em; text-align:center; z-index:2; }
+.logo-M { height:3em; animation:glowOrbit 4s infinite alternate; }
+@keyframes glowOrbit { 0%{filter:drop-shadow(0 0 5px #0ff) drop-shadow(0 0 10px #00f)} 50%{filter:drop-shadow(0 0 15px #0ff) drop-shadow(0 0 30px #0ff)} 100%{filter:drop-shadow(0 0 5px #0ff) drop-shadow(0 0 10px #00f)} }
+#cosmic-container::before { content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:url('assets/galaxy.jpg') center/cover no-repeat; z-index:0; }
