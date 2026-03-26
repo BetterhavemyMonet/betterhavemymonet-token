@@ -103,3 +103,19 @@ footer {
   100% { filter: drop-shadow(0 0 10px #9945FF); }
 }
 
+
+.logo {
+  width: 180px;
+  margin-top: 15px;
+  animation: glowPulse 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+.logo:hover {
+  transform: scale(1.05);
+}
+@keyframes glowPulse {
+  0% { filter: drop-shadow(0 0 10px #9945FF); }
+  50% { filter: drop-shadow(0 0 25px #14F195); }
+  100% { filter: drop-shadow(0 0 10px #9945FF); }
+}
+
