@@ -1,4 +1,18 @@
 const CA="9CHAHyqDhPyiQgg4TKfyJ9iVp7dZaQqVao9uU7W7B5ZD";
+// LIVE PRICE + MCAP
+async function loadStats(){
+ try{
+  let r=await fetch("https://api.dexscreener.com/latest/dex/tokens/9CHAHyqDhPyiQgg4TKfyJ9iVp7dZaQqVao9uU7W7B5ZD");
+  let d=await r.json();
+  let p=d.pairs[0];
+  let price=p.priceUsd;
+  let mcap=p.fdv;
+  document.getElementById("stats").innerHTML=
+   "Price: $"+Number(price).toFixed(6)+" | Market Cap: $"+Number(mcap).toLocaleString();
+ }catch(e){console.log(e)}
+}
+setInterval(loadStats,10000);
+loadStats();
 
 function copyCA(){
   navigator.clipboard.writeText(CA);
