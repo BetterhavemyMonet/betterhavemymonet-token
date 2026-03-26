@@ -131,3 +131,21 @@ footer {
   100% { filter: drop-shadow(0 0 10px #9945FF); }
 }
 
+
+.buyPulse {
+ display:inline-block;
+ margin-top:15px;
+ padding:14px 28px;
+ background:#14F195;
+ color:black;
+ font-weight:bold;
+ border-radius:12px;
+ text-decoration:none;
+ animation:pulse 1.5s infinite;
+}
+@keyframes pulse {
+ 0% { box-shadow:0 0 10px #14F195; }
+ 50% { box-shadow:0 0 30px #14F195; }
+ 100% { box-shadow:0 0 10px #14F195; }
+}
+
