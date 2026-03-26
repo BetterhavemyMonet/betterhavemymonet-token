@@ -149,3 +149,21 @@ footer {
  100% { box-shadow:0 0 10px #14F195; }
 }
 
+
+.btn {
+ display:inline-block;
+ margin:8px;
+ padding:12px 22px;
+ background:gold;
+ color:black;
+ border-radius:10px;
+ text-decoration:none;
+ font-weight:bold;
+ box-shadow:0 0 12px gold;
+}
+.secondary {
+ background:transparent;
+ color:#14F195;
+ border:1px solid #14F195;
+}
+
