@@ -220,3 +220,157 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 
+
+<style>
+
+/* ===== METRICS BAR ===== */
+.metrics {
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  margin:40px auto;
+  max-width:900px;
+}
+
+.metric {
+  flex:1;
+  padding:20px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(180,0,255,0.25);
+  backdrop-filter: blur(12px);
+}
+
+.metric h3 {
+  margin:0;
+  font-size:24px;
+}
+
+.metric p {
+  opacity:.7;
+  margin-top:6px;
+}
+
+/* ===== TOKENOMICS ===== */
+.tokenomics {
+  margin-top:60px;
+}
+
+.tokenomics-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
+
+.token-box {
+  padding:20px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,0,170,0.25);
+}
+
+/* ===== WHY SECTION ===== */
+.why {
+  margin-top:60px;
+}
+
+.why-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
+
+.why-card {
+  padding:20px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(0,255,200,0.2);
+}
+
+/* ===== SECTION TITLES ===== */
+.section-title {
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+</style>
+
+<!-- ===== METRICS ===== -->
+<div class="metrics">
+
+<div class="metric">
+<h3>⚡ Instant</h3>
+<p>Transactions finalize in seconds</p>
+</div>
+
+<div class="metric">
+<h3>💸 Low Fees</h3>
+<p>Fraction of a cent per transaction</p>
+</div>
+
+<div class="metric">
+<h3>🌐 Scalable</h3>
+<p>Built on Solana high throughput</p>
+</div>
+
+</div>
+
+<!-- ===== WHY MONET ===== -->
+<div class="section why">
+
+<div class="section-title">Why Monet</div>
+
+<div class="why-grid">
+
+<div class="why-card">
+🚀 <b>Speed First</b><br><br>
+Designed for real-time transactions with no delays.
+</div>
+
+<div class="why-card">
+💰 <b>Cost Efficiency</b><br><br>
+Ultra-low fees make micro and large transfers viable.
+</div>
+
+<div class="why-card">
+🔗 <b>Decentralized Future</b><br><br>
+Built for a scalable, permissionless financial system.
+</div>
+
+</div>
+
+</div>
+
+<!-- ===== TOKENOMICS ===== -->
+<div class="section tokenomics">
+
+<div class="section-title">Tokenomics</div>
+
+<div class="tokenomics-grid">
+
+<div class="token-box">
+💵 Supply<br><br>
+1,000,000,000
+</div>
+
+<div class="token-box">
+🔒 Liquidity<br><br>
+Planned / Growing
+</div>
+
+<div class="token-box">
+📊 Distribution<br><br>
+Community Focused
+</div>
+
+<div class="token-box">
+⚙️ Utility<br><br>
+Payments + DeFi Integration
+</div>
+
+</div>
+
+</div>
+
