@@ -70,12 +70,16 @@ body {
 
 /* ===== LOGO ===== */
 .logo {
+  max-width:220px;
+  margin-bottom:25px;
+  filter: drop-shadow(0 0 18px rgba(255,0,170,0.35));
   max-width:200px;
   margin-bottom:20px;
 }
 
 /* ===== TITLE ===== */
 .title {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.18);
   font-size:64px;
   font-weight:800;
   letter-spacing:1px;
@@ -109,7 +113,8 @@ body {
 }
 
 /* ===== TEXT ===== */
-.subtitle {
+.su.title {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.18);
   margin-top:10px;
   font-size:20px;
   opacity:.85;
@@ -171,6 +176,7 @@ body {
 <div class="mist"></div>
 
 <div class="container">
+<img src="./assets/money-banner.png" class="logo" onerror="this.style.display='none'">
 
 <img src="./assets/money-banner.png" class="logo"
 onerror="this.style.display='none'">
@@ -184,6 +190,8 @@ Next-level Solana token built for speed, scalability, and real financial movemen
 </div>
 
 <a href="https://t.me/Libra_Token_Solana" class="button">Telegram</a>
+<a href="https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b" target="_blank" class="button">Buy</a>
+<a href="https://solscan.io/token/6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b" target="_blank" class="button">Explorer</a>
 <a href="https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b" class="button">Buy Monet</a>
 
 <!-- TOKEN DETAILS -->
@@ -221,3 +229,123 @@ Live chart coming soon after liquidity
 
 </body>
 </html>
+
+<style>
+/* ===== TITLE OUTLINE (pop) ===== */
+.title {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.18);
+}
+
+/* ===== LOGO POLISH ===== */
+.logo {
+  max-width:220px;
+  margin: 0 auto 24px;
+  display:block;
+  filter: drop-shadow(0 0 18px rgba(255,0,170,0.35));
+}
+
+/* ===== BUTTON MICRO ===== */
+.button {
+  position:relative;
+  overflow:hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.button::after{
+  content:"";
+  position:absolute;
+  width:0;height:0;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(255,255,255,.18);
+  border-radius:50%;
+  transition:width .4s ease,height .4s ease;
+}
+.button:hover::after{ width:220%; height:520%; }
+.button:hover{
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 25px rgba(255,0,170,.35), 0 10px 30px rgba(0,0,0,.7);
+}
+
+/* ===== CARD HOVER ===== */
+.card{ transition: transform .25s ease, box-shadow .25s ease; }
+.card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 15px 50px rgba(0,0,0,.8), 0 0 25px rgba(20,241,149,.15);
+}
+
+/* ===== COPY TOKEN ===== */
+.copy{ cursor:pointer; position:relative; }
+.copy::after{
+  content:"Copied!";
+  position:absolute; top:-22px; left:50%;
+  transform:translateX(-50%);
+  font-size:12px; opacity:0; transition:.2s; color:#14F195;
+}
+.copy.active::after{ opacity:1; }
+
+/* ===== PLACEHOLDER CHART ===== */
+.chart-wrap{
+  max-width:1100px; margin:60px auto; text-align:center;
+}
+.placeholder-chart{
+  position:relative; height:300px; border-radius:16px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  overflow:hidden; margin-top:16px;
+}
+.chart-line{
+  position:absolute; width:120%; height:2px;
+  background:linear-gradient(90deg,#9945FF,#14F195,#00C2FF);
+  top:60%; left:-10%; transform:rotate(-5deg);
+}
+.chart-glow{
+  position:absolute; width:120%; height:40px;
+  background:radial-gradient(circle,rgba(255,0,170,0.2),transparent);
+  top:58%; left:-10%;
+}
+</style>
+
+<script>
+function copyToken(){
+  const el = document.querySelector('.copy');
+  if(!el) return;
+  navigator.clipboard.writeText(el.innerText);
+  el.classList.add('active');
+  setTimeout(()=>el.classList.remove('active'), 1000);
+}
+</script>
+
+
+<!-- ===== MONET ACTIONS + CHART (APPENDED BLOCK) ===== -->
+<div class="chart-wrap">
+
+  <!-- Logo (won’t break if missing) -->
+  <img src="./assets/money-banner.png" class="logo" onerror="this.style.display='none'">
+
+  <!-- Action buttons -->
+  <div style="margin-bottom:20px;">
+    <a href="https://t.me/Libra_Token_Solana" target="_blank" class="button">Telegram</a>
+    <a href="https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b" target="_blank" class="button">Buy</a>
+    <a href="https://solscan.io/token/6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b" target="_blank" class="button">Explorer</a>
+  </div>
+
+  <!-- Click-to-copy token -->
+  <div style="margin-bottom:10px; opacity:.85;">
+    Token: 
+    <code class="copy" onclick="copyToken()" style="word-break:break-all;">
+      6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b
+    </code>
+  </div>
+
+  <!-- Placeholder chart -->
+  <h2 style="margin-top:24px;">📊 Live Chart</h2>
+  <div class="placeholder-chart">
+    <div class="chart-line"></div>
+    <div class="chart-glow"></div>
+  </div>
+  <p style="opacity:.6;margin-top:10px;">
+    Live data will appear once liquidity is active
+  </p>
+
+</div>
+
