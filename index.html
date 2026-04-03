@@ -247,3 +247,61 @@ function copyToken() {
 
 </body>
 </html>
+
+<!-- ===== WALLET CONNECT ===== -->
+<div style="margin-top:40px;text-align:center;">
+  <button onclick="connectWallet()" class="button">Connect Wallet</button>
+  <div id="wallet-info" style="margin-top:10px;opacity:.8;"></div>
+</div>
+
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+
+<script>
+const TOKEN_ADDRESS = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+
+async function connectWallet() {
+  try {
+    const provider = window.solana;
+
+    if (!provider || !provider.isPhantom) {
+      alert("Please install Phantom Wallet");
+      return;
+    }
+
+    const resp = await provider.connect();
+    const publicKey = resp.publicKey.toString();
+
+    document.getElementById("wallet-info").innerHTML =
+      "Connected: " + publicKey.slice(0,4) + "..." + publicKey.slice(-4);
+
+    getTokenBalance(publicKey);
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function getTokenBalance(wallet) {
+  const connection = new solanaWeb3.Connection(
+    solanaWeb3.clusterApiUrl("mainnet-beta")
+  );
+
+  const accounts = await connection.getParsedTokenAccountsByOwner(
+    new solanaWeb3.PublicKey(wallet),
+    { programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA") }
+  );
+
+  let balance = 0;
+
+  accounts.value.forEach(acc => {
+    const info = acc.account.data.parsed.info;
+    if (info.mint === TOKEN_ADDRESS) {
+      balance = info.tokenAmount.uiAmount;
+    }
+  });
+
+  document.getElementById("wallet-info").innerHTML +=
+    "<br>MONET Balance: " + balance;
+}
+</script>
+
