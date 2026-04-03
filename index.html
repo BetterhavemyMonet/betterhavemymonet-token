@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
 <title>Monet Money</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -27,12 +26,6 @@ body::before{
 .nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
 .logo{display:flex;align-items:center;gap:10px}
 .logo img{width:40px}
-.logo span{
-  font-size:20px;
-  background:linear-gradient(90deg,#7b2cff,#00d4ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
 
 .btn{
   background:linear-gradient(135deg,#7b2cff,#00d4ff);
@@ -48,16 +41,9 @@ body::before{
 .hero img{
   width:180px;
   border-radius:20px;
-  box-shadow:0 0 30px rgba(123,44,255,.6);
 }
-.title{
-  font-size:42px;
-  margin-top:20px;
-  background:linear-gradient(90deg,#7b2cff,#00d4ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.subtitle{opacity:.8;margin-top:15px}
+.title{font-size:42px;margin-top:20px}
+.subtitle{opacity:.85;margin-top:15px}
 
 .contract{
   margin-top:30px;
@@ -67,6 +53,7 @@ body::before{
   display:flex;
   justify-content:space-between;
   flex-wrap:wrap;
+  gap:10px;
 }
 
 .grid{
@@ -81,6 +68,8 @@ body::before{
   background:rgba(255,255,255,0.05);
   text-align:center;
 }
+.card h3{opacity:.7;font-size:14px}
+.card p{font-size:20px;margin-top:10px}
 
 .section{
   margin-top:50px;
@@ -89,164 +78,11 @@ body::before{
   background:rgba(255,255,255,0.05);
 }
 
-.footer{
-  margin-top:60px;
-  text-align:center;
-  opacity:.6;
-}
-</style>
-</head>
-
-<body>
-<div class="container">
-
-<div class="nav">
-  <div class="logo">
-    <img src="assets/monet.png">
-    <span>Monet Money</span>
-  </div>
-  <button class="btn">Connect Wallet</button>
-</div>
-
-<div class="hero">
-  <img src="assets/monet.png">
-  <div class="title">Monet Money</div>
-  <div class="subtitle">
-    Make money moves.<br>
-    For those who aren’t made of money… better have your Monet.
-  </div>
-</div>
-
-<div class="contract">
-  <span id="contract">6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b</span>
-  <button class="btn" onclick="copyCA()">Copy</button>
-</div>
-
-<div class="grid">
-  <div class="card"><h3>Price</h3><p id="price">$0.00</p></div>
-  <div class="card"><h3>Supply</h3><p>100.00M</p></div>
-  <div class="card"><h3>Transactions</h3><p id="txs">--</p></div>
-</div>
-
-<div class="section">
-  <h2>Chart</h2>
-  <a id="chartLink" target="_blank" class="btn">View Live Chart</a>
-</div>
-
-<div class="section">
-  <h2>Buy / Swap</h2>
-  <a id="buyLink" target="_blank" class="btn">Buy on Jupiter</a>
-</div>
-
-<div class="footer">
-  © 2026 Monet Money
-</div>
-
-</div>
-
-<script>
-const CA = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-document.getElementById("chartLink").href =
-  "https://dexscreener.com/solana/" + CA;
-
-document.getElementById("buyLink").href =
-  "https://jup.ag/swap/SOL-" + CA;
-
-async function loadData(){
-  try{
-    const res = await fetch("https://api.dexscreener.com/latest/dex/tokens/" + CA);
-cd ~/betterhavemymonet-token && \
-cat > index.html << 'EOF'
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<title>Monet Money</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:'Orbitron',sans-serif;
-  color:#fff;
-  background:url('assets/background.png') no-repeat center center fixed;
-  background-size:cover;
-}
-body::before{
-  content:"";
-  position:fixed;inset:0;
-  background:rgba(0,0,0,0.7);
-  z-index:-1;
-}
-.container{max-width:1100px;margin:auto;padding:20px}
-
-.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
-.logo{display:flex;align-items:center;gap:10px}
-.logo img{width:40px}
-.logo span{
-  font-size:20px;
-  background:linear-gradient(90deg,#7b2cff,#00d4ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.btn{
-  background:linear-gradient(135deg,#7b2cff,#00d4ff);
-  padding:12px 20px;
-  border-radius:12px;
+iframe{
+  width:100%;
+  height:500px;
   border:none;
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.hero{text-align:center;margin-top:40px}
-.hero img{
-  width:180px;
-  border-radius:20px;
-  box-shadow:0 0 30px rgba(123,44,255,.6);
-}
-.title{
-  font-size:42px;
-  margin-top:20px;
-  background:linear-gradient(90deg,#7b2cff,#00d4ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.subtitle{opacity:.8;margin-top:15px}
-
-.contract{
-  margin-top:30px;
-  padding:15px;
   border-radius:12px;
-  background:rgba(255,255,255,0.05);
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-}
-
-.grid{
-  margin-top:40px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:20px;
-}
-.card{
-  padding:20px;
-  border-radius:16px;
-  background:rgba(255,255,255,0.05);
-  text-align:center;
-}
-
-.section{
-  margin-top:50px;
-  padding:25px;
-  border-radius:16px;
-  background:rgba(255,255,255,0.05);
 }
 
 .footer{
@@ -260,14 +96,16 @@ body::before{
 <body>
 <div class="container">
 
+<!-- NAV -->
 <div class="nav">
   <div class="logo">
     <img src="assets/monet.png">
-    <span>Monet Money</span>
+    <strong>Monet Money</strong>
   </div>
-  <button class="btn">Connect Wallet</button>
+  <button class="btn" onclick="connectWallet()">Connect</button>
 </div>
 
+<!-- HERO -->
 <div class="hero">
   <img src="assets/monet.png">
   <div class="title">Monet Money</div>
@@ -277,25 +115,45 @@ body::before{
   </div>
 </div>
 
+<!-- CONTRACT -->
 <div class="contract">
-  <span id="contract">6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b</span>
+  <span id="ca">6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b</span>
   <button class="btn" onclick="copyCA()">Copy</button>
 </div>
 
+<!-- STATS -->
 <div class="grid">
-  <div class="card"><h3>Price</h3><p id="price">$0.00</p></div>
-  <div class="card"><h3>Supply</h3><p>100.00M</p></div>
-  <div class="card"><h3>Transactions</h3><p id="txs">--</p></div>
+  <div class="card"><h3>Price</h3><p id="price">$--</p></div>
+  <div class="card"><h3>Supply</h3><p>1,000,000,000</p></div>
+  <div class="card"><h3>Network</h3><p>Solana</p></div>
+  <div class="card"><h3>Status</h3><p>Live</p></div>
 </div>
 
+<!-- LIVE CHART (NO DEX) -->
 <div class="section">
-  <h2>Chart</h2>
-  <a id="chartLink" target="_blank" class="btn">View Live Chart</a>
+  <h2>Live Chart</h2>
+  <iframe src="https://birdeye.so/token/6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b?chain=solana"></iframe>
 </div>
 
+<!-- BUY -->
 <div class="section">
-  <h2>Buy / Swap</h2>
-  <a id="buyLink" target="_blank" class="btn">Buy on Jupiter</a>
+  <h2>Buy Monet</h2>
+  <button class="btn" onclick="buy()">Buy on Jupiter</button>
+</div>
+
+<!-- ABOUT -->
+<div class="section">
+  <h2>About</h2>
+  <p>
+    Monet Money is built for those making real moves.
+    Not everyone is made of money—but everyone can move like they are.
+  </p>
+</div>
+
+<!-- LINKS -->
+<div class="section">
+  <h2>Links</h2>
+  <button class="btn" onclick="openChart()">Open Chart</button>
 </div>
 
 <div class="footer">
@@ -306,36 +164,37 @@ body::before{
 
 <script>
 const CA = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-document.getElementById("chartLink").href =
-  "https://dexscreener.com/solana/" + CA;
-
-document.getElementById("buyLink").href =
-  "https://jup.ag/swap/SOL-" + CA;
-
-async function loadData(){
-  try{
-    const res = await fetch("https://api.dexscreener.com/latest/dex/tokens/" + CA);
-    const data = await res.json();
-
-    const pair = data.pairs[0];
-
-    document.getElementById("price").innerText =
-      "$" + parseFloat(pair.priceUsd).toFixed(6);
-
-    document.getElementById("txs").innerText =
-      pair.txns.h24;
-  } catch(e){
-    console.log("dex error", e);
-  }
-}
 
 function copyCA(){
   navigator.clipboard.writeText(CA);
   alert("Copied!");
 }
 
-loadData();
+function buy(){
+  window.open("https://jup.ag/swap/SOL-"+CA, "_blank");
+}
+
+function openChart(){
+  window.open("https://birdeye.so/token/"+CA+"?chain=solana","_blank");
+}
+
+function connectWallet(){
+  alert("Wallet connect coming soon");
+}
+
+// LIVE PRICE (Birdeye, not Dex)
+async function loadPrice(){
+  try{
+    const res = await fetch("https://public-api.birdeye.so/public/price?address="+CA);
+    const data = await res.json();
+    document.getElementById("price").innerText =
+      "$"+parseFloat(data.data.value).toFixed(6);
+  }catch(e){
+    console.log(e);
+  }
+}
+
+loadPrice();
 </script>
 
 </body>
