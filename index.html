@@ -139,6 +139,11 @@ iframe{
 <div class="section">
   <h2>Buy Monet</h2>
 <br><br>
+<button class="btn" onclick="buy(0.1)">Buy 0.1 SOL</button>
+<button class="btn" onclick="buy(0.5)">Buy 0.5 SOL</button>
+<button class="btn" onclick="buy(1)">Buy 1 SOL</button>
+
+<br><br>
 <iframe src="https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b" style="width:100%;height:600px;border:none;border-radius:12px;"></iframe>
 
 <br><br>
@@ -198,6 +203,9 @@ const CA = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
 let walletAddress = null;
 const CA = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
 
+let walletAddress = null;
+const CA = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+
 async function connectWallet(){
   try{
     if(window.solana && window.solana.isPhantom){
@@ -208,6 +216,63 @@ async function connectWallet(){
       getSOLBalance();
       getTokenBalance();
     } else {
+      window.open("https://phantom.app/","_blank");
+    }
+  } catch(err){
+    console.log(err);
+  }
+}
+
+async function getSOLBalance(){
+  try{
+    const res = await fetch("https://api.mainnet-beta.solana.com",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        jsonrpc:"2.0",
+        id:1,
+        method:"getBalance",
+        params:[walletAddress]
+      })
+    });
+    const data = await res.json();
+    const sol = data.result.value / 1e9;
+    renderBalance("SOL Balance: " + sol.toFixed(3) + " SOL");
+  }catch(e){console.log(e)}
+}
+
+async function getTokenBalance(){
+  try{
+    const res = await fetch("https://api.mainnet-beta.solana.com",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        jsonrpc:"2.0",
+        id:1,
+        method:"getTokenAccountsByOwner",
+        params:[walletAddress,{mint:CA},{encoding:"jsonParsed"}]
+      })
+    });
+    const data = await res.json();
+    let balance = 0;
+    if(data.result.value.length > 0){
+      balance = data.result.value[0].account.data.parsed.info.tokenAmount.uiAmount;
+    }
+    renderBalance("Monet Balance: " + balance);
+  }catch(e){console.log(e)}
+}
+
+function renderBalance(text){
+  let el = document.getElementById("balance");
+  if(!el){
+    el = document.createElement("div");
+    el.id = "balance";
+    el.style.marginTop = "10px";
+    document.querySelector(".nav").appendChild(el);
+  }
+  el.innerHTML += "<br>"+text;
+}
+
       window.open("https://phantom.app/","_blank");
     }
   } catch(err){
@@ -471,7 +536,7 @@ async function loadPrice(){
   }
 }
 
-loadPrice(); setInterval(loadPrice,10000); setInterval(loadPrice,10000);
+loadPrice(); setInterval(loadPrice,10000); setInterval(loadPrice,10000); setInterval(loadPrice,10000);
 window.addEventListener("load", async ()=>{
   if(window.solana && window.solana.isPhantom){
     try{
