@@ -156,3 +156,67 @@ MONET
 
 </body>
 </html>
+
+<style>
+
+/* ===== SECTION WRAPPER ===== */
+.section {
+  margin:40px auto;
+  padding:30px 20px;
+  border-radius:20px;
+  border:1px solid rgba(180,0,255,0.4);
+  box-shadow:
+    0 0 15px rgba(180,0,255,0.3),
+    inset 0 0 20px rgba(180,0,255,0.15);
+  backdrop-filter: blur(10px);
+  max-width:900px;
+}
+
+/* TITLE GLOW BOOST */
+.title {
+  text-shadow:
+    0 0 10px rgba(180,0,255,0.5),
+    0 0 20px rgba(255,0,170,0.4);
+}
+
+/* BUTTON GLOW */
+.button {
+  box-shadow: 0 0 10px rgba(180,0,255,0.3);
+}
+
+/* CARD ENHANCEMENT */
+.card {
+  border:1px solid rgba(180,0,255,0.3);
+  box-shadow: 0 0 10px rgba(180,0,255,0.2);
+}
+
+</style>
+
+<script>
+
+/* Wrap sections automatically without breaking layout */
+document.addEventListener("DOMContentLoaded", () => {
+
+  const container = document.querySelector(".container");
+
+  if (!container) return;
+
+  const sections = Array.from(container.children);
+
+  sections.forEach(el => {
+
+    // skip logo and title
+    if (el.classList.contains("logo") || el.classList.contains("title")) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "section";
+
+    el.parentNode.insertBefore(wrapper, el);
+    wrapper.appendChild(el);
+
+  });
+
+});
+
+</script>
+
