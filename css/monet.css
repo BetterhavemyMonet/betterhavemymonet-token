@@ -1,0 +1,14 @@
+body {
+  background: url('../assets/background.png') center/cover no-repeat fixed;
+}
+
+.monet-logo {
+  text-align: center;
+  padding: 20px;
+}
+
+.monet-logo img {
+  max-width: 180px;
+  width: 70%;
+  height: auto;
+}
