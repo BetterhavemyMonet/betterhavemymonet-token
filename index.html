@@ -176,3 +176,63 @@ body {
 
 </style>
 
+
+<!-- ===== FINAL POLISH LAYER ===== -->
+
+<style>
+
+/* BACKGROUND (FORCE REAL IMAGE) */
+body {
+  background:
+    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)),
+    url("./assets/background.png") no-repeat center center fixed !important;
+  background-size: cover !important;
+}
+
+/* REMOVE FAKE LAYERS */
+.stars, .galaxy, .mist {
+  display:none !important;
+}
+
+/* LOGO */
+.monet-logo {
+  width:180px;
+  display:block;
+  margin:40px auto 10px auto;
+  filter:
+    drop-shadow(0 0 25px rgba(255,0,170,0.5))
+    drop-shadow(0 0 50px rgba(0,255,200,0.3));
+}
+
+/* TITLE POLISH */
+.title {
+  margin-top:10px;
+  letter-spacing:1px;
+}
+
+/* DESCRIPTION */
+.pitch {
+  max-width:800px;
+  margin:30px auto;
+  font-size:18px;
+  opacity:.9;
+  line-height:1.6;
+}
+
+/* SECTION SPACING */
+.chart {
+  margin-top:50px;
+}
+
+</style>
+
+<!-- LOGO TOP (SAFE INSERT) -->
+<div style="text-align:center;">
+  <img src="./assets/monet-logo.png" class="monet-logo">
+</div>
+
+<!-- PITCH (CORRECT POSITION) -->
+<div class="pitch">
+Monet Money is a next-generation Solana token engineered for ultra-low fees and near-instant transactions. Built for speed, scalability, and real-world usability, Monet delivers seamless value transfer without the delays or costs of traditional systems. This is decentralized finance—fast, efficient, and built for the future.
+</div>
+
