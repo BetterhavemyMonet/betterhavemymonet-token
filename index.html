@@ -138,6 +138,11 @@ iframe{
 <!-- BUY -->
 <div class="section">
   <h2>Buy Monet</h2>
+<br><br>
+<button class="btn" onclick="buy(0.1)">Buy 0.1 SOL</button>
+<button class="btn" onclick="buy(0.5)">Buy 0.5 SOL</button>
+<button class="btn" onclick="buy(1)">Buy 1 SOL</button>
+
   <button class="btn" onclick="buy()">Buy on Jupiter</button>
 </div>
 
@@ -170,17 +175,85 @@ function copyCA(){
   alert("Copied!");
 }
 
-function buy(){
-  window.open("https://jup.ag/swap/SOL-"+CA, "_blank");
+function buy(amount=0.1){
+  window.open("https://jup.ag/swap/SOL-"+CA+"?amount="+amount,"_blank");
 }
+
 
 function openChart(){
   window.open("https://birdeye.so/token/"+CA+"?chain=solana","_blank");
 }
 
-function connectWallet(){
-  alert("Wallet connect coming soon");
+let walletAddress = null;
+const CA = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+
+async function connectWallet(){
+  try{
+    if(window.solana && window.solana.isPhantom){
+      const resp = await window.solana.connect();
+      walletAddress = resp.publicKey.toString();
+      const short = walletAddress.slice(0,4)+"..."+walletAddress.slice(-4);
+      alert("Connected: " + short);
+      getSOLBalance();
+      getTokenBalance();
+    } else {
+      window.open("https://phantom.app/","_blank");
+    }
+  } catch(err){
+    console.log(err);
+  }
 }
+
+async function getSOLBalance(){
+  try{
+    const res = await fetch("https://api.mainnet-beta.solana.com",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        jsonrpc:"2.0",
+        id:1,
+        method:"getBalance",
+        params:[walletAddress]
+      })
+    });
+    const data = await res.json();
+    const sol = data.result.value / 1e9;
+    renderBalance("SOL Balance: " + sol.toFixed(3) + " SOL");
+  }catch(e){console.log(e)}
+}
+
+async function getTokenBalance(){
+  try{
+    const res = await fetch("https://api.mainnet-beta.solana.com",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        jsonrpc:"2.0",
+        id:1,
+        method:"getTokenAccountsByOwner",
+        params:[walletAddress,{mint:CA},{encoding:"jsonParsed"}]
+      })
+    });
+    const data = await res.json();
+    let balance = 0;
+    if(data.result.value.length > 0){
+      balance = data.result.value[0].account.data.parsed.info.tokenAmount.uiAmount;
+    }
+    renderBalance("Monet Balance: " + balance);
+  }catch(e){console.log(e)}
+}
+
+function renderBalance(text){
+  let el = document.getElementById("balance");
+  if(!el){
+    el = document.createElement("div");
+    el.id = "balance";
+    el.style.marginTop = "10px";
+    document.querySelector(".nav").appendChild(el);
+  }
+  el.innerHTML += "<br>"+text;
+}
+
 
 // LIVE PRICE (Birdeye, not Dex)
 async function loadPrice(){
@@ -194,7 +267,7 @@ async function loadPrice(){
   }
 }
 
-loadPrice();
+loadPrice(); setInterval(loadPrice,10000);
 </script>
 
 </body>
