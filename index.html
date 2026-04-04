@@ -1,818 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title><span class="monet-bubble">Monet Money</span></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monet Money</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bs58@5.0.0/dist/bs58.min.js"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:'Orbitron',sans-serif;
-  color:#fff;
-  background:url('assets/background.png') no-repeat center center fixed;
-  background-size:cover;
+body {
+  margin:0;
+  font-family:"Fredoka",sans-serif;
+  background:#0a0a0a;
+  color:white;
+  text-align:center;
 }
-body::before{
-  content:"";
-  position:fixed;inset:0;
-  background:rgba(0,0,0,0.7);
-  z-index:-1;
+
+.container { padding:40px 20px; }
+
+.monet {
+  font-size:48px;
+  background:linear-gradient(135deg,#a855f7,#ec4899,#38bdf8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-.container{max-width:1100px;margin:auto;padding:20px}
 
-.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
-.logo{display:flex;align-items:center;gap:10px}
-.logo img{width:40px}
-
-.btn{
-  background:linear-gradient(135deg,#7b2cff,#00d4ff);
-  padding:12px 20px;
+/* BUTTONS */
+.btn {
+  margin:10px;
+  padding:14px 24px;
   border-radius:12px;
   border:none;
-  color:#fff;
   font-weight:bold;
   cursor:pointer;
+  background:linear-gradient(135deg,#a855f7,#ec4899,#38bdf8);
+  color:white;
+  animation:pulse 2s infinite;
 }
 
-.hero{text-align:center;margin-top:40px}
-.hero img{
-  width:180px;
-  border-radius:20px;
-}
-.title{font-size:42px;margin-top:20px}
-.subtitle{opacity:.85;margin-top:15px}
+.btn:hover { transform:scale(1.05); }
 
-.contract{
+@keyframes pulse {
+  0% { box-shadow:0 0 10px rgba(168,85,247,0.5); }
+  50% { box-shadow:0 0 25px rgba(56,189,248,0.8); }
+  100% { box-shadow:0 0 10px rgba(168,85,247,0.5); }
+}
+
+/* WALLET INFO */
+.wallet {
+  margin-top:15px;
+  font-size:14px;
+  opacity:.8;
+}
+
+/* PROGRESS BAR */
+.progress-container {
   margin-top:30px;
-  padding:15px;
-  border-radius:12px;
-  background:rgba(255,255,255,0.05);
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:10px;
+  width:80%;
+  margin-left:auto;
+  margin-right:auto;
 }
 
-.grid{
-  margin-top:40px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:20px;
-}
-.card{
-  padding:20px;
-  border-radius:16px;
-  background:rgba(255,255,255,0.05);
-  text-align:center;
-}
-.card h3{opacity:.7;font-size:14px}
-.card p{font-size:20px;margin-top:10px}
-
-.section{
-  margin-top:50px;
-  padding:25px;
-  border-radius:16px;
-  background:rgba(255,255,255,0.05);
+.progress-bar {
+  height:20px;
+  background:#222;
+  border-radius:10px;
+  overflow:hidden;
 }
 
-iframe{
-  width:100%;
-  height:500px;
-  border:none;
-  border-radius:12px;
-}
-
-.footer{
-  margin-top:60px;
-  text-align:center;
-  opacity:.6;
-}
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
-<style>
-.monet-bubble {
-  font-family: "Baloo 2", cursive !important;
-  font-weight: 700;
-  color: #00ffcc;
-  text-shadow: 0 0 8px #00ffcc, 0 0 16px #00ffcc, 0 0 24px #00ffaa;
-  letter-spacing: 1px;
-}
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
-<style>
-.monet-bubble {
-  font-family: "Baloo 2", cursive !important;
-  font-weight: 700;
-  background: linear-gradient(135deg, #a855f7, #ec4899, #38bdf8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 10px rgba(168,85,247,0.4),
-               0 0 20px rgba(236,72,153,0.3),
-               0 0 30px rgba(56,189,248,0.2);
-  letter-spacing: 1px;
-  animation: monetGlow 4s ease-in-out infinite alternate;
-}
-@keyframes monetGlow {
-  from { filter: brightness(1); }
-  to { filter: brightness(1.2); }
-}
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
-<style>
-.monet-bubble {
-  font-family: "Baloo 2", "Poppins", sans-serif !important;
-  font-weight: 700;
-  background: linear-gradient(135deg, #a855f7, #ec4899, #38bdf8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1.5px;
-  position: relative;
-  text-shadow: 
-    0 0 6px rgba(56,189,248,0.6),
-    0 0 12px rgba(56,189,248,0.4),
-    0 0 20px rgba(168,85,247,0.3),
-    0 0 30px rgba(236,72,153,0.25);
-  animation: monetGlow 4s ease-in-out infinite alternate;
-}
-
-.monet-bubble::after {
-  content: "Monet Money";
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
-  color: transparent;
-  text-shadow: 
-    0 0 25px rgba(56,189,248,0.35),
-    0 0 45px rgba(56,189,248,0.25),
-    0 0 65px rgba(56,189,248,0.15);
-  filter: blur(6px);
-}
-
-@keyframes monetGlow {
-  from { filter: brightness(1); }
-  to { filter: brightness(1.15); }
-}
-</style>
-<style>
-.monet-bubble {
-  font-family: "Baloo 2", "Poppins", sans-serif !important;
-  font-weight: 700;
-  background: linear-gradient(135deg, #a855f7, #ec4899, #38bdf8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1.5px;
-  position: relative;
-  z-index: 1;
-  text-shadow: 
-    0 0 4px rgba(168,85,247,0.3),
-    0 0 8px rgba(236,72,153,0.25);
-}
-
-.monet-bubble::before {
-  content: "Monet Money";
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
-  color: transparent;
-  text-shadow: 
-    0 0 20px rgba(56,189,248,0.25),
-    0 0 40px rgba(56,189,248,0.2),
-    0 0 70px rgba(56,189,248,0.15),
-    0 0 110px rgba(56,189,248,0.1);
-  filter: blur(10px);
-  transform: scale(1.08);
-  opacity: 0.9;
-}
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Outfit:wght@600&display=swap" rel="stylesheet">
-<style>
-.monet-bubble {
-  font-family: "Baloo 2", "Outfit", sans-serif !important;
-  font-weight: 700;
-  background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #38bdf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 2px;
-  position: relative;
-  z-index: 1;
-  text-shadow: 
-    0 1px 0 rgba(255,255,255,0.08),
-    0 2px 6px rgba(0,0,0,0.25);
-}
-
-.monet-bubble::before {
-  content: "Monet Money";
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
-  color: transparent;
-  text-shadow: 
-    0 0 25px rgba(56,189,248,0.45),
-    0 0 50px rgba(56,189,248,0.35),
-    0 0 90px rgba(56,189,248,0.25);
-  filter: blur(8px);
-  transform: scale(1.12);
-  opacity: 1;
-}
-
-.monet-bubble::after {
-  content: "Monet Money";
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 2;
-  color: transparent;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-  -webkit-background-clip: text;
-  animation: shine 4s linear infinite;
-}
-
-@keyframes shine {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
-<style>
-body, h1, h2, h3, p, .monet-bubble {
-  font-family: "Fredoka", sans-serif !important;
-}
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
-<style>
-body, h1, h2, h3, p, .monet-bubble {
-  font-family: "Fredoka", sans-serif !important;
+.progress-fill {
+  height:100%;
+  width:0%;
+  background:linear-gradient(135deg,#38bdf8,#a855f7);
 }
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
-<!-- NAV -->
-<div class="nav">
-  <div class="logo">
-    <img src="assets/monet.png">
-    <strong><span class="monet-bubble">Monet Money</span></strong>
+  <div class="monet">Monet Money</div>
+
+  <p>Make money moves by trading.</p>
+
+  <button class="btn" onclick="buyToken()">Make Money Moves</button>
+  <button class="btn" onclick="claimAirdrop()">Get Free MONET</button>
+
+  <div class="wallet" id="walletInfo">Not connected</div>
+
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div id="progressText">Loading airdrop data...</div>
   </div>
-  <button class="btn" onclick="connectWallet()">Connect</button>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-  <img src="assets/monet.png">
-  <div class="title"><span class="monet-bubble">Monet Money</span></div>
-  <div class="subtitle">
-The next generation Solana token. Fast, secure, and building the future of decentralized finance. Make money moves by trading. For those who aren't made of money… better have your Monet.
-    For those who aren’t made of money… better have your Monet.
-  </div>
-</div>
-
-<!-- CONTRACT -->
-<div class="contract">
-  <span id="ca">6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b</span>
-  <button class="btn" onclick="copyCA()">Copy</button>
-</div>
-
-<!-- STATS -->
-<div class="grid">
-  <div class="card"><h3>Price</h3><p id="price">$--</p></div>
-  <div class="card"><h3>Supply</h3><p>1,000,000,000</p></div>
-  <div class="card"><h3>Network</h3><p>Solana</p></div>
-  <div class="card"><h3>Status</h3><p>Live</p></div>
-</div>
-
-<!-- LIVE CHART (NO DEX) -->
-<div class="section">
-  <h2>Live Chart</h2>
-  <iframe src="https://birdeye.so/token/6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b?chain=solana"></iframe>
-</div>
-
-<!-- BUY -->
-<div class="section">
-  <h2>Buy Monet</h2>
-<br><br>
-<button class="btn" onclick="buy(0.1)">Buy 0.1 SOL</button>
-<button class="btn" onclick="buy(0.5)">Buy 0.5 SOL</button>
-<button class="btn" onclick="buy(1)">Buy 1 SOL</button>
-
-<br><br>
-<iframe src="https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b" style="width:100%;height:600px;border:none;border-radius:12px;"></iframe>
-
-<br><br>
-<button class="btn" onclick="buy(0.1)">Buy 0.1 SOL</button>
-<button class="btn" onclick="buy(0.5)">Buy 0.5 SOL</button>
-<button class="btn" onclick="buy(1)">Buy 1 SOL</button>
-
-<br><br>
-<button class="btn" onclick="buy(0.1)">Buy 0.1 SOL</button>
-<button class="btn" onclick="buy(0.5)">Buy 0.5 SOL</button>
-<button class="btn" onclick="buy(1)">Buy 1 SOL</button>
-
-  <button class="btn" onclick="buy()">Buy on Jupiter</button>
-</div>
-
-<!-- ABOUT -->
-<div class="section">
-  <h2>About</h2>
-  <p>
-    <span class="monet-bubble">Monet Money</span> is built for those making real moves.
-    Not everyone is made of money—but everyone can move like they are.
-  </p>
-</div>
-
-<!-- LINKS -->
-<div class="section">
-  <h2>Links</h2>
-  <button class="btn" onclick="openChart()">Open Chart</button>
-</div>
-
-<div class="footer">
-  © 2026 <span class="monet-bubble">Monet Money</span>
-</div>
 
 </div>
-
-<script>
-const CA = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-function copyCA(){
-  navigator.clipboard.writeText(CA);
-  alert("Copied!");
-}
-
-function buy(amount=0.1){
-  window.open("https://jup.ag/swap/SOL-"+CA+"?amount="+amount,"_blank");
-}
-
-
-function openChart(){
-  window.open("https://birdeye.so/token/"+CA+"?chain=solana","_blank");
-}
-
-let walletAddress = null;
-const CA = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-let walletAddress = null;
-const CA = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-let walletAddress = null;
-const CA = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-async function connectWallet(){
-  try{
-    if(window.solana && window.solana.isPhantom){
-      const resp = await window.solana.connect();
-      walletAddress = resp.publicKey.toString();
-      const short = walletAddress.slice(0,4)+"..."+walletAddress.slice(-4);
-      alert("Connected: " + short);
-      getSOLBalance();
-      getTokenBalance();
-    } else {
-      window.open("https://phantom.app/","_blank");
-    }
-  } catch(err){
-    console.log(err);
-  }
-}
-
-async function getSOLBalance(){
-  try{
-    const res = await fetch("https://api.mainnet-beta.solana.com",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        jsonrpc:"2.0",
-        id:1,
-        method:"getBalance",
-        params:[walletAddress]
-      })
-    });
-    const data = await res.json();
-    const sol = data.result.value / 1e9;
-    renderBalance("SOL Balance: " + sol.toFixed(3) + " SOL");
-  }catch(e){console.log(e)}
-}
-
-async function getTokenBalance(){
-  try{
-    const res = await fetch("https://api.mainnet-beta.solana.com",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        jsonrpc:"2.0",
-        id:1,
-        method:"getTokenAccountsByOwner",
-        params:[walletAddress,{mint:CA},{encoding:"jsonParsed"}]
-      })
-    });
-    const data = await res.json();
-    let balance = 0;
-    if(data.result.value.length > 0){
-      balance = data.result.value[0].account.data.parsed.info.tokenAmount.uiAmount;
-    }
-    renderBalance("Monet Balance: " + balance);
-  }catch(e){console.log(e)}
-}
-
-function renderBalance(text){
-  let el = document.getElementById("balance");
-  if(!el){
-    el = document.createElement("div");
-    el.id = "balance";
-    el.style.marginTop = "10px";
-    document.querySelector(".nav").appendChild(el);
-  }
-  el.innerHTML += "<br>"+text;
-}
-
-      window.open("https://phantom.app/","_blank");
-    }
-  } catch(err){
-    console.log(err);
-  }
-}
-
-async function getSOLBalance(){
-  try{
-    const res = await fetch("https://api.mainnet-beta.solana.com",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        jsonrpc:"2.0",
-        id:1,
-        method:"getBalance",
-        params:[walletAddress]
-      })
-    });
-    const data = await res.json();
-    const sol = data.result.value / 1e9;
-    renderBalance("SOL Balance: " + sol.toFixed(3) + " SOL");
-  }catch(e){console.log(e)}
-}
-
-async function getTokenBalance(){
-  try{
-    const res = await fetch("https://api.mainnet-beta.solana.com",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        jsonrpc:"2.0",
-        id:1,
-        method:"getTokenAccountsByOwner",
-        params:[walletAddress,{mint:CA},{encoding:"jsonParsed"}]
-      })
-    });
-    const data = await res.json();
-    let balance = 0;
-    if(data.result.value.length > 0){
-      balance = data.result.value[0].account.data.parsed.info.tokenAmount.uiAmount;
-    }
-    renderBalance("Monet Balance: " + balance);
-  }catch(e){console.log(e)}
-}
-
-function renderBalance(text){
-
-async function getTransactions(){
-  try{
-    const res = await fetch("https://api.mainnet-beta.solana.com",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        jsonrpc:"2.0",
-        id:1,
-        method:"getSignaturesForAddress",
-        params:[walletAddress,{limit:5}]
-      })
-    });
-
-    const data = await res.json();
-    let el = document.getElementById("txList");
-    if(!el){
-      el = document.createElement("div");
-      el.id = "txList";
-      el.style.marginTop = "10px";
-      document.querySelector(".container").appendChild(el);
-    }
-
-    el.innerHTML = "<h3>Recent Transactions</h3>";
-    data.result.forEach(tx=>{
-      const div = document.createElement("div");
-      div.innerText = tx.signature.slice(0,12) + "...";
-      el.appendChild(div);
-    });
-  }catch(e){console.log(e)}
-}
-
-
-async function getPortfolioValue(){
-  try{
-    const res = await fetch("https://public-api.birdeye.so/public/price?address="+CA);
-    const data = await res.json();
-    const price = data.data.value;
-
-    const tokenRes = await fetch("https://api.mainnet-beta.solana.com",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        jsonrpc:"2.0",
-        id:1,
-        method:"getTokenAccountsByOwner",
-        params:[walletAddress,{mint:CA},{encoding:"jsonParsed"}]
-      })
-    });
-
-    const tokenData = await tokenRes.json();
-    let amount = 0;
-    if(tokenData.result.value.length > 0){
-      amount = tokenData.result.value[0].account.data.parsed.info.tokenAmount.uiAmount;
-    }
-
-    const usd = amount * price;
-    let el = document.getElementById("usdValue");
-    if(!el){
-      el = document.createElement("div");
-      el.id = "usdValue";
-      el.style.marginTop = "5px";
-      document.querySelector(".nav").appendChild(el);
-    }
-    el.innerText = "Value: $" + usd.toFixed(2);
-  }catch(e){console.log(e)}
-}
-
-  let el = document.getElementById("balance");
-  if(!el){
-    el = document.createElement("div");
-    el.id = "balance";
-    el.style.marginTop = "10px";
-    document.querySelector(".nav").appendChild(el);
-  }
-  el.innerHTML += "<br>"+text;
-}
-
-      window.open("https://phantom.app/","_blank");
-    }
-  } catch(err){
-    console.log(err);
-  }
-}
-
-async function getSOLBalance(){
-  try{
-    const res = await fetch("https://api.mainnet-beta.solana.com",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        jsonrpc:"2.0",
-        id:1,
-        method:"getBalance",
-        params:[walletAddress]
-      })
-    });
-    const data = await res.json();
-    const sol = data.result.value / 1e9;
-    renderBalance("SOL Balance: " + sol.toFixed(3) + " SOL");
-  }catch(e){console.log(e)}
-}
-
-async function getTokenBalance(){
-  try{
-    const res = await fetch("https://api.mainnet-beta.solana.com",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        jsonrpc:"2.0",
-        id:1,
-        method:"getTokenAccountsByOwner",
-        params:[walletAddress,{mint:CA},{encoding:"jsonParsed"}]
-      })
-    });
-    const data = await res.json();
-    let balance = 0;
-    if(data.result.value.length > 0){
-      balance = data.result.value[0].account.data.parsed.info.tokenAmount.uiAmount;
-    }
-    renderBalance("Monet Balance: " + balance);
-  }catch(e){console.log(e)}
-}
-
-function renderBalance(text){
-
-async function getTransactions(){
-  try{
-    const res = await fetch("https://api.mainnet-beta.solana.com",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        jsonrpc:"2.0",
-        id:1,
-        method:"getSignaturesForAddress",
-        params:[walletAddress,{limit:5}]
-      })
-    });
-
-    const data = await res.json();
-    let el = document.getElementById("txList");
-    if(!el){
-      el = document.createElement("div");
-      el.id = "txList";
-      el.style.marginTop = "10px";
-      document.querySelector(".container").appendChild(el);
-    }
-
-    el.innerHTML = "<h3>Recent Transactions</h3>";
-    data.result.forEach(tx=>{
-      const div = document.createElement("div");
-      div.innerText = tx.signature.slice(0,12) + "...";
-      el.appendChild(div);
-    });
-  }catch(e){console.log(e)}
-}
-
-
-async function getPortfolioValue(){
-  try{
-    const res = await fetch("https://public-api.birdeye.so/public/price?address="+CA);
-    const data = await res.json();
-    const price = data.data.value;
-
-    const tokenRes = await fetch("https://api.mainnet-beta.solana.com",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        jsonrpc:"2.0",
-        id:1,
-        method:"getTokenAccountsByOwner",
-        params:[walletAddress,{mint:CA},{encoding:"jsonParsed"}]
-      })
-    });
-
-    const tokenData = await tokenRes.json();
-    let amount = 0;
-    if(tokenData.result.value.length > 0){
-      amount = tokenData.result.value[0].account.data.parsed.info.tokenAmount.uiAmount;
-    }
-
-    const usd = amount * price;
-    let el = document.getElementById("usdValue");
-    if(!el){
-      el = document.createElement("div");
-      el.id = "usdValue";
-      el.style.marginTop = "5px";
-      document.querySelector(".nav").appendChild(el);
-    }
-    el.innerText = "Value: $" + usd.toFixed(2);
-  }catch(e){console.log(e)}
-}
-
-  let el = document.getElementById("balance");
-  if(!el){
-    el = document.createElement("div");
-    el.id = "balance";
-    el.style.marginTop = "10px";
-    document.querySelector(".nav").appendChild(el);
-  }
-  el.innerHTML += "<br>"+text;
-}
-
-
-// LIVE PRICE (Birdeye, not Dex)
-async function loadPrice(){
-  try{
-    const res = await fetch("https://public-api.birdeye.so/public/price?address="+CA);
-    const data = await res.json();
-    document.getElementById("price").innerText =
-      "$"+parseFloat(data.data.value).toFixed(6);
-  }catch(e){
-    console.log(e);
-  }
-}
-
-loadPrice(); setInterval(loadPrice,10000); setInterval(loadPrice,10000); setInterval(loadPrice,10000);
-window.addEventListener("load", async ()=>{
-  if(window.solana && window.solana.isPhantom){
-    try{
-      const resp = await window.solana.connect({onlyIfTrusted:true});
-      walletAddress = resp.publicKey.toString();
-      getSOLBalance();
-      getTokenBalance();
-      getPortfolioValue();
-      getTransactions();
-    }catch(e){}
-  }
-});
-
-</script>
 
 <script>
 const CONTRACT = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+const API = "https://monetmoney-production.up.railway.app/airdrop";
 
-document.querySelectorAll("button, a").forEach(el => {
-  const text = el.innerText.toLowerCase();
-
-  if(text.includes("buy") || text.includes("swap")) {
-    el.onclick = () => window.open(`https://jup.ag/swap/SOL-${CONTRACT}`, "_blank");
-  }
-
-  if(text.includes("chart") || text.includes("view") || text.includes("price")) {
-    el.onclick = () => window.open(`https://jup.ag/tokens/${CONTRACT}`, "_blank");
-  }
-
-  if(text.includes("telegram") || text.includes("community")) {
-    el.onclick = () => window.open("https://t.me/Libra_Token_Solana", "_blank");
-  }
-
-  if(text.includes("copy") || text.includes("contract")) {
-    el.onclick = () => {
-      navigator.clipboard.writeText(CONTRACT);
-      alert("Contract copied!");
-    };
-  }
-
-  if(text.includes("connect")) {
-    el.onclick = async () => {
-      if(window.solana && window.solana.isPhantom) {
-        try {
-          const resp = await window.solana.connect();
-          alert("Connected: " + resp.publicKey.toString());
-        } catch(e) {
-          alert("Connection failed");
-        }
-      } else {
-        window.open("https://phantom.app/", "_blank");
-      }
-    };
-  }
-});
-</script>
-<script>
-const MONET_MINT = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-async function connectWallet() {
-  if (!window.solana || !window.solana.isPhantom) {
-    window.open("https://phantom.app/", "_blank");
-    return;
-  }
-
-  try {
-    const resp = await window.solana.connect();
-    const wallet = resp.publicKey.toString();
-    document.getElementById("walletDisplay").innerText = wallet;
-    getTokenBalance(wallet);
-  } catch (err) {
-    console.log("Connection failed");
-  }
+/* BUY */
+function buyToken() {
+  window.open(`https://jup.ag/swap/SOL-${CONTRACT}`, "_blank");
 }
 
-async function getTokenBalance(wallet) {
+/* CONNECT */
+async function connectWallet() {
+  const resp = await window.solana.connect();
+  return resp.publicKey.toString();
+}
+
+/* CLAIM AIRDROP */
+async function claimAirdrop() {
   try {
-    const res = await fetch(`https://api.mainnet-beta.solana.com`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        method: "getTokenAccountsByOwner",
-        params: [
-          wallet,
-          { mint: MONET_MINT },
-          { encoding: "jsonParsed" }
-        ]
-      })
+    if (!window.solana) return alert("Install Phantom");
+
+    const wallet = await connectWallet();
+
+    document.getElementById("walletInfo").innerText = wallet;
+
+    const message = new TextEncoder().encode("Claim MONET airdrop");
+    const signed = await window.solana.signMessage(message);
+
+    const signature = window.bs58.encode(signed.signature);
+
+    const res = await fetch(API, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ wallet, signature })
     });
 
-    const data = await res.json();
+    const text = await res.text();
 
-    if (data.result.value.length === 0) {
-      document.getElementById("monetBalance").innerText = "No MONET found — add token";
-      return;
-    }
+    alert(text);
 
-    const amount = data.result.value[0].account.data.parsed.info.tokenAmount.uiAmount;
-    document.getElementById("monetBalance").innerText = amount + " MONET";
-  } catch (e) {
-    console.log("Error fetching balance");
+  } catch (err) {
+    console.error(err);
+    alert("Airdrop failed");
   }
 }
 
-window.addEventListener("load", () => {
-  if (window.solana && window.solana.isPhantom) {
-    window.solana.on("connect", () => connectWallet());
-  }
-});
+/* FAKE PROGRESS (until backend endpoint added) */
+let progress = 0;
+setInterval(() => {
+  progress += Math.random()*2;
+  if (progress > 100) progress = 100;
+
+  document.getElementById("progressFill").style.width = progress + "%";
+  document.getElementById("progressText").innerText =
+    Math.floor(progress*100000) + " / 10,000,000 MONET claimed";
+}, 2000);
 </script>
 
-<div style="position:fixed;bottom:20px;left:20px;background:#111;padding:12px 18px;border-radius:10px;color:#fff;z-index:9999;">
-<div><strong>Wallet:</strong> <span id="walletDisplay">Not Connected</span></div>
-<div><strong>MONET:</strong> <span id="monetBalance">0</span></div>
-<button onclick="connectWallet()" style="margin-top:8px;padding:6px 12px;border-radius:6px;background:#a855f7;color:#fff;border:none;">Connect</button>
-</div>
 </body>
 </html>
