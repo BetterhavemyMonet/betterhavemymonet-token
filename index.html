@@ -157,6 +157,38 @@ iframe{
   to { filter: brightness(1.15); }
 }
 </style>
+<style>
+.monet-bubble {
+  font-family: "Baloo 2", "Poppins", sans-serif !important;
+  font-weight: 700;
+  background: linear-gradient(135deg, #a855f7, #ec4899, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1.5px;
+  position: relative;
+  z-index: 1;
+  text-shadow: 
+    0 0 4px rgba(168,85,247,0.3),
+    0 0 8px rgba(236,72,153,0.25);
+}
+
+.monet-bubble::before {
+  content: "Monet Money";
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  color: transparent;
+  text-shadow: 
+    0 0 20px rgba(56,189,248,0.25),
+    0 0 40px rgba(56,189,248,0.2),
+    0 0 70px rgba(56,189,248,0.15),
+    0 0 110px rgba(56,189,248,0.1);
+  filter: blur(10px);
+  transform: scale(1.08);
+  opacity: 0.9;
+}
+</style>
 </head>
 
 <body>
