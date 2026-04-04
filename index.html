@@ -101,6 +101,25 @@ iframe{
   letter-spacing: 1px;
 }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
+<style>
+.monet-bubble {
+  font-family: "Baloo 2", cursive !important;
+  font-weight: 700;
+  background: linear-gradient(135deg, #a855f7, #ec4899, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px rgba(168,85,247,0.4),
+               0 0 20px rgba(236,72,153,0.3),
+               0 0 30px rgba(56,189,248,0.2);
+  letter-spacing: 1px;
+  animation: monetGlow 4s ease-in-out infinite alternate;
+}
+@keyframes monetGlow {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.2); }
+}
+</style>
 </head>
 
 <body>
