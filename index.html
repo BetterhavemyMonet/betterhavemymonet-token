@@ -752,5 +752,67 @@ document.querySelectorAll("button, a").forEach(el => {
   }
 });
 </script>
+<script>
+const MONET_MINT = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+
+async function connectWallet() {
+  if (!window.solana || !window.solana.isPhantom) {
+    window.open("https://phantom.app/", "_blank");
+    return;
+  }
+
+  try {
+    const resp = await window.solana.connect();
+    const wallet = resp.publicKey.toString();
+    document.getElementById("walletDisplay").innerText = wallet;
+    getTokenBalance(wallet);
+  } catch (err) {
+    console.log("Connection failed");
+  }
+}
+
+async function getTokenBalance(wallet) {
+  try {
+    const res = await fetch(`https://api.mainnet-beta.solana.com`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "getTokenAccountsByOwner",
+        params: [
+          wallet,
+          { mint: MONET_MINT },
+          { encoding: "jsonParsed" }
+        ]
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.result.value.length === 0) {
+      document.getElementById("monetBalance").innerText = "No MONET found — add token";
+      return;
+    }
+
+    const amount = data.result.value[0].account.data.parsed.info.tokenAmount.uiAmount;
+    document.getElementById("monetBalance").innerText = amount + " MONET";
+  } catch (e) {
+    console.log("Error fetching balance");
+  }
+}
+
+window.addEventListener("load", () => {
+  if (window.solana && window.solana.isPhantom) {
+    window.solana.on("connect", () => connectWallet());
+  }
+});
+</script>
+
+<div style="position:fixed;bottom:20px;left:20px;background:#111;padding:12px 18px;border-radius:10px;color:#fff;z-index:9999;">
+<div><strong>Wallet:</strong> <span id="walletDisplay">Not Connected</span></div>
+<div><strong>MONET:</strong> <span id="monetBalance">0</span></div>
+<button onclick="connectWallet()" style="margin-top:8px;padding:6px 12px;border-radius:6px;background:#a855f7;color:#fff;border:none;">Connect</button>
+</div>
 </body>
 </html>
