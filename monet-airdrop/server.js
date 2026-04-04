@@ -1,118 +1,48 @@
-const express = require("express");
-const cors = require("cors");
-const fs = require("fs");
-const bs58 = require("bs58").default;
-const nacl = require("tweetnacl");
-const rateLimit = require("express-rate-limit");
-
-const { Connection, Keypair, PublicKey } = require("@solana/web3.js");
-const { getOrCreateAssociatedTokenAccount, transfer } = require("@solana/spl-token");
-
+const express = require('express');
 const app = express();
-app.use(cors());
-app.use(express.json());
 
-const limiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 5
-});
-app.use("/airdrop", limiter);
-
-const connection = new Connection("https://api.mainnet-beta.solana.com");
-
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
-const sender = Keypair.fromSecretKey(bs58.decode(PRIVATE_KEY));
-
-const MONET_MINT = new PublicKey("6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b");
-
-const AMOUNT = 100000000;
-const MAX_AIRDROP = 10000000 * (10 ** 9);
-
-let totalAirdropped = 0;
-let claimed = new Set();
-
-try {
-  if (fs.existsSync("airdrop.json")) {
-    const data = JSON.parse(fs.readFileSync("airdrop.json"));
-    totalAirdropped = data.total || 0;
-    claimed = new Set(data.claimed || []);
-  }
-} catch (e) {
-  console.error("Load error:", e);
-}
-
-function verifySignature(wallet, signature) {
-  const message = "Claim MONET airdrop";
-  const publicKey = new PublicKey(wallet);
-
-  return nacl.sign.detached.verify(
-    Buffer.from(message),
-    bs58.decode(signature),
-    publicKey.toBytes()
-  );
-}
-
-app.post("/airdrop", async (req, res) => {
-  try {
-    const { wallet, signature } = req.body;
-
-    if (!wallet || !signature) {
-      return res.status(400).send("Missing wallet or signature");
-    }
-
-    if (!verifySignature(wallet, signature)) {
-      return res.status(400).send("Invalid signature");
-    }
-
-    if (claimed.has(wallet)) {
-      return res.status(400).send("Already claimed");
-    }
-
-    if (totalAirdropped >= MAX_AIRDROP) {
-      return res.status(400).send("Airdrop limit reached");
-    }
-
-    const recipient = new PublicKey(wallet);
-
-    const senderTokenAccount = await getOrCreateAssociatedTokenAccount(
-      connection,
-      sender,
-      MONET_MINT,
-      sender.publicKey
-    );
-
-    const recipientTokenAccount = await getOrCreateAssociatedTokenAccount(
-      connection,
-      sender,
-      MONET_MINT,
-      recipient
-    );
-
-    await transfer(
-      connection,
-      sender,
-      senderTokenAccount.address,
-      recipientTokenAccount.address,
-      sender,
-      AMOUNT
-    );
-
-    totalAirdropped += AMOUNT;
-    claimed.add(wallet);
-
-    fs.writeFileSync("airdrop.json", JSON.stringify({
-      total: totalAirdropped,
-      claimed: Array.from(claimed)
-    }));
-
-    res.send(`Airdrop sent 🚀 Total: ${totalAirdropped}`);
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Airdrop failed");
-  }
+app.get('/', (req, res) => {
+  res.redirect('/claim');
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log("Airdrop server running 🚀");
+app.get('/claim', (req, res) => {
+  res.send(`
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>MONET Airdrop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body style="background:black;color:white;text-align:center;padding:40px;font-family:sans-serif;">
+    <h1>💵 MONET AIRDROP</h1>
+    <p>Connect your wallet and claim your tokens.</p>
+
+    <button onclick="connectWallet()" style="padding:15px 30px;font-size:18px;background:#00ffcc;border:none;border-radius:10px;font-weight:bold;box-shadow:0 0 15px #00ffcc;">
+      🚀 Claim MONET
+    </button>
+
+    <p id="status" style="margin-top:20px;opacity:0.8;"></p>
+
+    <script>
+    async function connectWallet(){
+      const status = document.getElementById("status");
+      try {
+        if(window.solana && window.solana.isPhantom){
+          const resp = await window.solana.connect();
+          status.innerText = "Connected: " + resp.publicKey.toString();
+        } else {
+          status.innerText = "⚠️ Open inside Phantom or Solflare wallet";
+        }
+      } catch(e){
+        status.innerText = "Error: " + e.message;
+      }
+    }
+    </script>
+
+  </body>
+  </html>
+  `);
 });
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("🚀 MONET Airdrop running"));
