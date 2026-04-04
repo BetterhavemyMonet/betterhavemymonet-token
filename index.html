@@ -163,6 +163,13 @@ body {
 <button class="cta cta-airdrop" onclick="claim()">Get Free MONET</button>
 
 <script>
+async function getProvider(){
+  if (getProvider()?.isPhantom) return getProvider();
+  if (window.solflare) return window.solflare;
+  if (window.backpack) return window.backpack;
+  return null;
+}
+
 const API = "https://monetmoney-production.up.railway.app/airdrop";
 
 /* BUY */
@@ -173,14 +180,14 @@ function buy(){
 /* CLAIM */
 async function claim(){
   try{
-    if(!window.solana) return alert("Install Phantom");
+    if(!getProvider()) return alert("Install Phantom");
 
-    const resp = await window.solana.connect();
+    const resp = await (await getProvider()).connect();
     const wallet = resp.publicKey.toString();
     document.getElementById("wallet").innerText = wallet;
 
     const msg = new TextEncoder().encode("Claim MONET airdrop");
-    const signed = await window.solana.signMessage(msg);
+    const signed = await (await getProvider()).signMessage(msg);
     const sig = window.bs58.encode(signed.signature);
 
     const res = await fetch(API,{
