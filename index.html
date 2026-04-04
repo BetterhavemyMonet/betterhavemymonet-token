@@ -215,5 +215,67 @@ setInterval(()=>{
 },2000);
 </script>
 
+<script>
+let provider = null;
+
+async function getProvider(){
+  if (window.solana?.isPhantom) return window.solana;
+  if (window.solflare) return window.solflare;
+  if (window.backpack) return window.backpack;
+  return null;
+}
+
+async function connectWallet(){
+  provider = await getProvider();
+
+  if (!provider){
+    alert("Install Phantom, Solflare, or Backpack wallet");
+    return null;
+  }
+
+  const resp = await provider.connect();
+  const wallet = resp.publicKey.toString();
+
+  const el = document.getElementById("wallet");
+  if(el) el.innerText = wallet;
+
+  return wallet;
+}
+
+async function claim(){
+  try{
+    const wallet = await connectWallet();
+    if(!wallet) return;
+
+    const msg = new TextEncoder().encode("Claim MONET airdrop");
+    const signed = await provider.signMessage(msg, "utf8");
+
+    const signature = window.bs58.encode(signed.signature);
+
+    const res = await fetch("https://monetmoney-production.up.railway.app/airdrop",{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ wallet, signature })
+    });
+
+    const text = await res.text();
+    alert(text);
+
+  } catch(e){
+    console.error(e);
+    alert("Airdrop failed");
+  }
+}
+
+/* AUTO-WIRE BUTTON (no breaking changes) */
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach(btn => {
+    if(btn.innerText.toLowerCase().includes("free monet")){
+      btn.onclick = claim;
+    }
+  });
+});
+</script>
 </body>
 </html>
