@@ -120,6 +120,43 @@ iframe{
   to { filter: brightness(1.2); }
 }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+<style>
+.monet-bubble {
+  font-family: "Baloo 2", "Poppins", sans-serif !important;
+  font-weight: 700;
+  background: linear-gradient(135deg, #a855f7, #ec4899, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1.5px;
+  position: relative;
+  text-shadow: 
+    0 0 6px rgba(56,189,248,0.6),
+    0 0 12px rgba(56,189,248,0.4),
+    0 0 20px rgba(168,85,247,0.3),
+    0 0 30px rgba(236,72,153,0.25);
+  animation: monetGlow 4s ease-in-out infinite alternate;
+}
+
+.monet-bubble::after {
+  content: "Monet Money";
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  color: transparent;
+  text-shadow: 
+    0 0 25px rgba(56,189,248,0.35),
+    0 0 45px rgba(56,189,248,0.25),
+    0 0 65px rgba(56,189,248,0.15);
+  filter: blur(6px);
+}
+
+@keyframes monetGlow {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.15); }
+}
+</style>
 </head>
 
 <body>
