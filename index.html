@@ -193,7 +193,7 @@ async function claim(){
 
   } catch(e){
     console.error(e);
-    alert("Airdrop failed");
+    alert(await res.text());
   }
 }
 
