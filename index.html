@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Monet Money</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
@@ -11,27 +12,44 @@
 <style>
 body {
   margin:0;
-  font-family:"Fredoka",sans-serif;
+  font-family:'Fredoka',sans-serif;
   background:#0a0a0a;
   color:white;
   text-align:center;
 }
 
-.container { padding:40px 20px; }
+/* HERO */
+.hero {
+  padding:100px 20px 60px;
+}
 
-.monet {
-  font-size:48px;
+.logo {
+  width:200px;
+  margin-bottom:20px;
+}
+
+.title {
+  font-size:52px;
   background:linear-gradient(135deg,#a855f7,#ec4899,#38bdf8);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
+  text-shadow:0 0 40px rgba(56,189,248,0.4);
+}
+
+/* DESCRIPTION */
+.desc {
+  max-width:600px;
+  margin:20px auto;
+  font-size:18px;
+  opacity:.9;
 }
 
 /* BUTTONS */
 .btn {
   margin:10px;
   padding:14px 24px;
-  border-radius:12px;
   border:none;
+  border-radius:12px;
   font-weight:bold;
   cursor:pointer;
   background:linear-gradient(135deg,#a855f7,#ec4899,#38bdf8);
@@ -43,30 +61,34 @@ body {
 
 @keyframes pulse {
   0% { box-shadow:0 0 10px rgba(168,85,247,0.5); }
-  50% { box-shadow:0 0 25px rgba(56,189,248,0.8); }
+  50% { box-shadow:0 0 30px rgba(56,189,248,0.8); }
   100% { box-shadow:0 0 10px rgba(168,85,247,0.5); }
 }
 
-/* WALLET INFO */
-.wallet {
-  margin-top:15px;
-  font-size:14px;
-  opacity:.8;
+/* INFO SECTION */
+.section {
+  padding:60px 20px;
+  border-top:1px solid rgba(255,255,255,0.1);
 }
 
-/* PROGRESS BAR */
-.progress-container {
-  margin-top:30px;
+.section h2 {
+  font-size:28px;
+  margin-bottom:15px;
+}
+
+.section p {
+  max-width:700px;
+  margin:auto;
+  opacity:.85;
+}
+
+/* PROGRESS */
+.progress {
   width:80%;
-  margin-left:auto;
-  margin-right:auto;
-}
-
-.progress-bar {
-  height:20px;
+  margin:20px auto;
   background:#222;
+  height:20px;
   border-radius:10px;
-  overflow:hidden;
 }
 
 .progress-fill {
@@ -74,86 +96,101 @@ body {
   width:0%;
   background:linear-gradient(135deg,#38bdf8,#a855f7);
 }
+
+/* FLOATING */
+.wallet {
+  position:fixed;
+  bottom:90px;
+  left:20px;
+  font-size:12px;
+  opacity:.8;
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- HERO -->
+<div class="hero">
+  <img src="monet.png" class="logo">
+  <div class="title">Monet Money</div>
 
-  <div class="monet">Monet Money</div>
-
-  <p>Make money moves by trading.</p>
-
-  <button class="btn" onclick="buyToken()">Make Money Moves</button>
-  <button class="btn" onclick="claimAirdrop()">Get Free MONET</button>
-
-  <div class="wallet" id="walletInfo">Not connected</div>
-
-  <div class="progress-container">
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-    <div id="progressText">Loading airdrop data...</div>
+  <div class="desc">
+    Make money moves by trading.<br><br>
+    The next generation Solana token. Fast, secure, and building the future of decentralized finance.<br>
+    For those who aren't made of money… better have your Monet.
   </div>
 
+  <button class="btn" onclick="buy()">Make Money Moves</button>
+  <button class="btn" onclick="claim()">Get Free MONET</button>
 </div>
 
+<!-- INFO -->
+<div class="section">
+  <h2>Token Info</h2>
+  <p>Symbol: 💵 MONET<br>Supply: 1,000,000,000</p>
+</div>
+
+<!-- CHART -->
+<div class="section">
+  <h2>Chart</h2>
+  <iframe src="https://dexscreener.com/solana/6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b"
+  width="90%" height="400" style="border:none;"></iframe>
+</div>
+
+<!-- PROGRESS -->
+<div class="section">
+  <h2>Airdrop Progress</h2>
+  <div class="progress">
+    <div class="progress-fill" id="fill"></div>
+  </div>
+  <div id="progressText"></div>
+</div>
+
+<div class="wallet" id="wallet"></div>
+
 <script>
-const CONTRACT = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
 const API = "https://monetmoney-production.up.railway.app/airdrop";
 
-/* BUY */
-function buyToken() {
-  window.open(`https://jup.ag/swap/SOL-${CONTRACT}`, "_blank");
+function buy(){
+  window.open("https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b","_blank");
 }
 
-/* CONNECT */
-async function connectWallet() {
-  const resp = await window.solana.connect();
-  return resp.publicKey.toString();
-}
+async function claim(){
+  try{
+    if(!window.solana) return alert("Install Phantom");
 
-/* CLAIM AIRDROP */
-async function claimAirdrop() {
-  try {
-    if (!window.solana) return alert("Install Phantom");
+    const resp = await window.solana.connect();
+    const wallet = resp.publicKey.toString();
+    document.getElementById("wallet").innerText = wallet;
 
-    const wallet = await connectWallet();
+    const msg = new TextEncoder().encode("Claim MONET airdrop");
+    const signed = await window.solana.signMessage(msg);
+    const sig = window.bs58.encode(signed.signature);
 
-    document.getElementById("walletInfo").innerText = wallet;
-
-    const message = new TextEncoder().encode("Claim MONET airdrop");
-    const signed = await window.solana.signMessage(message);
-
-    const signature = window.bs58.encode(signed.signature);
-
-    const res = await fetch(API, {
+    const res = await fetch(API,{
       method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ wallet, signature })
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({wallet,signature:sig})
     });
 
-    const text = await res.text();
+    alert(await res.text());
 
-    alert(text);
-
-  } catch (err) {
-    console.error(err);
+  }catch(e){
+    console.error(e);
     alert("Airdrop failed");
   }
 }
 
-/* FAKE PROGRESS (until backend endpoint added) */
-let progress = 0;
-setInterval(() => {
-  progress += Math.random()*2;
-  if (progress > 100) progress = 100;
-
-  document.getElementById("progressFill").style.width = progress + "%";
-  document.getElementById("progressText").innerText =
-    Math.floor(progress*100000) + " / 10,000,000 MONET claimed";
-}, 2000);
+/* PROGRESS SIM */
+let p=0;
+setInterval(()=>{
+  p+=Math.random()*2;
+  if(p>100)p=100;
+  document.getElementById("fill").style.width=p+"%";
+  document.getElementById("progressText").innerText=
+    Math.floor(p*100000)+" / 10,000,000 MONET claimed";
+},2000);
 </script>
 
 </body>
