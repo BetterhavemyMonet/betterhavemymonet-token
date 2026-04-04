@@ -17,36 +17,20 @@ app.get('/claim', (req, res) => {
     <h1>💵 MONET AIRDROP</h1>
     <p>Connect your wallet and claim your tokens.</p>
 
-async function connectWallet(){
-  const status = document.getElementById("status");
-  try {
-    if(window.solana && window.solana.isPhantom){
-      const resp = await window.solana.connect();
-      const wallet = resp.publicKey.toString();
-      status.innerText = "Sending airdrop...";
+    <button onclick="connectWallet()" style="padding:15px 30px;font-size:18px;background:#00ffcc;border:none;border-radius:10px;font-weight:bold;box-shadow:0 0 15px #00ffcc;">
+      🚀 Claim MONET
+    </button>
 
-      const res = await fetch("/claim", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ wallet })
-      });
+    <p id="status" style="margin-top:20px;opacity:0.8;"></p>
 
-      const data = await res.json();
-
-      if(data.success){
-        status.innerText = "✅ Airdrop sent!";
-      } else {
-        status.innerText = "❌ Error: " + data.error;
-      }
-
-    } else {
-      status.innerText = "⚠️ Open inside Phantom or Solflare wallet";
-    }
-  } catch(e){
-    status.innerText = "Error: " + e.message;
-  }
-}
-/* CLAIM_WIRED */
+    <script>
+    async function connectWallet(){
+      const status = document.getElementById("status");
+      try {
+        if(window.solana && window.solana.isPhantom){
+          const resp = await window.solana.connect();
+          status.innerText = "Connected: " + resp.publicKey.toString();
+        } else {
           status.innerText = "⚠️ Open inside Phantom or Solflare wallet";
         }
       } catch(e){
