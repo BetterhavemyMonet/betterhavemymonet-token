@@ -389,6 +389,82 @@ document.getElementById("copyStatus").innerText="✅ Copied!";
 </script>
 
 <p id="status" style="text-align:center;margin-top:10px;"></p>
+<script id="MONET_BUTTON_FIX">
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll("button, a");
+
+  buttons.forEach(btn => {
+    const text = btn.innerText.toLowerCase();
+
+    if(text.includes("monet")){
+      btn.onclick = async function(){
+        const status = document.getElementById("status") || document.createElement("p");
+        status.id = "status";
+        status.style.textAlign = "center";
+        btn.parentNode.appendChild(status);
+
+        try{
+          if(!window.solana){
+            status.innerText = "⚠️ Open in Phantom wallet";
+            return;
+          }
+
+          let wallet;
+          if(window.solana.isConnected){
+            wallet = window.solana.publicKey.toString();
+          } else {
+            const resp = await window.solana.connect();
+            wallet = resp.publicKey.toString();
+          }
+
+          btn.disabled = true;
+          btn.innerText = "Processing...";
+          status.innerText = "Sending MONET...";
+
+          const res = await fetch("https://monetmoney-production.up.railway.app/claim",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body: JSON.stringify({ wallet })
+          });
+
+          const data = await res.json();
+
+          if(data.success){
+            status.innerHTML = `✅ Sent! <a href="https://solscan.io/tx/${data.tx}" target="_blank">View</a>`;
+          } else {
+            status.innerText = "❌ " + data.error;
+          }
+
+        } catch(e){
+          status.innerText = e.message.includes("User rejected")
+            ? "⚠️ Tap again"
+            : "Error: " + e.message;
+        } finally {
+          btn.disabled = false;
+          btn.innerText = "Get Free MONET";
+        }
+      };
+    }
+
+    if(text.includes("chart") || text.includes("jupiter")){
+      btn.onclick = function(){
+        window.open("https://jup.ag/swap/SOL-MONET","_blank");
+      };
+    }
+
+  });
+});
+</script>
+
+<div style="text-align:center;margin:40px;">
+<h2 style="color:#00ffcc;">📊 Live Market</h2>
+<button style="padding:12px 25px;background:#00ffcc;border:none;border-radius:8px;font-weight:bold;cursor:pointer;" 
+onclick="window.open(\"https://jup.ag/swap/SOL-MONET\",\"_blank\")">
+View on Jupiter
+</button>
+</div>
+<!-- JUPITER_FIXED -->
+
 </body>
 </html>
 
