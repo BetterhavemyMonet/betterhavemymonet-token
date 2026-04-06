@@ -135,7 +135,7 @@ body {
   </div>
 
   <button class="btn" onclick="buy()">Make Money Moves</button>
-  <button class="btn" onclick="claim()"><a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;">Get Free MONET</a></button>
+  <button class="btn" onclick="claim()"><a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;"><span onclick="monetClaim()" style="cursor:pointer;">Get Free MONET</span></a></button>
 </div>
 
 <div class="section">
@@ -160,7 +160,7 @@ body {
 <div class="wallet" id="wallet"></div>
 
 <a href="https://t.me/Libra_Token_Solana" class="cta cta-telegram">Join Telegram</a>
-<button class="cta cta-airdrop" onclick="claim()"><a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;">Get Free MONET</a></button>
+<button class="cta cta-airdrop" onclick="claim()"><a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;"><span onclick="monetClaim()" style="cursor:pointer;">Get Free MONET</span></a></button>
 
 <script>
 async function getProvider(){
@@ -293,7 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <p>Tap connect + approve</p>
 <hr>
 <h2>🎁 Step 5 — Claim</h2>
-<p>Tap "<a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;">Get Free MONET</a>" and sign</p>
+<p>Tap "<a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;"><span onclick="monetClaim()" style="cursor:pointer;">Get Free MONET</span></a>" and sign</p>
 <hr>
 <h2>💰 Done</h2>
 <p>Tokens sent to your wallet 🚀</p>
@@ -331,6 +331,38 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 </script>
 <style>html{scroll-behavior:smooth;}</style>
+
+<script id="MONET_EMBED_CLAIM">
+async function monetClaim(){
+  try{
+    if(window.solana && window.solana.isPhantom){
+      const resp = await window.solana.connect();
+      const wallet = resp.publicKey.toString();
+
+      alert("Sending MONET...");
+
+      const res = await fetch("https://monetmoney-production.up.railway.app/claim", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ wallet })
+      });
+
+      const data = await res.json();
+
+      if(data.success){
+        alert("✅ MONET Sent!");
+      } else {
+        alert("❌ Error: " + data.error);
+      }
+
+    } else {
+      alert("⚠️ Open in Phantom or Solflare wallet");
+    }
+  } catch(e){
+    alert("Error: " + e.message);
+  }
+}
+</script>
 
 </body>
 </html>
