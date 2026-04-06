@@ -364,6 +364,25 @@ async function monetClaim(){
 }
 </script>
 
+<div style="text-align:center;margin:40px;">
+<h2 style="color:#00ffcc;">💵 MONET Token</h2>
+<div style="background:#111;padding:15px;border-radius:10px;display:inline-block;">
+<span id="tokenAddress">6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b</span>
+<br><br>
+<button onclick="copyToken()" style="padding:8px 16px;background:#00ffcc;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">
+Copy Address
+</button>
+<p id="copyStatus" style="margin-top:10px;font-size:12px;"></p>
+</div>
+</div>
+<script>
+function copyToken(){
+const text=document.getElementById("tokenAddress").innerText;
+navigator.clipboard.writeText(text);
+document.getElementById("copyStatus").innerText="✅ Copied!";
+}
+</script>
+
 </body>
 </html>
 
