@@ -155,7 +155,12 @@ function buy() {
 }
 
 function claim() {
-  window.open("https://monetmoney-production.up.railway.app/claim", "_blank");
+  fetch("https://monetmoney-production.up.railway.app/claim", {
+    method: "POST"
+  })
+  .then(res => res.text())
+  .then(data => alert("Claim successful!"))
+  .catch(err => alert("Claim failed. Try again."));
 }
 
 function copyToken() {
