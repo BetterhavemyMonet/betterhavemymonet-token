@@ -3,148 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monet Money</title>
 
-<title><img src="./images/monet-m.png" style="height:1em;vertical-align:middle;">onet Money</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bs58@5.0.0/dist/bs58.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
 body {
   margin:0;
-  font-family:'Fredoka',sans-serif;
-  background: url("assets/background.png") no-repeat center center fixed;
-  background-size:cover;
+  font-family:'Orbitron', sans-serif;
+  background: radial-gradient(circle at top, #0f172a, #020617);
   color:white;
   text-align:center;
 }
 
-/* HERO */
 .hero {
-  padding:120px 20px 60px;
-  backdrop-filter: blur(6px);
-}
-
-.logo {
-  width:240px;
-  margin-bottom:20px;
+  padding:100px 20px 60px;
 }
 
 .title {
-  font-size:56px;
-  background:linear-gradient(135deg,#a855f7,#ec4899,#38bdf8);
+  font-size:52px;
+  font-weight:700;
+  background: linear-gradient(135deg,#00ffcc,#00aaff,#a855f7);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  text-shadow:0 0 40px rgba(56,189,248,0.4);
+  text-shadow:0 0 25px rgba(0,255,200,0.25);
 }
 
 .desc {
-  max-width:650px;
-  margin:20px auto;
-  font-size:18px;
+  margin-top:15px;
+  opacity:.85;
 }
 
-/* BUTTONS */
 .btn {
   margin:10px;
-  padding:14px 26px;
+  padding:14px 28px;
   border:none;
   border-radius:12px;
   font-weight:bold;
   cursor:pointer;
-  background:linear-gradient(135deg,#a855f7,#ec4899,#38bdf8);
-  color:white;
-  animation:pulse 2s infinite;
+  background: linear-gradient(135deg,#00ffcc,#00aaff);
+  color:#000;
+  box-shadow:0 0 15px rgba(0,255,200,0.4);
+  transition: transform .2s;
 }
+.btn:hover { transform: scale(1.05); }
 
-.btn:hover { transform:scale(1.08); }
-
-@keyframes pulse {
-  0% { box-shadow:0 0 10px rgba(168,85,247,0.5); }
-  50% { box-shadow:0 0 30px rgba(56,189,248,0.9); }
-  100% { box-shadow:0 0 10px rgba(168,85,247,0.5); }
-}
-
-/* SECTION */
 .section {
-  padding:60px 20px;
-  background:rgba(0,0,0,0.6);
-  margin-top:20px;
+  margin-top:40px;
+  padding:40px 20px;
+  background:rgba(255,255,255,0.03);
+  border-top:1px solid rgba(255,255,255,0.08);
 }
 
-.section h2 {
-  margin-bottom:15px;
+.token-box {
+  margin-top:15px;
+  padding:12px;
+  background:#020617;
+  border-radius:8px;
+  font-size:14px;
+  word-break:break-all;
 }
 
-/* PROGRESS */
-.progress {
-  width:80%;
-  margin:20px auto;
-  background:#222;
-  height:20px;
-  border-radius:10px;
-}
-
-.progress-fill {
-  height:100%;
-  width:0%;
-  background:linear-gradient(135deg,#38bdf8,#a855f7);
-}
-
-/* FLOATING */
-.wallet {
-  position:fixed;
-  bottom:90px;
-  left:20px;
-  font-size:12px;
-  opacity:.8;
-}
-
-.cta {
-  position:fixed;
-  right:20px;
-  padding:12px 20px;
-  border-radius:10px;
-  font-weight:bold;
-  text-decoration:none;
-  z-index:999;
-}
-
-.cta-telegram {
-  bottom:80px;
-  background:linear-gradient(135deg,#a855f7,#ec4899,#38bdf8);
-}
-
-.cta-airdrop {
-  bottom:20px;
-  background:linear-gradient(135deg,#38bdf8,#a855f7);
-}
-
-.monet-title {
-  font-size:48px;
-  font-weight:800;
-  background: linear-gradient(135deg,#00ffcc,#00aaff,#a855f7);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:0 0 20px rgba(0,255,200,0.3);
-}
-
-.monet-title {
-  font-size:48px;
-  font-weight:800;
-  background: linear-gradient(135deg,#00ffcc,#00aaff,#a855f7);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:0 0 20px rgba(0,255,200,0.3);
-}
-
-.monet-title {
-  font-size:48px;
-  font-weight:800;
-  background: linear-gradient(135deg,#00ffcc,#00aaff,#a855f7);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:0 0 20px rgba(0,255,200,0.3);
+.copy-btn {
+  margin-top:10px;
+  padding:8px 16px;
+  background:#00ffaa;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -152,378 +78,49 @@ body {
 <body>
 
 <div class="hero">
-  <img src="assets/monet.png" class="logo">
-  <div class="title"><img src="./images/monet-m.png" style="height:1em;vertical-align:middle;">onet Money</div>
+  <div class="title">Monet Money</div>
 
   <div class="desc">
-    Make money moves by trading.<br><br>
-    The next generation Solana token. Fast, secure, and building the future of decentralized finance.<br>
-    For those who aren't made of money… better have your Monet.
+    Make Money Moves.<br>
+    Built on Solana. Powered by Monet.
   </div>
 
-  <button class="btn" onclick="monetClaim();">Make Money Moves</button>
-  <button class="btn" onclick="monetClaim();"><a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;"><span onclick="monetClaim();" style="cursor:pointer;">Get Free MONET</span></a></button>
+  <button class="btn" onclick="buy()">Buy on Jupiter</button>
+  <button class="btn" onclick="claim()">Claim Airdrop</button>
 </div>
 
 <div class="section">
   <h2>Token Info</h2>
-  <p>Symbol: 💵 MONET<br>Supply: 1,000,000,000</p>
+
+  <div class="token-box" id="tokenAddress">
+    6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b
+  </div>
+
+  <button class="copy-btn" onclick="copyToken()">Copy Address</button>
+
+  <p>Supply: 1,000,000,000 MONET</p>
 </div>
 
 <div class="section">
   <h2>Chart</h2>
-<div style="text-align:center;margin:20px;">
-  <h2 style="color:#00ffcc;">📊 View Live Chart</h2>
-  <button onclick="monetClaim();"https://jup.ag/swap/SOL-MONET\",\"_blank\")" style="padding:12px 25px;font-size:16px;background:#00ffcc;border:none;border-radius:8px;cursor:pointer;font-weight:bold;">
-    Open Jupiter
-  </button>
+  <button class="btn" onclick="buy()">Open Jupiter Chart</button>
 </div>
-  width="90%" height="400" style="border:none;"></iframe>
-</div>
-
-<div class="section">
-  <h2>Airdrop Progress</h2>
-  <div class="progress">
-    <div class="progress-fill" id="fill"></div>
-  </div>
-  <div id="progressText"></div>
-</div>
-
-<div class="wallet" id="wallet"></div>
-
-<a href="https://t.me/Libra_Token_Solana" class="cta cta-telegram">Join Telegram</a>
-<button class="cta cta-airdrop" onclick="monetClaim();"><a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;"><span onclick="monetClaim();" style="cursor:pointer;">Get Free MONET</span></a></button>
 
 <script>
-async function getProvider(){
-  if (getProvider()?.isPhantom) return getProvider();
-  if (window.solflare) return window.solflare;
-  if (window.backpack) return window.backpack;
-  return null;
+function buy() {
+  window.open("https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b", "_blank");
 }
 
-const API = "https://monetmoney-production.up.railway.app/airdrop";
-
-/* BUY */
-function buy(){ window.open("https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b"); }{
-  window.open("https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b","_blank");
+function claim() {
+  window.open("https://monetmoney-production.up.railway.app/claim", "_blank");
 }
 
-/* CLAIM */
-async function claim(){
-  try{
-    if(!getProvider()) return alert("Install Phantom");
-
-    const resp = await (await getProvider()).connect();
-    const wallet = resp.publicKey.toString();
-    document.getElementById("wallet").innerText = wallet;
-
-    const msg = new TextEncoder().encode("Claim MONET airdrop");
-    const signed = await (await getProvider()).signMessage(msg);
-    const sig = window.bs58.encode(signed.signature);
-
-    const res = await fetch(API,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({wallet,signature:sig})
-    });
-
-    alert(await res.text());
-
-  } catch(e){
-    console.error(e);
-    alert(await res.text());
-  }
-}
-
-/* PROGRESS SIM */
-let p=0;
-setInterval(()=>{
-  p+=Math.random()*2;
-  if(p>100)p=100;
-  document.getElementById("fill").style.width=p+"%";
-  document.getElementById("progressText").innerText =
-    Math.floor(p*100000) + " / 10,000,000 MONET claimed";
-},2000);
-</script>
-
-<script>
-let provider = null;
-
-async function getProvider(){
-  if (window.solana?.isPhantom) return window.solana;
-  if (window.solflare) return window.solflare;
-  if (window.backpack) return window.backpack;
-  return null;
-}
-
-async function connectWallet(){
-  provider = await getProvider();
-
-  if (!provider){
-    alert("Install Phantom, Solflare, or Backpack wallet");
-    return null;
-  }
-
-  const resp = await provider.connect();
-  const wallet = resp.publicKey.toString();
-
-  const el = document.getElementById("wallet");
-  if(el) el.innerText = wallet;
-
-  return wallet;
-}
-
-async function claim(){
-  try{
-    const wallet = await connectWallet();
-    if(!wallet) return;
-
-    const msg = new TextEncoder().encode("Claim MONET airdrop");
-    const signed = await provider.signMessage(msg, "utf8");
-
-    const signature = window.bs58.encode(signed.signature);
-
-    const res = await fetch("https://monetmoney-production.up.railway.app/airdrop",{
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ wallet, signature })
-    });
-
-    const text = await res.text();
-    alert(text);
-
-  } catch(e){
-    console.error(e);
-    alert(await res.text());
-  }
-}
-
-/* AUTO-WIRE BUTTON (no breaking changes) */
-document.addEventListener("DOMContentLoaded", () => {
-  const buttons = document.querySelectorAll("button");
-  buttons.forEach(btn => {
-    if(btn.innerText.toLowerCase().includes("free monet")){
-      btn.onclick = claim;
-    }
-  });
-});
-</script>
-<section id="monet-claim-guide" style="max-width:900px;margin:80px auto;padding:40px;border:1px solid rgba(255,255,255,0.1);border-radius:20px;background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);color:white;line-height:1.6;">
-<h1 style="font-size:2.5rem;margin-bottom:20px;"><img src="./images/monet-m.png" style="height:40px;vertical-align:middle;margin-right:8px;">📱 How to Claim Your Free MONET 💵</h1>
-<h2>🥇 Step 1 — Get a Solana Wallet</h2>
-<p>Download: Phantom, Solflare, Backpack</p>
-<p>👉 Save your recovery phrase safely</p>
-<hr>
-<h2>🌐 Step 2 — Open Wallet Browser</h2>
-<p>Use the 🌐 icon inside wallet</p>
-<hr>
-<h2>🔗 Step 3 — Visit Site</h2>
-<p><a href="https://monetmoney-production.up.railway.app" target="_blank" target="_blank" style="color:#00ffcc;">betterhavemymonet.com</a></p>
-<hr>
-<h2>🔌 Step 4 — Connect Wallet</h2>
-<p>Tap connect + approve</p>
-<hr>
-<h2>🎁 Step 5 — Claim</h2>
-<p>Tap "<a href="https://monetmoney-production.up.railway.app" target="_blank" style="text-decoration:none;color:inherit;"><span onclick="monetClaim();" style="cursor:pointer;">Get Free MONET</span></a>" and sign</p>
-<hr>
-<h2>💰 Done</h2>
-<p>Tokens sent to your wallet 🚀</p>
-<hr>
-<h2>⚠️ Notes</h2>
-<p>SOL needed • One claim per wallet • First come first serve</p>
-</section>
-
-<script id="monet-wallet-helper">
-(function(){
-  function isMobile(){ return /Android|iPhone|iPad/i.test(navigator.userAgent); }
-  function isPhantom(){ return window.solana && window.solana.isPhantom; }
-  function isSolflare(){ return window.solflare && window.solflare.isSolflare; }
-  function isBackpack(){ return window.backpack && window.backpack.isBackpack; }
-
-  if(isMobile() && !isPhantom() && !isSolflare() && !isBackpack()){
-    var banner = document.createElement("div");
-    banner.style.position="fixed";
-    banner.style.bottom="20px";
-    banner.style.left="50%";
-    banner.style.transform="translateX(-50%)";
-    banner.style.background="#00ffcc";
-    banner.style.color="#000";
-    banner.style.padding="12px 20px";
-    banner.style.borderRadius="10px";
-    banner.style.fontWeight="bold";
-    banner.style.zIndex="9999";
-    banner.style.boxShadow="0 0 15px #00ffcc";
-    banner.innerHTML="🚀 Open in Wallet for Airdrop";
-    banner.onclick=function(){
-      window.location.href="https://monetmoney-production.up.railway.app";
-    };
-    document.body.appendChild(banner);
-  }
-})();
-</script>
-<style>html{scroll-behavior:smooth;}
-.monet-title {
-  font-size:48px;
-  font-weight:800;
-  background: linear-gradient(135deg,#00ffcc,#00aaff,#a855f7);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:0 0 20px rgba(0,255,200,0.3);
-}
-
-.monet-title {
-  font-size:48px;
-  font-weight:800;
-  background: linear-gradient(135deg,#00ffcc,#00aaff,#a855f7);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:0 0 20px rgba(0,255,200,0.3);
-}
-
-.monet-title {
-  font-size:48px;
-  font-weight:800;
-  background: linear-gradient(135deg,#00ffcc,#00aaff,#a855f7);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:0 0 20px rgba(0,255,200,0.3);
-}
-</style>
-
-<script id="MONET_EMBED_CLAIM">
-async function monetClaim(){
-  try{
-    if(window.solana && window.solana.isPhantom){
-      const resp = await window.solana.connect();
-      const wallet = resp.publicKey.toString();
-
-      alert("Sending MONET...");
-
-      const res = await fetch("https://monetmoney-production.up.railway.app/claim", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ wallet })
-      });
-
-      const data = await res.json();
-
-      if(data.success){
-        alert("✅ MONET Sent!");
-      } else {
-        alert("❌ Error: " + data.error);
-      }
-
-    } else {
-      alert("⚠️ Open in Phantom or Solflare wallet");
-    }
-  } catch(e){
-    alert("Error: " + e.message);
-  }
+function copyToken() {
+  const text = document.getElementById("tokenAddress").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Token address copied!");
 }
 </script>
-
-<div style="text-align:center;margin:40px;">
-<h2 style="color:#00ffcc;">💵 MONET Token</h2>
-<div style="background:#111;padding:15px;border-radius:10px;display:inline-block;">
-<span id="tokenAddress">6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b</span>
-<br><br>
-<button onclick="monetClaim();" style="padding:8px 16px;background:#00ffcc;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">
-Copy Address
-</button>
-<p id="copyStatus" style="margin-top:10px;font-size:12px;"></p>
-</div>
-</div>
-<script>
-function copyToken(){
-const text=document.getElementById("tokenAddress").innerText;
-navigator.clipboard.writeText(text);
-document.getElementById("copyStatus").innerText="✅ Copied!";
-}
-</script>
-
-<p id="status" style="text-align:center;margin-top:10px;"></p>
-<script id="MONET_BUTTON_FIX">
-document.addEventListener("DOMContentLoaded", () => {
-  const buttons = document.querySelectorAll("button, a");
-
-  buttons.forEach(btn => {
-    const text = btn.innerText.toLowerCase();
-
-    if(text.includes("monet")){
-      btn.onclick = async function(){
-        const status = document.getElementById("status") || document.createElement("p");
-        status.id = "status";
-        status.style.textAlign = "center";
-        btn.parentNode.appendChild(status);
-
-        try{
-          if(!window.solana){
-            status.innerText = "⚠️ Open in Phantom wallet";
-            return;
-          }
-
-          let wallet;
-          if(window.solana.isConnected){
-            wallet = window.solana.publicKey.toString();
-          } else {
-            const resp = await window.solana.connect();
-            wallet = resp.publicKey.toString();
-          }
-
-          btn.disabled = true;
-          btn.innerText = "Processing...";
-          status.innerText = "Sending MONET...";
-
-          const res = await fetch("https://monetmoney-production.up.railway.app/claim",{
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body: JSON.stringify({ wallet })
-          });
-
-          const data = await res.json();
-
-          if(data.success){
-            status.innerHTML = `✅ Sent! <a href="https://solscan.io/tx/${data.tx}" target="_blank">View</a>`;
-          } else {
-            status.innerText = "❌ " + data.error;
-          }
-
-        } catch(e){
-          status.innerText = e.message.includes("User rejected")
-            ? "⚠️ Tap again"
-            : "Error: " + e.message;
-        } finally {
-          btn.disabled = false;
-          btn.innerText = "Get Free MONET";
-        }
-      };
-    }
-
-    if(text.includes("chart") || text.includes("jupiter")){
-      btn.onclick = function(){
-        window.open("https://jup.ag/swap/SOL-MONET","_blank");
-      };
-    }
-
-  });
-});
-</script>
-
-<div style="text-align:center;margin:40px;">
-<h2 style="color:#00ffcc;">📊 Live Market</h2>
-<button style="padding:12px 25px;background:#00ffcc;border:none;border-radius:8px;font-weight:bold;cursor:pointer;" 
-onclick="window.open(\"https://jup.ag/swap/SOL-MONET\",\"_blank\")">
-View on Jupiter
-</button>
-</div>
-<!-- JUPITER_FIXED -->
 
 </body>
 </html>
-
-<!-- MONET CLAIM GUIDE -->
-
-
-<!-- MONET CLAIM GUIDE -->
-
