@@ -603,3 +603,137 @@ async function claim() {
 }
 </script>
 
+
+<!-- WALLET UI UPGRADE -->
+<style>
+.wallet-box {
+  margin-top: 30px;
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.wallet-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.wallet-value {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.connect-btn {
+  margin-top: 10px;
+}
+</style>
+
+<div class="section wallet-box">
+  <div class="wallet-title">Wallet</div>
+  <div class="wallet-value" id="walletAddress">Not connected</div>
+  <div class="wallet-value" id="solBalance">SOL: 0</div>
+  <div class="wallet-value" id="tokenBalance">MONET: 0</div>
+  <button class="btn connect-btn" onclick="connectWallet()">Connect Wallet</button>
+</div>
+
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+
+<script>
+let wallet = null;
+const TOKEN_ADDRESS = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+
+/* SHORTEN WALLET */
+function short(addr){
+  return addr.slice(0,4) + "..." + addr.slice(-4);
+}
+
+/* AUTO DETECT + CONNECT */
+async function connectWallet() {
+  const provider = window.solana || window.solflare;
+
+  if (!provider) {
+    alert("Install Phantom or Solflare");
+    return;
+  }
+
+  try {
+    const resp = await provider.connect();
+    wallet = resp.publicKey.toString();
+
+    document.getElementById("walletAddress").innerText = short(wallet);
+
+    loadBalances();
+
+  } catch {
+    alert("Connection failed");
+  }
+}
+
+/* AUTO CONNECT IF ALREADY APPROVED */
+window.onload = async () => {
+  if (window.solana && window.solana.isPhantom) {
+    try {
+      const resp = await window.solana.connect({ onlyIfTrusted: true });
+      wallet = resp.publicKey.toString();
+      document.getElementById("walletAddress").innerText = short(wallet);
+      loadBalances();
+    } catch {}
+  }
+};
+
+/* LOAD BALANCES */
+async function loadBalances() {
+  if (!wallet) return;
+
+  const pubkey = new solanaWeb3.PublicKey(wallet);
+
+  // SOL BALANCE
+  const sol = await connection.getBalance(pubkey);
+  document.getElementById("solBalance").innerText = "SOL: " + (sol / 1e9).toFixed(3);
+
+  // TOKEN BALANCE
+  const tokens = await connection.getParsedTokenAccountsByOwner(pubkey, {
+    programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
+  });
+
+  let found = false;
+
+  tokens.value.forEach(acc => {
+    const info = acc.account.data.parsed.info;
+
+    if (info.mint === TOKEN_ADDRESS) {
+      found = true;
+      document.getElementById("tokenBalance").innerText =
+        "MONET: " + info.tokenAmount.uiAmount;
+    }
+  });
+
+  if (!found) {
+    document.getElementById("tokenBalance").innerText = "MONET: 0";
+  }
+}
+
+/* SMART CLAIM */
+async function claim() {
+  if (!wallet) {
+    alert("Connect wallet first");
+    return;
+  }
+
+  fetch("https://monetmoney-production.up.railway.app/claim", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ wallet })
+  })
+  .then(res => res.text())
+  .then(data => alert(data))
+  .catch(() => alert("Claim failed"));
+}
+</script>
+
