@@ -263,29 +263,48 @@ body::after {
 }
 
 /* Wide outer aura (NOT touching text) */
-.title-container::before {
-  content: "";
-  position: absolute;
-  inset: -40px; /* pushes glow FAR out */
-  border-radius: 30px;
-  background: radial-gradient(circle,
-    rgba(236,72,153,0.25) 0%,
-    rgba(168,85,247,0.2) 40%,
-    transparent 70%);
-  filter: blur(50px); /* softer spread */
-  z-index: -1;
-  animation: auraPulse 5s ease-in-out infinite;
-}
 
 /* Slow smooth breathing */
-@keyframes auraPulse {
-  0%,100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
   50% {
     opacity: 0.9;
     transform: scale(1.08);
+  }
+}
+</style>
+
+
+<style>
+.title-container {
+  display: inline-block;
+  padding: 30px 60px; /* more breathing room */
+  border-radius: 30px;
+  position: relative;
+}
+
+/* BIG halo far away from text */
+.title-container::before {
+  content: "";
+  position: absolute;
+  inset: -80px; /* pushes glow MUCH farther out */
+  border-radius: 50px;
+  background: radial-gradient(circle,
+    rgba(236,72,153,0.18) 0%,
+    rgba(168,85,247,0.15) 40%,
+    transparent 75%);
+  filter: blur(80px); /* softer, wider spread */
+  z-index: -1;
+  animation: auraPulse 6s ease-in-out infinite;
+}
+
+/* Slow subtle pulse */
+@keyframes auraPulse {
+  0%,100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
   }
 }
 </style>
