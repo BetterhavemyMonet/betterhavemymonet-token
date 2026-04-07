@@ -362,32 +362,45 @@ body::after {
 }
 
 /* CLEAN NEON YELLOW SPOTLIGHT */
-.title-container::before {
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.25);
+  }
+}
+</style>
+
+
+<style>
+/* BACKGROUND SPOTLIGHT (independent of title classes) */
+body::before {
   content: "";
-  position: absolute;
+  position: fixed;
   left: 50%;
-  top: 50%;
+  top: 180px; /* adjust to sit behind title */
   width: 900px;
   height: 900px;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle,
-    rgba(255,255,140,0.5) 0%,
+    rgba(255,255,120,0.5) 0%,
     rgba(255,255,0,0.35) 25%,
     rgba(255,255,0,0.18) 50%,
     transparent 80%);
-  filter: blur(100px);
+  filter: blur(120px);
   z-index: -1;
-  animation: monetSpotlight 6s ease-in-out infinite;
+  pointer-events: none;
+  animation: bodySpotlight 6s ease-in-out infinite;
 }
 
-@keyframes monetSpotlight {
+/* smooth breathing */
+@keyframes bodySpotlight {
   0%,100% {
     opacity: 0.6;
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.25);
+    transform: translate(-50%, -50%) scale(1.2);
   }
 }
 </style>
