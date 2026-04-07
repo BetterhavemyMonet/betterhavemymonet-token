@@ -804,3 +804,132 @@ async function loadBalances() {
 }
 </script>
 
+
+<!-- WALLET MODAL STYLES -->
+<style>
+.wallet-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.wallet-modal-content {
+  background: #020617;
+  padding: 20px;
+  border-radius: 16px;
+  width: 300px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.wallet-option {
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.05);
+}
+
+.wallet-option:hover {
+  background: rgba(255,255,255,0.1);
+}
+</style>
+
+<!-- WALLET MODAL -->
+<div id="walletModal" class="wallet-modal">
+  <div class="wallet-modal-content">
+    <h3>Select Wallet</h3>
+
+    <div class="wallet-option" onclick="connectPhantom()">Phantom</div>
+    <div class="wallet-option" onclick="connectSolflare()">Solflare</div>
+
+    <div class="wallet-option" onclick="closeWalletModal()">Cancel</div>
+  </div>
+</div>
+
+<script>
+let wallet = null;
+const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+const TOKEN_ADDRESS = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+
+/* OPEN MODAL */
+function connectWallet() {
+  document.getElementById("walletModal").style.display = "flex";
+}
+
+function closeWalletModal() {
+  document.getElementById("walletModal").style.display = "none";
+}
+
+/* PHANTOM */
+async function connectPhantom() {
+  if (!window.solana || !window.solana.isPhantom) {
+    alert("Phantom not installed");
+    return;
+  }
+
+  const resp = await window.solana.connect();
+  wallet = resp.publicKey.toString();
+
+  onWalletConnected();
+}
+
+/* SOLFLARE */
+async function connectSolflare() {
+  if (!window.solflare) {
+    alert("Solflare not installed");
+    return;
+  }
+
+  const resp = await window.solflare.connect();
+  wallet = resp.publicKey.toString();
+
+  onWalletConnected();
+}
+
+/* AFTER CONNECT */
+function onWalletConnected() {
+  closeWalletModal();
+
+  document.getElementById("walletAddress").innerText =
+    wallet.slice(0,4) + "..." + wallet.slice(-4);
+
+  loadBalances();
+}
+
+/* LOAD BALANCES */
+async function loadBalances() {
+  if (!wallet) return;
+
+  const pubkey = new solanaWeb3.PublicKey(wallet);
+
+  const sol = await connection.getBalance(pubkey);
+  document.getElementById("solBalance").innerText =
+    "SOL: " + (sol / 1e9).toFixed(3);
+
+  const tokens = await connection.getParsedTokenAccountsByOwner(pubkey, {
+    programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
+  });
+
+  let found = false;
+
+  tokens.value.forEach(acc => {
+    const info = acc.account.data.parsed.info;
+
+    if (info.mint === TOKEN_ADDRESS) {
+      found = true;
+      document.getElementById("tokenBalance").innerText =
+        "MONET: " + info.tokenAmount.uiAmount;
+    }
+  });
+
+  if (!found) {
+    document.getElementById("tokenBalance").innerText = "MONET: 0";
+  }
+}
+</script>
+
