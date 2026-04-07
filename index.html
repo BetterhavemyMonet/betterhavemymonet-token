@@ -737,3 +737,70 @@ async function claim() {
 }
 </script>
 
+
+<!-- WALLET ADAPTER -->
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script src="https://unpkg.com/@solana/wallet-adapter-wallets@latest/lib/index.iife.js"></script>
+<script src="https://unpkg.com/@solana/wallet-adapter-base@latest/lib/index.iife.js"></script>
+
+<script>
+let wallet = null;
+const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+const TOKEN_ADDRESS = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+
+/* WALLET SELECTOR */
+async function connectWallet() {
+  try {
+    if (window.solana && window.solana.isPhantom) {
+      const resp = await window.solana.connect();
+      wallet = resp.publicKey.toString();
+    } else if (window.solflare) {
+      const resp = await window.solflare.connect();
+      wallet = resp.publicKey.toString();
+    } else {
+      alert("Install a Solana wallet (Phantom, Solflare, Backpack)");
+      return;
+    }
+
+    document.getElementById("walletAddress").innerText =
+      wallet.slice(0,4) + "..." + wallet.slice(-4);
+
+    loadBalances();
+
+  } catch (err) {
+    alert("Wallet connection failed");
+  }
+}
+
+/* LOAD BALANCES (same as before) */
+async function loadBalances() {
+  if (!wallet) return;
+
+  const pubkey = new solanaWeb3.PublicKey(wallet);
+
+  const sol = await connection.getBalance(pubkey);
+  document.getElementById("solBalance").innerText =
+    "SOL: " + (sol / 1e9).toFixed(3);
+
+  const tokens = await connection.getParsedTokenAccountsByOwner(pubkey, {
+    programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
+  });
+
+  let found = false;
+
+  tokens.value.forEach(acc => {
+    const info = acc.account.data.parsed.info;
+
+    if (info.mint === TOKEN_ADDRESS) {
+      found = true;
+      document.getElementById("tokenBalance").innerText =
+        "MONET: " + info.tokenAmount.uiAmount;
+    }
+  });
+
+  if (!found) {
+    document.getElementById("tokenBalance").innerText = "MONET: 0";
+  }
+}
+</script>
+
