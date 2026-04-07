@@ -33,7 +33,7 @@ body {
   margin-bottom:20px;
 }
 
-.title {
+.title { text-shadow:none !important; }
   font-size:52px;
   font-weight:700;
 }
@@ -80,7 +80,7 @@ body {
   font-size:20px;
   margin-top:10px;
   color:#00ffcc;
-  animation:pulse 1.5s infinite;
+  
 }
 @keyframes pulse {
   0%{opacity:.6}
@@ -200,7 +200,7 @@ body::after {
 
 
 <style>
-.title {
+.title { text-shadow:none !important; }
   position: relative;
 }
 
@@ -215,7 +215,7 @@ body::after {
   text-shadow:
     0 0 12px rgba(168,85,247,0.5),
     0 0 24px rgba(236,72,153,0.4);
-  animation: glowPulse 3s ease-in-out infinite;
+  
   pointer-events: none;
 }
 
@@ -389,7 +389,7 @@ body::before {
   filter: blur(120px);
   z-index: -1;
   pointer-events: none;
-  animation: bodySpotlight 6s ease-in-out infinite;
+  
 }
 
 /* smooth breathing */
