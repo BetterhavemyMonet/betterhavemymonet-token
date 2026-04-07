@@ -96,7 +96,7 @@ body {
 <div class="hero">
   <img src="./assets/monet.png" onerror="this.src='https://via.placeholder.com/200?text=MONET'" class="logo" onerror="this.style.display='none'">
 
-  <div class="title gradient" style="text-shadow:0 0 10px rgba(168,85,247,0.6),0 0 20px rgba(236,72,153,0.5),0 0 35px rgba(168,85,247,0.4);" style="text-shadow:0 0 10px rgba(168,85,247,0.6),0 0 20px rgba(236,72,153,0.5),0 0 35px rgba(168,85,247,0.4);">Monet Money</div>
+  <div class="title gradient" style="" style="">Monet Money</div>
 
   <div class="desc">
     Make Money Moves.<br>
@@ -230,6 +230,40 @@ body::after {
     text-shadow:
       0 0 18px rgba(236,72,153,0.6),
       0 0 30px rgba(168,85,247,0.5);
+  }
+}
+</style>
+
+
+<style>
+.title-container {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 12px;
+  position: relative;
+}
+
+/* Outer glow aura */
+.title-container::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 16px;
+  background: radial-gradient(circle, rgba(236,72,153,0.25), rgba(168,85,247,0.2), transparent 70%);
+  filter: blur(20px);
+  z-index: -1;
+  animation: auraPulse 4s ease-in-out infinite;
+}
+
+/* Smooth breathing glow */
+@keyframes auraPulse {
+  0%,100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05);
   }
 }
 </style>
