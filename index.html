@@ -345,33 +345,49 @@ body::after {
 
 <style>
 /* NEON YELLOW SPOTLIGHT */
+
+/* smooth pulse */
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+</style>
+
+
+<style>
+.title-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* CLEAN NEON YELLOW SPOTLIGHT */
 .title-container::before {
   content: "";
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 700px;
-  height: 700px;
+  width: 900px;
+  height: 900px;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle,
-    rgba(255,255,120,0.45) 0%,
-    rgba(255,255,0,0.35) 20%,
-    rgba(255,255,0,0.2) 45%,
-    transparent 75%);
-  filter: blur(90px);
+    rgba(255,255,140,0.5) 0%,
+    rgba(255,255,0,0.35) 25%,
+    rgba(255,255,0,0.18) 50%,
+    transparent 80%);
+  filter: blur(100px);
   z-index: -1;
-  animation: spotlightPulse 5s ease-in-out infinite;
+  animation: monetSpotlight 6s ease-in-out infinite;
 }
 
-/* smooth pulse */
-@keyframes spotlightPulse {
+@keyframes monetSpotlight {
   0%,100% {
     opacity: 0.6;
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
-    opacity: 0.9;
-    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.25);
   }
 }
 </style>
