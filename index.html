@@ -319,6 +319,29 @@ body::after {
 }
 
 /* SPOTLIGHT GLOW */
+
+/* smooth breathing spotlight */
+@keyframes spotlightPulse {
+  0%,100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+</style>
+
+
+<style>
+.title-container {
+  position: relative;
+  display: inline-block;
+  padding: 40px 80px;
+}
+
+/* SPOTLIGHT GLOW */
 .title-container::before {
   content: "";
   position: absolute;
