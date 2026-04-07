@@ -16,17 +16,26 @@ body {
   text-align:center;
 }
 
+/* SOLANA GRADIENT */
+.gradient {
+  background: linear-gradient(135deg,#00ffcc,#00aaff,#a855f7);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* HERO */
 .hero {
   padding:100px 20px 60px;
+}
+
+.logo {
+  width:140px;
+  margin-bottom:20px;
 }
 
 .title {
   font-size:52px;
   font-weight:700;
-  background: linear-gradient(135deg,#00ffcc,#00aaff,#a855f7);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:0 0 25px rgba(0,255,200,0.25);
 }
 
 .desc {
@@ -34,6 +43,7 @@ body {
   opacity:.85;
 }
 
+/* BUTTONS */
 .btn {
   margin:10px;
   padding:14px 28px;
@@ -43,42 +53,50 @@ body {
   cursor:pointer;
   background: linear-gradient(135deg,#00ffcc,#00aaff);
   color:#000;
-  box-shadow:0 0 15px rgba(0,255,200,0.4);
-  transition: transform .2s;
+  box-shadow:0 0 20px rgba(0,255,200,0.4);
+  transition:.2s;
 }
-.btn:hover { transform: scale(1.05); }
+.btn:hover { transform:scale(1.05); }
 
+/* SECTIONS */
 .section {
   margin-top:40px;
-  padding:40px 20px;
+  padding:50px 20px;
   background:rgba(255,255,255,0.03);
   border-top:1px solid rgba(255,255,255,0.08);
 }
 
+/* TOKEN BOX */
 .token-box {
   margin-top:15px;
   padding:12px;
   background:#020617;
   border-radius:8px;
-  font-size:14px;
   word-break:break-all;
 }
 
-.copy-btn {
+/* FOMO */
+.fomo {
+  font-size:20px;
   margin-top:10px;
-  padding:8px 16px;
-  background:#00ffaa;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
+  color:#00ffcc;
+  animation:pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%{opacity:.6}
+  50%{opacity:1}
+  100%{opacity:.6}
 }
 </style>
 </head>
 
 <body>
 
+<!-- HERO -->
 <div class="hero">
-  <div class="title">Monet Money</div>
+  <img src="./assets/logo.png" class="logo" onerror="this.style.display='none'">
+
+  <div class="title gradient">Monet Money</div>
 
   <div class="desc">
     Make Money Moves.<br>
@@ -87,23 +105,48 @@ body {
 
   <button class="btn" onclick="buy()">Buy on Jupiter</button>
   <button class="btn" onclick="claim()">Claim Airdrop</button>
+
+  <div class="fomo">🔥 Trending on Solana — Don’t Miss Out 🔥</div>
 </div>
 
+<!-- TOKEN INFO -->
 <div class="section">
-  <h2>Token Info</h2>
+  <h2 class="gradient">Token Info</h2>
 
   <div class="token-box" id="tokenAddress">
     6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b
   </div>
 
-  <button class="copy-btn" onclick="copyToken()">Copy Address</button>
+  <p>Total Supply: <b>1,000,000,000 MONET</b></p>
 
-  <p>Supply: 1,000,000,000 MONET</p>
+  <button class="btn" onclick="copyToken()">Copy Address</button>
 </div>
 
+<!-- LIVE CHART -->
 <div class="section">
-  <h2>Chart</h2>
-  <button class="btn" onclick="buy()">Open Jupiter Chart</button>
+  <h2 class="gradient">Live Chart</h2>
+
+  <iframe 
+    src="https://birdeye.so/token/6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b?chain=solana&embed=1"
+    width="100%" height="500" style="border:none;border-radius:12px;">
+  </iframe>
+
+  <button class="btn" onclick="buy()">Trade Now</button>
+</div>
+
+<!-- ABOUT -->
+<div class="section">
+  <h2 class="gradient">About Monet</h2>
+  <p>
+    Monet Money is built for traders, movers, and visionaries.<br>
+    Designed to ride momentum and reward early believers.
+  </p>
+</div>
+
+<!-- SOCIAL -->
+<div class="section">
+  <h2 class="gradient">Community</h2>
+  <button class="btn" onclick="window.open('https://t.me/Libra_Token_Solana')">Join Telegram</button>
 </div>
 
 <script>
@@ -118,7 +161,7 @@ function claim() {
 function copyToken() {
   const text = document.getElementById("tokenAddress").innerText;
   navigator.clipboard.writeText(text);
-  alert("Token address copied!");
+  alert("Token copied!");
 }
 </script>
 
