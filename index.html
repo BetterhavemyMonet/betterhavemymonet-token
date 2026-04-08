@@ -1061,3 +1061,41 @@ body {
 }
 </style>
 
+<!-- WALLET CONNECT -->
+<div id="wallet-connect" style="position:fixed;top:15px;right:15px;z-index:9999;">
+  <button id="connectWalletBtn" style="padding:10px 16px;border-radius:8px;background:#111;color:#fff;border:1px solid rgba(255,255,255,0.2);cursor:pointer;">
+    Connect Wallet
+  </button>
+</div>
+
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+<script>
+(function () {
+  const btn = document.getElementById("connectWalletBtn");
+
+  function getProvider() {
+    if (window.solana && window.solana.isPhantom) return window.solana;
+    if (window.solflare) return window.solflare;
+    if (window.backpack) return window.backpack;
+    return null;
+  }
+
+  btn.onclick = async function () {
+    const provider = getProvider();
+
+    if (!provider) {
+      alert("Install Phantom, Solflare, or Backpack.");
+      return;
+    }
+
+    try {
+      const resp = await provider.connect();
+      const key = resp.publicKey.toString();
+      btn.innerText = key.slice(0,4) + "..." + key.slice(-4);
+    } catch (e) {
+      alert("Connection failed");
+    }
+  };
+})();
+</script>
+<!-- END WALLET CONNECT -->
