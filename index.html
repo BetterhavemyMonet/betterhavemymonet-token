@@ -1,654 +1,196 @@
-<style>
-/* ===== CLEAN BASE ===== */
-body {
-margin:0;
-background: radial-gradient(circle at top,#020617,#000);
-color:#fff;
-text-align:center;
-font-family: Orbitron, sans-serif;
-}
-
-/* ===== TOP LOGO ===== */
-img[src*="monet.png"] {
-position:absolute;
-top:15px;
-left:15px;
-max-width:80px;
-z-index:1000;
-}
-
-/* ===== TITLE IMAGE ===== */
-img[src*="monet-title.jpg"] {
-display:block;
-margin:20px auto;
-max-width:360px;
-}
-
-/* ===== BUTTONS ===== */
-.btn {
-background:linear-gradient(135deg,#14F195,#9945FF);
-color:#000;
-border:none;
-padding:14px 28px;
-border-radius:12px;
-font-weight:bold;
-box-shadow:0 0 12px rgba(20,241,149,0.25);
-}
-
-/* ===== SECTIONS ===== */
-.section {
-background:rgba(255,255,255,0.04);
-backdrop-filter:blur(10px);
-border-radius:16px;
-margin:20px;
-padding:30px;
-}
-</style>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><span style="background:linear-gradient(90deg,#ff4d9d,#a855f7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;"><span style="position:relative;display:inline-block;color:#7dd3fc;text-shadow:0 2px 6px rgba(0,0,0,0.7),0 -8px 25px rgba(168,85,247,0.35),0 0 10px rgba(59,130,246,0.2),0 0 16px rgba(34,197,94,0.12);"><span style="position:relative;display:inline-block;color:#6ee7f9;text-shadow:0 2px 6px rgba(0,0,0,0.7),0 -4px 12px rgba(168,85,247,0.15),0 0 10px rgba(0,170,255,0.35),0 0 14px rgba(0,255,140,0.25);"><span style="color:#ffffff;-webkit-text-stroke:1px #00aaff;text-shadow:0 2px 6px rgba(0,0,0,0.7);">Monet Money</span></span></span></span></title>
+<title>Monet Money</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
+<style>
+body{
+margin:0;
+font-family:Orbitron,sans-serif;
+background:radial-gradient(circle at top,#020617,#000);
+color:#fff;
+text-align:center;
+}
+
+/* BACKGROUND GLOW */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:radial-gradient(circle at 50% 20%,rgba(0,255,200,0.15),transparent 60%);
+filter:blur(100px);
+z-index:-1;
+}
+
+/* TOP LOGO */
+.logo-top{
+position:absolute;
+top:15px;
+left:15px;
+width:80px;
+}
+
+/* TITLE IMAGE */
+.title-img{
+display:block;
+margin:40px auto 10px;
+max-width:360px;
+}
+
+/* HERO */
+.hero{
+padding:80px 20px 40px;
+}
+
+.desc{
+opacity:.85;
+margin:10px 0 20px;
+}
+
+/* BUTTONS */
+.btn{
+margin:8px;
+padding:14px 28px;
+border:none;
+border-radius:12px;
+font-weight:bold;
+cursor:pointer;
+background:linear-gradient(135deg,#14F195,#9945FF);
+color:#000;
+box-shadow:0 0 12px rgba(20,241,149,0.25);
+transition:.2s;
+}
+.btn:hover{transform:scale(1.05);}
+
+/* SECTIONS */
+.section{
+margin:20px;
+padding:30px;
+background:rgba(255,255,255,0.04);
+border-radius:16px;
+backdrop-filter:blur(10px);
+}
+
+/* TOKEN BOX */
+.token-box{
+background:#020617;
+padding:12px;
+border-radius:8px;
+word-break:break-all;
+margin:10px 0;
+}
+
+/* HEADINGS */
+h2{
+background:linear-gradient(90deg,#00ffa3,#00aaff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* FOMO */
+.fomo{
+color:#00ffcc;
+margin-top:10px;
+font-size:18px;
+}
+
+/* FOOTER */
+footer{
+margin-top:30px;
+opacity:.7;
+}
+</style>
+</head>
 
 <body>
 
-<!-- HERO -->
+<img src="./assets/monet.png" class="logo-top">
+<img src="./assets/monet-title.jpg" class="title-img">
+
 <div class="hero">
-  <img src="./assets/monet.png" onerror="this.src='https://via.placeholder.com/200?text=MONET'" class="logo" onerror="this.style.display='none'">
-
-  <div class="title gradient" style="" style=""><span style="background:linear-gradient(90deg,#ff4d9d,#a855f7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;"><span style="position:relative;display:inline-block;color:#7dd3fc;text-shadow:0 2px 6px rgba(0,0,0,0.7),0 -8px 25px rgba(168,85,247,0.35),0 0 10px rgba(59,130,246,0.2),0 0 16px rgba(34,197,94,0.12);"><span style="position:relative;display:inline-block;color:#6ee7f9;text-shadow:0 2px 6px rgba(0,0,0,0.7),0 -4px 12px rgba(168,85,247,0.15),0 0 10px rgba(0,170,255,0.35),0 0 14px rgba(0,255,140,0.25);"><span style="color:#ffffff;-webkit-text-stroke:1px #00aaff;text-shadow:0 2px 6px rgba(0,0,0,0.7);">Monet Money</span></span></span></span></div>
-
-  <div class="desc">
-    Make Money Moves.<br>
-    Built on Solana. Powered by Monet.
-  </div>
-
-  <button class="btn" onclick="buy()">Buy on Jupiter</button>
-  <button class="btn" onclick="claim()">Claim Airdrop</button>
-
-  <div class="fomo">🔥 Trending on Solana — Don’t Miss Out 🔥</div>
+<div class="desc">
+Make Money Moves.<br>
+Built on Solana. Powered by Monet.
 </div>
 
-<!-- TOKEN INFO -->
+<button class="btn" onclick="buy()">Buy on Jupiter</button>
+<button class="btn" onclick="claim()">Claim Airdrop</button>
+
+<div class="fomo">🔥 Trending on Solana — Don’t Miss Out 🔥</div>
+</div>
+
 <div class="section">
-  <h2 class="gradient">Token Info</h2>
+<h2>Token Info</h2>
 
-  <div class="token-box" id="tokenAddress">
-    6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b
-  </div>
-
-  <p>Total Supply: <b>1,000,000,000 MONET</b></p>
-
-  <button class="btn" onclick="copyToken()">Copy Address</button>
+<div class="token-box" id="tokenAddress">
+6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b
 </div>
 
-<!-- LIVE CHART -->
+<p>Total Supply: <b>1,000,000,000 MONET</b></p>
+
+<button class="btn" onclick="copyToken()">Copy Address</button>
+</div>
+
 <div class="section">
-  <h2 class="gradient">Live Chart</h2>
+<h2>Live Chart</h2>
 
-  <iframe 
-    src="https://birdeye.so/token/6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b?chain=solana&embed=1"
-    width="100%" height="500" style="border:none;border-radius:12px;">
-  </iframe>
+<iframe 
+src="https://birdeye.so/token/6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b?chain=solana&embed=1"
+width="100%" height="500"
+style="border:none;border-radius:12px;">
+</iframe>
 
-  <button class="btn" onclick="buy()">Trade Now</button>
+<button class="btn" onclick="buy()">Trade Now</button>
 </div>
 
-<!-- ABOUT -->
 <div class="section">
-  <h2 class="gradient">About Monet</h2>
-  <p>
-    <span style="position:relative;display:inline-block;color:#7dd3fc;text-shadow:0 2px 6px rgba(0,0,0,0.7),0 -8px 25px rgba(168,85,247,0.35),0 0 10px rgba(59,130,246,0.2),0 0 16px rgba(34,197,94,0.12);"><span style="position:relative;display:inline-block;color:#6ee7f9;text-shadow:0 2px 6px rgba(0,0,0,0.7),0 -4px 12px rgba(168,85,247,0.15),0 0 10px rgba(0,170,255,0.35),0 0 14px rgba(0,255,140,0.25);"><span style="color:#ffffff;-webkit-text-stroke:1px #00aaff;text-shadow:0 2px 6px rgba(0,0,0,0.7);">Monet Money</span></span></span> is built for traders, movers, and visionaries.<br>
-    Designed to ride momentum and reward early believers.
-  </p>
+<h2>About Monet</h2>
+<p>
+Monet Money is built for traders, movers, and visionaries.<br>
+Designed to ride momentum and reward early believers.
+</p>
 </div>
 
-<!-- SOCIAL -->
 <div class="section">
-  <h2 class="gradient">Community</h2>
-  <button class="btn" onclick="window.open('https://t.me/Libra_Token_Solana')">Join Telegram</button>
+<h2>Community</h2>
+<button class="btn" onclick="window.open('https://t.me/Libra_Token_Solana')">
+Join Telegram
+</button>
 </div>
 
-<script>
-function buy() {
-  window.open("https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b", "_blank");
-}
-
-function claim() {
-  fetch("https://monetmoney-production.up.railway.app/claim", {
-    method: "POST"
-  })
-  .then(res => res.text())
-  .then(data => alert("Claim successful!"))
-  .catch(err => alert("Claim failed. Try again."));
-}
-
-function copyToken() {
-  const text = document.getElementById("tokenAddress").innerText;
-  navigator.clipboard.writeText(text);
-  alert("Token copied!");
-}
-</script>
-
-<footer style="text-align:center;padding:20px;font-size:14px;color:#aaa;">
-  <p>
-    🔎 <a href="https://solscan.io/token/6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b" target="_blank" style="color:#00ffa3;text-decoration:none;">View MONET on Solscan</a> 
-    | 
-    💬 <a href="https://t.me/Libra_Token_Solana" target="_blank" style="color:#00ffa3;text-decoration:none;">Join Telegram</a>
-  </p>
+<footer>
+🔎 <a href="https://solscan.io/token/6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b" target="_blank" style="color:#00ffa3;">View MONET on Solscan</a>
+|
+💬 <a href="https://t.me/Libra_Token_Solana" target="_blank" style="color:#00ffa3;">Join Telegram</a>
 </footer>
-<div style="margin-top:60px;padding:20px;text-align:center;opacity:0.8;">
-<p style="margin-bottom:10px;">Built on Solana</p>
+
+<div style="margin-top:40px;">
+<p>Built on Solana</p>
 <img src="./assets/solanaLogo.png" style="height:40px;">
 </div>
 
-h1,.title,.hero-title{opacity:0 !important;}
-</style>
+<script>
+function buy(){
+window.open("https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b","_blank");
+}
+
+function claim(){
+fetch("https://monetmoney-production.up.railway.app/claim",{method:"POST"})
+.then(()=>alert("Claim successful!"))
+.catch(()=>alert("Claim failed"));
+}
+
+function copyToken(){
+navigator.clipboard.writeText(
+document.getElementById("tokenAddress").innerText
+);
+alert("Copied!");
+}
+</script>
+
+</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
-
-<script>
-let wallet = null;
-const TOKEN_ADDRESS = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-/* CONNECT WALLET */
-async function connectWallet() {
-  if (window.solana && window.solana.isPhantom) {
-    try {
-      const resp = await window.solana.connect();
-      wallet = resp.publicKey.toString();
-      alert("Connected: " + wallet);
-
-      checkTokenBalance();
-
-    } catch (err) {
-      alert("Connection failed");
-    }
-  } else {
-    alert("Install Phantom Wallet");
-  }
-}
-
-/* AUTO DETECT */
-window.onload = () => {
-  if (window.solana && window.solana.isPhantom) {
-    console.log("Phantom detected");
-  }
-};
-
-/* CHECK TOKEN BALANCE */
-async function checkTokenBalance() {
-  try {
-    const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
-
-    const pubkey = new solanaWeb3.PublicKey(wallet);
-    const tokenAccounts = await connection.getParsedTokenAccountsByOwner(pubkey, {
-      programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
-    });
-
-    let found = false;
-
-    tokenAccounts.value.forEach(account => {
-      const info = account.account.data.parsed.info;
-
-      if (info.mint === TOKEN_ADDRESS) {
-        found = true;
-        const balance = info.tokenAmount.uiAmount;
-        alert("You have " + balance + " MONET");
-      }
-    });
-
-    if (!found) {
-      alert("No MONET found in wallet");
-    }
-
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-/* CLAIM WITH WALLET */
-async function claim() {
-  if (!wallet) {
-    alert("Connect wallet first");
-    return;
-  }
-
-  fetch("https://monetmoney-production.up.railway.app/claim", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ wallet })
-  })
-  .then(res => res.text())
-  .then(data => alert("Claim response: " + data))
-  .catch(() => alert("Claim failed"));
-}
-</script>
-
-
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
-
-<script>
-let wallet = null;
-const TOKEN_ADDRESS = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-/* CONNECT WALLET */
-async function connectWallet() {
-  if (window.solana && window.solana.isPhantom) {
-    try {
-      const resp = await window.solana.connect();
-      wallet = resp.publicKey.toString();
-      alert("Connected: " + wallet);
-
-      checkTokenBalance();
-
-    } catch (err) {
-      alert("Connection failed");
-    }
-  } else {
-    alert("Install Phantom Wallet");
-  }
-}
-
-/* AUTO DETECT */
-window.onload = () => {
-  if (window.solana && window.solana.isPhantom) {
-    console.log("Phantom detected");
-  }
-};
-
-/* CHECK TOKEN BALANCE */
-async function checkTokenBalance() {
-  try {
-    const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
-
-    const pubkey = new solanaWeb3.PublicKey(wallet);
-    const tokenAccounts = await connection.getParsedTokenAccountsByOwner(pubkey, {
-      programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
-    });
-
-    let found = false;
-
-    tokenAccounts.value.forEach(account => {
-      const info = account.account.data.parsed.info;
-
-      if (info.mint === TOKEN_ADDRESS) {
-        found = true;
-        const balance = info.tokenAmount.uiAmount;
-        alert("You have " + balance + " MONET");
-      }
-    });
-
-    if (!found) {
-      alert("No MONET found in wallet");
-    }
-
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-/* CLAIM WITH WALLET */
-async function claim() {
-  if (!wallet) {
-    alert("Connect wallet first");
-    return;
-  }
-
-  fetch("https://monetmoney-production.up.railway.app/claim", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ wallet })
-  })
-  .then(res => res.text())
-  .then(data => alert("Claim response: " + data))
-  .catch(() => alert("Claim failed"));
-}
-</script>
-
-
-<!-- WALLET UI UPGRADE -->
-
-<div class="section wallet-box">
-  <div class="wallet-title">Wallet</div>
-  <div class="wallet-value" id="walletAddress">Not connected</div>
-  <div class="wallet-value" id="solBalance">SOL: 0</div>
-  <div class="wallet-value" id="tokenBalance">MONET: 0</div>
-  <button class="btn connect-btn" onclick="connectWallet()">Connect Wallet</button>
-</div>
-
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
-
-<script>
-let wallet = null;
-const TOKEN_ADDRESS = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
-
-/* SHORTEN WALLET */
-function short(addr){
-  return addr.slice(0,4) + "..." + addr.slice(-4);
-}
-
-/* AUTO DETECT + CONNECT */
-async function connectWallet() {
-  const provider = window.solana || window.solflare;
-
-  if (!provider) {
-    alert("Install Phantom or Solflare");
-    return;
-  }
-
-  try {
-    const resp = await provider.connect();
-    wallet = resp.publicKey.toString();
-
-    document.getElementById("walletAddress").innerText = short(wallet);
-
-    loadBalances();
-
-  } catch {
-    alert("Connection failed");
-  }
-}
-
-/* AUTO CONNECT IF ALREADY APPROVED */
-window.onload = async () => {
-  if (window.solana && window.solana.isPhantom) {
-    try {
-      const resp = await window.solana.connect({ onlyIfTrusted: true });
-      wallet = resp.publicKey.toString();
-      document.getElementById("walletAddress").innerText = short(wallet);
-      loadBalances();
-    } catch {}
-  }
-};
-
-/* LOAD BALANCES */
-async function loadBalances() {
-  if (!wallet) return;
-
-  const pubkey = new solanaWeb3.PublicKey(wallet);
-
-  // SOL BALANCE
-  const sol = await connection.getBalance(pubkey);
-  document.getElementById("solBalance").innerText = "SOL: " + (sol / 1e9).toFixed(3);
-
-  // TOKEN BALANCE
-  const tokens = await connection.getParsedTokenAccountsByOwner(pubkey, {
-    programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
-  });
-
-  let found = false;
-
-  tokens.value.forEach(acc => {
-    const info = acc.account.data.parsed.info;
-
-    if (info.mint === TOKEN_ADDRESS) {
-      found = true;
-      document.getElementById("tokenBalance").innerText =
-        "MONET: " + info.tokenAmount.uiAmount;
-    }
-  });
-
-  if (!found) {
-    document.getElementById("tokenBalance").innerText = "MONET: 0";
-  }
-}
-
-/* SMART CLAIM */
-async function claim() {
-  if (!wallet) {
-    alert("Connect wallet first");
-    return;
-  }
-
-  fetch("https://monetmoney-production.up.railway.app/claim", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ wallet })
-  })
-  .then(res => res.text())
-  .then(data => alert(data))
-  .catch(() => alert("Claim failed"));
-}
-</script>
-
-
-<!-- WALLET ADAPTER -->
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
-<script src="https://unpkg.com/@solana/wallet-adapter-wallets@latest/lib/index.iife.js"></script>
-<script src="https://unpkg.com/@solana/wallet-adapter-base@latest/lib/index.iife.js"></script>
-
-<script>
-let wallet = null;
-const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
-const TOKEN_ADDRESS = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-/* WALLET SELECTOR */
-async function connectWallet() {
-  try {
-    if (window.solana && window.solana.isPhantom) {
-      const resp = await window.solana.connect();
-      wallet = resp.publicKey.toString();
-    } else if (window.solflare) {
-      const resp = await window.solflare.connect();
-      wallet = resp.publicKey.toString();
-    } else {
-      alert("Install a Solana wallet (Phantom, Solflare, Backpack)");
-      return;
-    }
-
-    document.getElementById("walletAddress").innerText =
-      wallet.slice(0,4) + "..." + wallet.slice(-4);
-
-    loadBalances();
-
-  } catch (err) {
-    alert("Wallet connection failed");
-  }
-}
-
-/* LOAD BALANCES (same as before) */
-async function loadBalances() {
-  if (!wallet) return;
-
-  const pubkey = new solanaWeb3.PublicKey(wallet);
-
-  const sol = await connection.getBalance(pubkey);
-  document.getElementById("solBalance").innerText =
-    "SOL: " + (sol / 1e9).toFixed(3);
-
-  const tokens = await connection.getParsedTokenAccountsByOwner(pubkey, {
-    programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
-  });
-
-  let found = false;
-
-  tokens.value.forEach(acc => {
-    const info = acc.account.data.parsed.info;
-
-    if (info.mint === TOKEN_ADDRESS) {
-      found = true;
-      document.getElementById("tokenBalance").innerText =
-        "MONET: " + info.tokenAmount.uiAmount;
-    }
-  });
-
-  if (!found) {
-    document.getElementById("tokenBalance").innerText = "MONET: 0";
-  }
-}
-</script>
-
-
-<!-- WALLET MODAL STYLES -->
-
-<!-- WALLET MODAL -->
-<div id="walletModal" class="wallet-modal">
-  <div class="wallet-modal-content">
-    <h3>Select Wallet</h3>
-
-    <div class="wallet-option" onclick="connectPhantom()">Phantom</div>
-    <div class="wallet-option" onclick="connectSolflare()">Solflare</div>
-
-    <div class="wallet-option" onclick="closeWalletModal()">Cancel</div>
-  </div>
-</div>
-
-<script>
-let wallet = null;
-const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
-const TOKEN_ADDRESS = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-/* OPEN MODAL */
-function connectWallet() {
-  document.getElementById("walletModal").style.display = "flex";
-}
-
-function closeWalletModal() {
-  document.getElementById("walletModal").style.display = "none";
-}
-
-/* PHANTOM */
-async function connectPhantom() {
-  if (!window.solana || !window.solana.isPhantom) {
-    alert("Phantom not installed");
-    return;
-  }
-
-  const resp = await window.solana.connect();
-  wallet = resp.publicKey.toString();
-
-  onWalletConnected();
-}
-
-/* SOLFLARE */
-async function connectSolflare() {
-  if (!window.solflare) {
-    alert("Solflare not installed");
-    return;
-  }
-
-  const resp = await window.solflare.connect();
-  wallet = resp.publicKey.toString();
-
-  onWalletConnected();
-}
-
-/* AFTER CONNECT */
-function onWalletConnected() {
-  closeWalletModal();
-
-  document.getElementById("walletAddress").innerText =
-    wallet.slice(0,4) + "..." + wallet.slice(-4);
-
-  loadBalances();
-}
-
-/* LOAD BALANCES */
-async function loadBalances() {
-  if (!wallet) return;
-
-  const pubkey = new solanaWeb3.PublicKey(wallet);
-
-  const sol = await connection.getBalance(pubkey);
-  document.getElementById("solBalance").innerText =
-    "SOL: " + (sol / 1e9).toFixed(3);
-
-  const tokens = await connection.getParsedTokenAccountsByOwner(pubkey, {
-    programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
-  });
-
-  let found = false;
-
-  tokens.value.forEach(acc => {
-    const info = acc.account.data.parsed.info;
-
-    if (info.mint === TOKEN_ADDRESS) {
-      found = true;
-      document.getElementById("tokenBalance").innerText =
-        "MONET: " + info.tokenAmount.uiAmount;
-    }
-  });
-
-  if (!found) {
-    document.getElementById("tokenBalance").innerText = "MONET: 0";
-  }
-}
-</script>
-
-
-
-<!-- WALLET CONNECT -->
-<div id="wallet-connect" style="position:fixed;top:15px;right:15px;z-index:9999;">
-  <button id="connectWalletBtn" style="padding:10px 16px;border-radius:8px;background:#111;color:#fff;border:1px solid rgba(255,255,255,0.2);cursor:pointer;">
-    Connect Wallet
-  </button>
-</div>
-
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-<script>
-(function () {
-  const btn = document.getElementById("connectWalletBtn");
-
-  function getProvider() {
-    if (window.solana && window.solana.isPhantom) return window.solana;
-    if (window.solflare) return window.solflare;
-    if (window.backpack) return window.backpack;
-    return null;
-  }
-
-  btn.onclick = async function () {
-    const provider = getProvider();
-
-    if (!provider) {
-      alert("Install Phantom, Solflare, or Backpack.");
-      return;
-    }
-
-    try {
-      const resp = await provider.connect();
-      const key = resp.publicKey.toString();
-      btn.innerText = key.slice(0,4) + "..." + key.slice(-4);
-    } catch (e) {
-      alert("Connection failed");
-    }
-  };
-})();
-</script>
-<!-- END WALLET CONNECT -->
