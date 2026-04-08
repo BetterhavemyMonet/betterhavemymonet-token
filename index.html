@@ -1,4 +1,40 @@
 <style>
+/* HERO FOCUS GLOW */
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:300px;
+background:radial-gradient(circle at 50% 20%,rgba(0,255,200,0.15),transparent 70%);
+pointer-events:none;
+z-index:0;
+}
+
+/* MONET TITLE BOOST */
+h1{
+text-shadow:0 0 12px rgba(0,255,200,0.6),0 0 24px rgba(0,255,200,0.3);
+letter-spacing:1px;
+}
+
+/* SECTION DEPTH */
+section, .container, .card{
+background:rgba(0,0,0,0.25);
+backdrop-filter:blur(6px);
+border-top:1px solid rgba(255,255,255,0.05);
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+/* BUTTON IMPORTANCE */
+button{
+box-shadow:0 4px 14px rgba(0,255,200,0.25);
+}
+button:hover{
+box-shadow:0 6px 20px rgba(0,255,200,0.45);
+}
+</style>
+<style>
 h1, h2, .title, .hero-title {
 background: linear-gradient(90deg,#00f5ff,#00ffa6) !important;
 -webkit-background-clip: text !important;
