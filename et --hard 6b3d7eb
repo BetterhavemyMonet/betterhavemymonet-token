@@ -1,0 +1,132 @@
+[33m95abfc8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m fix wallet script render + clean gradient + restore UI polish
+[33mfbf6cfc[m clean rewrite layer (no content loss, full polish)
+[33m4367183[m fix gradient flow (smooth, cohesive, no harsh colors)
+[33m93e97d3[m final gradient: black top → subtle pink → blue/green fade bottom
+[33m16dfe1f[m refine gradient: dark top to pink focus
+[33m899263d[m FULL CLEAN REBUILD: polished UI, gradient, monet styling, wallet connect fixed
+[33m8041032[m force top purple to bottom dark gradient
+[33ma7ff9dd[m flip background gradient orientation (top purple, bottom accent)
+[33m6b3d7eb[m apply premium glam polish (non-destructive)
+[33m09e3b38[m add wallet connect clean injection
+[33mde8b092[m add wallet connect (auto-detect multi-wallet, non-destructive)
+[33m3d651ba[m monet title gradient (pink/purple only)
+[33maca9408[m boost monet brightness + deeper shadow
+[33m2d9269e[m full UI polish layer (clean, non-destructive)
+[33m50ada14[m style: add subtle black shadow to outlined title
+[33m0d250f7[m style: thin letter outline only (clean stroke, no glow)
+[33mdc7f194[m style: add subtle white outline to Monet title
+[33me11ed6c[m fix: correct solana logo path in footer
+[33mf051dcb[m feat: add built on Solana footer only
+[33mb6ac56e[m Add files via upload
+[33m90f8e4c[m style: change logo glow to neon green
+[33m90fb50b[m style: restore Orbitron font globally
+[33mc278876[m remove forced font override (restore original typography)
+[33m56ee68d[m Add files via upload
+[33m996da34[m force restore original font (override fix)
+[33m3917f39[m remove forced font, restore original typography
+[33mf0d2e73[m revert font to original (keep UI styling)
+[33mf6457fd[m UI upgrade: crypto launch styling (safe)
+[33m8e63ac0[m update logo using monetm.png
+[33m2b82f72[m add monet solscan + telegram links
+[33m36cd72f[m full backend fix: stable server + claim route + railway safe
+[33me8c0fc4[m feat: wallet modal (phantom + solflare selector UI)
+[33mbaa13bb[m feat: multi-wallet support (phantom + solflare + others)
+[33m3ee813c[m upgrade: full wallet UI + auto detect + balances + smart claim
+[33m9666e6e[m feat: wallet connect + token detect + smart claim
+[33m51c4fca[m feat: wallet connect + token detect + smart claim
+[33ma13f917[m feat: inline claim execution without redirect
+[33mc069d11[m fix: restore Monet title size
+[33m171109f[m fix: logo + clean spotlight (no text changes)
+[33m1eaa7c9[m style: remove glow from text, keep spotlight only
+[33m1526a69[m style: switch spotlight back to pink/purple
+[33m6a714bd[m fix: body-level neon yellow spotlight (guaranteed visible)
+[33m6e6a0c8[m style: clean neon yellow spotlight (remove duplicates)
+[33m811e76e[m style: force neon yellow spotlight glow
+[33m06ffa9e[m style: switch spotlight glow to neon yellow
+[33me52273e[m style: spotlight glow radiating around Monet title
+[33m9d82316[m style: spotlight glow radiating around Monet title
+[33m14e448c[m style: ultra wide distant halo behind Monet title
+[33m5c62afe[m style: expanded distant halo around Monet title
+[33m3e221b8[m style: wide outer aura around Monet words (not letters)
+[33maf55fed[m style: outer glow around Monet text (no blur, clean aura)
+[33m6f56ca5[m fix: restore crisp text + clean animated glow (no blur)
+[33m65e742a[m style: add subtle pink/purple glow to Monet title
+[33m96a3962[m style: add subtle pink/purple glow to Monet title
+[33m2609594[m fix: monet.png logo + background (stable no sed errors)
+[33m9bb8a84[m patch: fix images + restore subtle Solana theme (no layout changes)
+[33m8aef6e5[m UPGRADE: full Monet site with chart, FOMO, branding, sections, Solana theme
+[33m3732e8d[m FINAL STABLE BUILD: Monet site clean + working buttons + correct token + Jupiter + claim
+[33m9271069[m fix: restore Monet text title + styling
+[33m5b91fab[m fix: restore Monet text title + styling
+[33mcdd8d09[m fix: restore Monet text title + styling
+[33mfd6a4fa[m fix: token address + jupiter + button wiring stable
+[33m3a09cbb[m fix: force update all token addresses
+[33mbfdbdb9[m fix: update MONET token address across all sections
+[33m5501125[m fix: force insert M logo into header
+[33m153f366[m Add files via upload
+[33mda8ee2b[m fix: add solana M logo and wire into text
+[33md1a1c95[m fix: merge static into root
+[33m984f6f3[m Fix all button logic + clean Jupiter chart integration
+[33m101bd2c[m Embed claim on-site (no redirect), keep layout intact
+[33m2dff9ce[m Replace Dex iframe with Jupiter button (precise)
+[33mcf9506a[m Add token address with copy function
+[33m924dec1[m Restore layout from 2 commits ago
+[33m8fcf7ab[m Full professional rewrite: layout, sections, buttons, logic
+[33m9a23270[m Replace Dex chart with Jupiter button safely
+[33m8b23135[m Embed MONET claim directly (no redirect)
+[33m5a845ce[m Wire Get Free MONET button to claim portal
+[33m95e4e9a[m Wire claim button to backend airdrop
+[33m7d6437d[m Fix Railway routes and claim page
+[33m1881fde[m Full dApp polish: wallet detection + Railway airdrop link
+[33mc8da52a[m Fix duplicate MONET guide section
+[33m01e59ae[m Add MONET claim guide section
+[33m0ca1413[m Show real airdrop error message
+[33m9a5fe86[m Inject full wallet system + auto-wire airdrop button safely
+[33m278d39a[m Add multi-wallet support (Phantom, Solflare, Backpack)
+[33m033c5b9[m Show real airdrop error message
+[33mff7e05e[m FINAL CLEAN BUILD: fully restored + wired Monet site
+[33m372ad52[m Reinsert Monet logo into hero section
+[33m5c5748e[m Fix asset paths for logo and background
+[33ma2fc890[m Fix asset paths for logo and background
+[33m0cc4b0b[m Fix logo + restore background image correctly
+[33m861effd[m RESTORE + ENHANCE: full site, branding, working dapp, UI polish
+[33m7bc7367[m FULL UI + DAPP UPGRADE: buttons, airdrop wiring, animations, wallet, progress
+[33m527379d[m Update CTA text to stronger conversion messaging
+[33m6c46115[m Add auto wallet detection + MONET balance display
+[33m71e2b4d[m Force font + set final Monet description cleanly
+[33ma0d047e[m Force font + set final Monet description cleanly
+[33m6902f61[m Enhance Monet text: brighter outward aura + premium shine effect
+[33m8f79ea8[m Fix Monet aura: outward blue glow, preserve gradient colors
+[33mb1c760e[m Add blue aura glow + enhanced luxury Monet typography
+[33mc0142b7[m Upgrade Monet bubble text to purple/pink/blue gradient neon
+[33m6fe76ec[m Restore Monet Money bubble lettering style
+[33m5a8bdcc[m Buttons wired to Jupiter + Telegram (no Dex)
+[33ma30831d[m Ultimate build: wallet + SOL + token balance + Jupiter + info + live price
+[33m76ba82d[m Full dApp mode: portfolio value + tx history + embedded Jupiter + auto reconnect
+[33mb0ea7b2[m Ultimate build: wallet + SOL + token balance + Jupiter + info + live price
+[33m068307c[m Ultimate build: wallet + SOL + token balance + Jupiter + info + live price
+[33m50255ba[m FINAL: full site + images + live chart + working buttons + no Dex
+[33m9274399[m Fix: correct image names and paths
+[33me94eb57[m Fix asset paths (relative) so images load correctly
+[33md5da3eb[m Final build: live token wired, UI fixed, Jupiter + Dex integrated
+[33mcafe411[m Full fix: assets, CSS loading, cache bust, layout, fonts
+[33m60e8341[m Stabilize styles + fix spacing and font cleanly
+[33m5d1fa98[m Safe combo: centering + Monet font styling
+[33m94f95af[m Clean rebuild: stable background + logo (no breakage)
+[33m10fa2c0[m Add Monet background + logo safely
+[33m44ea9e8[m Add Monet background + logo safely
+[33m8dcbddb[m update: upgraded Monet tagline with money moves
+[33mda75a1a[m upgrade: legendary animated neon title (Monet Money)
+[33mfd6752b[m upgrade: 0M project structure (metrics + why + tokenomics)
+[33m8181d93[m upgrade: neon purple section outlines + glow styling
+[33m0f44a6a[m final: clean rebuild (single pitch + correct layout + logo + background)
+[33m874e223[m final: full polish (logo + background + layout + pitch positioning)
+[33mceef365[m safe fix: apply background image without breaking styles
+[33m941311c[m fix: move existing background.png and apply nebula background
+[33ma3ad396[m reset: clean working site with nebula + logo + pitch
+[33mf237e48[m feature: wallet connect + MONET token detection (safe append)
+[33mc93a67d[m FINAL FULL BUILD: nebula bg + sections + token info + chart + interactions
+[33mbe266e2[m append: actions + placeholder chart + micro interactions (guaranteed visible)
+[33m4fc6ae3[m FINAL: clean elite rebuild with premium styling + correct branding
+[33m3863d67[m fix: add m logo + apply monet styled title
+[33m4684603[m restore actual repo + monet rename + remove emergent
