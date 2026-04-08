@@ -1,0 +1,56 @@
+/* ===== MONET POLISH LAYER (non-destructive) ===== */
+
+/* Global smoothness */
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Monet text enhancement */
+.monet-text {
+  filter: brightness(1.12) saturate(1.15);
+  letter-spacing: 0.5px;
+  text-shadow:
+    0 0 4px rgba(255,255,255,0.25),
+    0 2px 4px rgba(0,0,0,0.6);
+}
+
+/* Subtle premium glow on key elements */
+button, .btn, .card {
+  transition: all 0.25s ease;
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* Glass effect (very subtle, not overdone) */
+.card, .container, .box {
+  backdrop-filter: blur(6px);
+  background: rgba(255,255,255,0.02);
+}
+
+/* Smooth link + UI feel */
+a {
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.85;
+}
+
+/* Slight depth across page */
+section, div {
+  will-change: transform;
+}
+
+/* Optional subtle gradient overlay for richness */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05), transparent 40%);
+  z-index: 0;
+}
