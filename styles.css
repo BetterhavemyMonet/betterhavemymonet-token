@@ -8,6 +8,10 @@ body {
 
 /* Monet text enhancement */
 .monet-text {
+  background: linear-gradient(90deg, #ff4d9d, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   filter: brightness(1.2) saturate(1.2);
   text-shadow: 0 3px 6px rgba(0,0,0,0.7), 0 0 6px rgba(255,255,255,0.25);
   filter: brightness(1.12) saturate(1.15);
