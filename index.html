@@ -1,4 +1,29 @@
 <style>
+/* ===== FIX TOP LOGO (KEEP IT CLEAN) ===== */
+img[src*="monet.png"] {
+position: absolute !important;
+top: 15px;
+left: 15px;
+max-width: 80px !important;
+z-index: 1000;
+}
+
+/* ===== TITLE IMAGE (BIGGER + CLEAN) ===== */
+img[src*="monet-title.jpg"] {
+display: block;
+margin: 20px auto 10px auto !important;
+max-width: 360px !important;
+}
+
+/* ===== REMOVE BROKEN IMAGE + EXTRA TEXT ===== */
+h1 {
+display: none !important;
+}
+img[alt="Monet Money"] {
+display: block !important;
+}
+</style>
+<style>
 /* ===== LOGO TOP LEFT ===== */
 img[src*="monet.png"] {
 position: absolute !important;
