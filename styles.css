@@ -60,3 +60,70 @@ body::before {
   background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05), transparent 40%);
   z-index: 0;
 }
+
+/* ===== MONET PREMIUM GLAM (NON-DESTRUCTIVE) ===== */
+
+/* Smooth rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Background richness */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 80% 20%, rgba(168,85,247,0.08), transparent 40%),
+              radial-gradient(circle at 20% 80%, rgba(255,77,157,0.08), transparent 40%);
+  z-index: 0;
+}
+
+/* Monet title (keeps everything, just enhances) */
+.monet-text {
+  filter: brightness(1.15) saturate(1.2);
+  letter-spacing: 0.6px;
+  text-shadow:
+    0 4px 12px rgba(0,0,0,0.65),
+    0 0 10px rgba(255,77,157,0.25),
+    0 0 14px rgba(168,85,247,0.25);
+}
+
+/* Buttons feel premium */
+button, .btn {
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+}
+
+/* Card / container polish */
+.card, .container, .box, section {
+  transition: all 0.25s ease;
+}
+
+.card:hover, .container:hover, .box:hover {
+  transform: translateY(-2px);
+}
+
+/* Subtle glass effect */
+.card, .container, .box {
+  backdrop-filter: blur(8px);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Links feel alive */
+a {
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.85;
+  text-shadow: 0 0 6px rgba(255,255,255,0.2);
+}
+
