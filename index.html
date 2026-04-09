@@ -398,5 +398,26 @@ document.getElementById("connectBtn").onclick=connectWallet;
 </script>
 <!-- ===== END DAPP LAYER ===== -->
 
+<style>
+/* ===== DEEP PURPLE VIGNETTE ===== */
+img[src*="monet-title.jpg"] {
+  position: relative !important;
+  z-index: 5 !important;
+  box-shadow:
+    0 0 40px rgba(90,0,140,0.55),
+    0 0 90px rgba(120,0,180,0.35),
+    0 0 160px rgba(70,0,120,0.25) !important;
+  filter: drop-shadow(0 0 25px rgba(110,0,200,0.7))
+          drop-shadow(0 0 70px rgba(140,0,255,0.45))
+          drop-shadow(0 0 140px rgba(80,0,160,0.3)) !important;
+}
+
+/* ===== MATCH LIGHTNING COLOR ===== */
+.fomo, .section h2::before {
+  color: #b366ff !important;
+  text-shadow: 0 0 10px rgba(140,0,255,0.9),
+               0 0 25px rgba(110,0,200,0.6) !important;
+}
+</style>
 </body>
 </html>
