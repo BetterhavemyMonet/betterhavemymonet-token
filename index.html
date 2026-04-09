@@ -103,6 +103,55 @@ footer{
 margin-top:30px;
 opacity:.7;
 }
+/* ===== PREMIUM SECTION UPGRADE ===== */
+.section, .card, .container {
+  position: relative;
+  background: linear-gradient(180deg, rgba(20,20,40,0.65), rgba(10,10,20,0.85)) !important;
+  backdrop-filter: blur(14px) saturate(120%);
+  border-radius: 22px !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.03);
+  padding: 28px 20px;
+  margin: 24px auto;
+  max-width: 95%;
+  transition: all 0.3s ease;
+}
+
+/* subtle glow border */
+.section::before, .card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 22px;
+  background: linear-gradient(120deg, rgba(168,85,247,0.25), rgba(0,255,200,0.15), transparent);
+  opacity: 0.6;
+  z-index: -1;
+}
+
+/* hover elevation */
+.section:hover, .card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 25px rgba(168,85,247,0.2);
+}
+
+/* section titles */
+.section h2 {
+  font-size: 24px;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 12px rgba(0,255,200,0.25);
+}
+
+/* inner content spacing */
+.section p, .section div {
+  opacity: 0.9;
+}
+
+/* make buttons feel embedded */
+.section button {
+  margin-top: 12px;
+}
+
 </style>
 </head>
 
