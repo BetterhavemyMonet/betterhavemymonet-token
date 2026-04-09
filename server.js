@@ -1,64 +1,87 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import { Connection, Keypair, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
-
-dotenv.config();
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const sqlite3 = require('sqlite3').verbose();
+const {
+  Connection,
+  Keypair,
+  PublicKey
+} = require('@solana/web3.js');
+const {
+  getOrCreateAssociatedTokenAccount,
+  transfer
+} = require('@solana/spl-token');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-let keypair;
-let connection;
+/* DB */
+const db = new sqlite3.Database('./airdrop.db');
+db.run(`CREATE TABLE IF NOT EXISTS claims (
+  wallet TEXT PRIMARY KEY,
+  signature TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+)`);
 
-try {
-  if (!process.env.PRIVATE_KEY) throw new Error("Missing PRIVATE_KEY");
+/* SOLANA */
+const connection = new Connection(process.env.RPC, 'confirmed');
+const secret = JSON.parse(fs.readFileSync(process.env.WALLET));
+const payer = Keypair.fromSecretKey(Uint8Array.from(secret));
+const MINT = new PublicKey(process.env.MINT);
+const AMOUNT = Number(process.env.AMOUNT);
 
-  const secret = Uint8Array.from(JSON.parse(process.env.PRIVATE_KEY));
-  keypair = Keypair.fromSecretKey(secret);
-
-  connection = new Connection(process.env.RPC_URL || "https://api.mainnet-beta.solana.com");
-
-  console.log("✅ Wallet loaded:", keypair.publicKey.toBase58());
-} catch (err) {
-  console.error("❌ Startup error:", err.message);
-}
-
-app.get("/", (req, res) => {
-  res.send("🚀 MONET Airdrop Live");
-});
-
-app.get("/balance", async (req, res) => {
-  try {
-    const balance = await connection.getBalance(keypair.publicKey);
-    res.json({ balance: balance / LAMPORTS_PER_SOL });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.post("/claim", async (req, res) => {
+/* CLAIM */
+app.post('/claim', async (req, res) => {
   try {
     const { wallet } = req.body;
-    if (!wallet) return res.status(400).json({ error: "Wallet required" });
 
-    const userPublicKey = new PublicKey(wallet);
-    console.log("🎁 Claim request from:", userPublicKey.toBase58());
+    if (!wallet) return res.status(400).json({ error: "No wallet" });
 
-    return res.json({
-      success: true,
-      message: "Airdrop initiated 🚀"
+    db.get("SELECT wallet FROM claims WHERE wallet = ?", [wallet], async (err, row) => {
+      if (row) return res.status(403).json({ error: "Already claimed" });
+
+      const to = new PublicKey(wallet);
+
+      const fromToken = await getOrCreateAssociatedTokenAccount(
+        connection, payer, MINT, payer.publicKey
+      );
+
+      const toToken = await getOrCreateAssociatedTokenAccount(
+        connection, payer, MINT, to
+      );
+
+      const signature = await transfer(
+        connection,
+        payer,
+        fromToken.address,
+        toToken.address,
+        payer.publicKey,
+        AMOUNT
+      );
+
+      await connection.confirmTransaction(signature, 'confirmed');
+
+      db.run("INSERT INTO claims(wallet, signature) VALUES (?, ?)", [wallet, signature]);
+
+      res.json({ success: true, signature });
     });
 
-  } catch (err) {
-    console.error("Claim error:", err);
-    res.status(500).json({ error: err.message });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: e.message });
   }
 });
 
-const PORT = process.env.PORT || 3000;
+/* ✅ STATUS (THIS WAS MISSING BEFORE) */
+app.get('/status', (req, res) => {
+  db.get("SELECT COUNT(*) as total FROM claims", [], (err, row) => {
+    res.json({ totalClaims: row.total });
+  });
+});
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Running on ${PORT}`);
+/* START */
+app.listen(process.env.PORT || 3000, () => {
+  console.log("🚀 Airdrop live on port 3000");
 });

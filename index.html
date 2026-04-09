@@ -192,5 +192,45 @@ alert("Copied!");
 }
 </script>
 
+<!-- ===== DAPP LAYER ===== -->
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+
+<div id="wallet-ui" style="position:fixed;top:15px;right:15px;z-index:9999;text-align:right;">
+<button id="connectBtn" class="btn">Connect Wallet</button>
+<div id="walletInfo" style="margin-top:8px;font-size:12px;opacity:.8;"></div>
+</div>
+
+<script>
+let provider=null;
+
+function getProvider(){
+if(window.solana && window.solana.isPhantom) return window.solana;
+if(window.solflare) return window.solflare;
+if(window.backpack) return window.backpack;
+return null;
+}
+
+async function connectWallet(){
+provider=getProvider();
+if(!provider){ alert("Install Phantom / Solflare / Backpack"); return;}
+try{
+const resp=await provider.connect();
+const pubkey=resp.publicKey.toString();
+document.getElementById("connectBtn").innerText=pubkey.slice(0,4)+"..."+pubkey.slice(-4);
+loadBalance(pubkey);
+}catch(e){ alert("Connection failed"); }
+}
+
+async function loadBalance(pubkey){
+const connection=new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+const balance=await connection.getBalance(new solanaWeb3.PublicKey(pubkey));
+const sol=(balance/solanaWeb3.LAMPORTS_PER_SOL).toFixed(4);
+document.getElementById("walletInfo").innerText="Balance: "+sol+" SOL";
+}
+
+document.getElementById("connectBtn").onclick=connectWallet;
+</script>
+<!-- ===== END DAPP LAYER ===== -->
+
 </body>
 </html>

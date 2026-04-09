@@ -1,64 +1,94 @@
+require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const { Low } = require('lowdb');
+const { JSONFile } = require('lowdb/node');
+const {
+  Connection,
+  Keypair,
+  PublicKey
+} = require('@solana/web3.js');
+const {
+  getOrCreateAssociatedTokenAccount,
+  transfer
+} = require('@solana/spl-token');
+
 const app = express();
+app.use(cors());
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.redirect('/claim');
-});
+/* ===== SIMPLE DB (NO BUILD ISSUES) ===== */
+const adapter = new JSONFile('db.json');
+const db = new Low(adapter);
 
-app.get('/claim', (req, res) => {
-  res.send(`
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>MONET Airdrop</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body style="background:black;color:white;text-align:center;padding:40px;font-family:sans-serif;">
-    <h1>💵 MONET AIRDROP</h1>
-    <p>Connect your wallet and claim your tokens.</p>
-
-async function connectWallet(){
-  const status = document.getElementById("status");
-  try {
-    if(window.solana && window.solana.isPhantom){
-      const resp = await window.solana.connect();
-      const wallet = resp.publicKey.toString();
-      status.innerText = "Sending airdrop...";
-
-      const res = await fetch("/claim", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ wallet })
-      });
-
-      const data = await res.json();
-
-      if(data.success){
-        status.innerText = "✅ Airdrop sent!";
-      } else {
-        status.innerText = "❌ Error: " + data.error;
-      }
-
-    } else {
-      status.innerText = "⚠️ Open inside Phantom or Solflare wallet";
-    }
-  } catch(e){
-    status.innerText = "Error: " + e.message;
-  }
+async function initDB() {
+  await db.read();
+  db.data ||= { claims: [] };
+  await db.write();
 }
-/* CLAIM_WIRED */
-          status.innerText = "⚠️ Open inside Phantom or Solflare wallet";
-        }
-      } catch(e){
-        status.innerText = "Error: " + e.message;
-      }
-    }
-    </script>
 
-  </body>
-  </html>
-  `);
+/* ===== SOLANA ===== */
+const connection = new Connection(process.env.RPC, 'confirmed');
+const secret = JSON.parse(fs.readFileSync(process.env.WALLET));
+const payer = Keypair.fromSecretKey(Uint8Array.from(secret));
+const MINT = new PublicKey(process.env.MINT);
+const AMOUNT = Number(process.env.AMOUNT);
+
+/* ===== CLAIM ===== */
+app.post('/claim', async (req, res) => {
+  try {
+    const { wallet } = req.body;
+    if (!wallet) return res.status(400).json({ error: "No wallet" });
+
+    await db.read();
+
+    const exists = db.data.claims.find(c => c.wallet === wallet);
+    if (exists) {
+      return res.status(403).json({ error: "Already claimed" });
+    }
+
+    const to = new PublicKey(wallet);
+
+    const fromToken = await getOrCreateAssociatedTokenAccount(
+      connection, payer, MINT, payer.publicKey
+    );
+
+    const toToken = await getOrCreateAssociatedTokenAccount(
+      connection, payer, MINT, to
+    );
+
+    const signature = await transfer(
+      connection,
+      payer,
+      fromToken.address,
+      toToken.address,
+      payer.publicKey,
+      AMOUNT
+    );
+
+    await connection.confirmTransaction(signature, 'confirmed');
+
+    db.data.claims.push({ wallet, signature });
+    await db.write();
+
+    res.json({ success: true, signature });
+
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: e.message });
+  }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("🚀 MONET Airdrop running"));
+/* ===== STATUS ===== */
+app.get('/status', async (req, res) => {
+  await db.read();
+  res.json({ totalClaims: db.data.claims.length });
+});
+
+/* ===== START ===== */
+initDB().then(() => {
+  app.listen(process.env.PORT || 3000, () => {
+    console.log("🚀 MONET PRODUCTION AIRDROP LIVE");
+  });
+});
