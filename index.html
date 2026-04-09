@@ -269,6 +269,63 @@ body > * {
 }
 
 
+/* ===== SAFE PROFESSIONAL UPGRADE ===== */
+
+/* TITLE SPOTLIGHT */
+.title-wrap {
+position:relative;
+display:flex;
+justify-content:center;
+}
+
+.title-wrap::before {
+content:"";
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:500px;
+height:500px;
+background:radial-gradient(circle,
+rgba(255,245,170,0.55),
+rgba(255,220,120,0.3),
+transparent 70%);
+filter:blur(80px);
+z-index:0;
+}
+
+.title-wrap img {
+position:relative;
+z-index:2;
+filter:drop-shadow(0 0 12px rgba(255,235,140,0.6));
+}
+
+/* SECTION STRUCTURE */
+.section {
+background:rgba(20,20,40,0.6) !important;
+border-radius:18px !important;
+padding:25px !important;
+margin:25px auto !important;
+max-width:520px;
+box-shadow:0 10px 40px rgba(0,0,0,0.6);
+}
+
+.section h2 {
+text-align:left;
+margin-bottom:12px;
+}
+
+/* BUTTON CLEAN */
+.btn {
+background:linear-gradient(135deg,#00f5ff,#a855f7);
+color:#000;
+font-weight:bold;
+}
+
+.btn:hover {
+transform:scale(1.05);
+}
+
 </style>
 </head>
 
