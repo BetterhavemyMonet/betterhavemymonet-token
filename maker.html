@@ -106,65 +106,8 @@ function loadLevel(){
 }
 
 // Play mode
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
-
-let player = {x:50,y:150,w:20,h:20,dy:0};
-let gravity = 0.5;
-let playing = false;
-let scrollOffset = 0;
-let scrollOffset = 0;
-
-function playLevel(){
-  player.y = 150;
-  player.dy = 0;
-  playing = true;
-  loop();
 }
-
-document.addEventListener("click",()=>{
-  if (playing) player.dy = -8;
-});
-
-function loop(){
-  if (!playing) return;
-
-  ctx.clearRect(0,0,400,300);
-
-  // Player physics
-  player.dy += gravity;
-  player.y += player.dy;
-
-  ctx.fillStyle="#00ffa3";
-  ctx.fillRect(player.x,player.y,player.w,player.h);
-
-  // Draw blocks
-  level.forEach((b,i)=>{
-    if (!b) return;
-
-    let x = (i%10)*40 - scrollOffset;
-    let y = Math.floor(i/10)*40;
-
-    ctx.fillStyle="#ff0040";
-    ctx.fillRect(x,y,40,40);
-
-    // Collision
-    if (
-      player.x < x+40 &&
-      player.x+player.w > x &&
-      player.y < y+40 &&
-      player.y+player.h > y
-    ){
-      playing = false;
-      alert("Game Over");
-    }
-  });
-
-  scrollOffset += 2;
-  scrollOffset += 2;
-  requestAnimationFrame(loop);
-}
-</script>
+</script><script src="fix_runner.js"></script>
 
 </body>
 </html>
@@ -184,5 +127,5 @@ document.querySelectorAll("button").forEach(btn=>{
   if (btn.innerText === "Play") {
   }
 });
-</script>
+</script><script src="fix_runner.js"></script>
 
