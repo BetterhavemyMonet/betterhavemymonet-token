@@ -125,3 +125,31 @@ function connectWallet() {
 }
 </script>
 
+
+<script>
+// Override start button safely
+document.getElementById("startBtn").onclick = function() {
+  if (!wallet) {
+    alert("Connect your wallet to play");
+    return;
+  }
+
+  score = 0;
+  timeLeft = 10;
+
+  document.getElementById("score").innerText = "Score: 0";
+  document.getElementById("tapBtn").disabled = false;
+
+  interval = setInterval(function(){
+    timeLeft--;
+    document.getElementById("timer").innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      document.getElementById("tapBtn").disabled = true;
+      alert("Game Over! Score: " + score);
+    }
+  }, 1000);
+};
+</script>
+
