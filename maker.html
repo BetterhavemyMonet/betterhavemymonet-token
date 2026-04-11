@@ -113,6 +113,7 @@ let player = {x:50,y:150,w:20,h:20,dy:0};
 let gravity = 0.5;
 let playing = false;
 let scrollOffset = 0;
+let scrollOffset = 0;
 
 function playLevel(){
   player.y = 150;
@@ -159,6 +160,7 @@ function loop(){
     }
   });
 
+  scrollOffset += 2;
   scrollOffset += 2;
   requestAnimationFrame(loop);
 }
