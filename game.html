@@ -68,25 +68,17 @@ document.getElementById("tapBtn").onclick = function() {
 </html>
 
 <script>
-var wallet = null;
 
 function getProvider() {
-  return window.phantom && window.phantom.solana
-    ? window.phantom.solana
-    : window.solana || null;
 }
 
-function connectWallet() {
   var provider = getProvider();
 
   if (!provider) {
-    alert("Open inside Phantom wallet");
     return;
   }
 
   provider.connect().then(function(res){
-    wallet = res.publicKey.toString();
-    document.getElementById("walletText").innerText = wallet;
   }).catch(function(){
     alert("Connection failed");
   });
@@ -94,32 +86,23 @@ function connectWallet() {
 
 // Inject UI safely
 document.body.insertAdjacentHTML("afterbegin",
-  '<p id="walletText">Not connected</p>' +
-  '<button onclick="connectWallet()">Connect Wallet</button><br><br>'
 );
 </script>
 
 
 <script>
 function getProvider() {
-  if (window.phantom && window.phantom.solana) return window.phantom.solana;
-  if (window.solana) return window.solana;
   return null;
 }
 
-function connectWallet() {
   const provider = getProvider();
 
   if (!provider) {
-    alert("No wallet found.\n\nInstall Phantom or open this page inside Phantom.");
     return;
   }
 
   provider.connect()
     .then(res => {
-      wallet = res.publicKey.toString();
-      document.getElementById("walletText").innerText =
-        wallet.slice(0,4) + "..." + wallet.slice(-4);
     })
     .catch(() => alert("Connection failed"));
 }
@@ -129,8 +112,6 @@ function connectWallet() {
 <script>
 // Override start button safely
 document.getElementById("startBtn").onclick = function() {
-  if (!wallet) {
-    alert("Connect your wallet to play");
     return;
   }
 
@@ -156,18 +137,13 @@ document.getElementById("startBtn").onclick = function() {
 
 <script>
 async function payToPlay() {
-  const provider = window.phantom?.solana || window.solana;
   if (!provider) {
     alert("Wallet not found");
     return false;
   }
 
-  const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
 
-  const tx = new solanaWeb3.Transaction().add(
-    solanaWeb3.SystemProgram.transfer({
       fromPubkey: provider.publicKey,
-      toPubkey: new solanaWeb3.PublicKey("BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z"),
       lamports: 10000 // tiny amount for testing
     })
   );
@@ -185,8 +161,6 @@ async function payToPlay() {
 
 // Override start again (payment + game)
 document.getElementById("startBtn").onclick = async function() {
-  if (!wallet) {
-    alert("Connect wallet first");
     return;
   }
 
@@ -216,26 +190,18 @@ document.getElementById("startBtn").onclick = async function() {
 };
 </script>
 
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
 
 
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
 
 <script>
 async function payWithMonet(amount) {
-  const provider = window.phantom?.solana || window.solana;
   if (!provider) {
-    alert("No wallet found");
     return false;
   }
 
-  const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
 
   const user = provider.publicKey;
-  const treasury = new solanaWeb3.PublicKey("BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z");
 
-  const tx = new solanaWeb3.Transaction().add(
-    solanaWeb3.SystemProgram.transfer({
       fromPubkey: user,
       toPubkey: treasury,
       lamports: 10000 // TEMP (we’ll replace with MONET SPL next if needed)
@@ -255,8 +221,6 @@ async function payWithMonet(amount) {
 
 // Override start button
 document.getElementById("startBtn").onclick = async function() {
-  if (!wallet) {
-    alert("Connect wallet first");
     return;
   }
 
@@ -319,23 +283,16 @@ renderLeaderboard();
 
 <script>
 async function payWithMonet(amount) {
-  const provider = window.phantom?.solana || window.solana;
   if (!provider) {
     alert("Wallet not found");
     return false;
   }
 
-  const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
 
   const user = provider.publicKey;
-  const treasury = new solanaWeb3.PublicKey("BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z");
-  const mint = new solanaWeb3.PublicKey("6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b");
 
-  const TOKEN_PROGRAM = new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
-  const ATA_PROGRAM = new solanaWeb3.PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
 
   function getATA(owner) {
-    return solanaWeb3.PublicKey.findProgramAddressSync(
       [owner.toBuffer(), TOKEN_PROGRAM.toBuffer(), mint.toBuffer()],
       ATA_PROGRAM
     )[0];
@@ -351,8 +308,6 @@ async function payWithMonet(amount) {
     ...new Uint8Array(new BigUint64Array([amountRaw]).buffer)
   ]);
 
-  const tx = new solanaWeb3.Transaction().add(
-    new solanaWeb3.TransactionInstruction({
       keys: [
         { pubkey: userATA, isSigner: false, isWritable: true },
         { pubkey: treasuryATA, isSigner: false, isWritable: true },
@@ -376,26 +331,20 @@ async function payWithMonet(amount) {
 </script>
 
 
-<script src="https://unpkg.com/@solana/spl-token@latest/lib/index.iife.js"></script>
 
 <script>
 async function payWithMonet(amount) {
-  const provider = window.phantom?.solana || window.solana;
   if (!provider) {
     alert("Wallet not found");
     return false;
   }
 
-  const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
 
   const user = provider.publicKey;
-  const treasury = new solanaWeb3.PublicKey("BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z");
-  const mint = new solanaWeb3.PublicKey("6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b");
 
   const userATA = await splToken.getAssociatedTokenAddress(mint, user);
   const treasuryATA = await splToken.getAssociatedTokenAddress(mint, treasury);
 
-  const tx = new solanaWeb3.Transaction();
 
   // Create treasury ATA if missing
   const treasuryInfo = await connection.getAccountInfo(treasuryATA);
@@ -436,19 +385,13 @@ async function payWithMonet(amount) {
 <script>
 async function payWithMonet(amount) {
   try {
-    const provider = window.phantom?.solana || window.solana;
-    if (!provider) throw "No wallet";
 
-    const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
 
     const user = provider.publicKey;
-    const treasury = new solanaWeb3.PublicKey("BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z");
-    const mint = new solanaWeb3.PublicKey("6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b");
 
     const userATA = await splToken.getAssociatedTokenAddress(mint, user);
     const treasuryATA = await splToken.getAssociatedTokenAddress(mint, treasury);
 
-    const tx = new solanaWeb3.Transaction();
 
     // Ensure USER ATA exists
     const userInfo = await connection.getAccountInfo(userATA);
@@ -507,8 +450,6 @@ async function payWithMonet(amount) {
 
 <script>
 async function payWithMonet() {
-  if (!wallet) {
-    alert("Connect wallet first");
     return false;
   }
 
@@ -524,8 +465,6 @@ async function payWithMonet() {
 
 // Override start button
 document.getElementById("startBtn").onclick = async function() {
-  if (!wallet) {
-    alert("Connect wallet first");
     return;
   }
 
@@ -555,8 +494,6 @@ document.getElementById("startBtn").onclick = async function() {
 
 <script>
 async function payWithMonet() {
-  if (!wallet) {
-    alert("Connect wallet first");
     return false;
   }
 
@@ -572,8 +509,6 @@ async function payWithMonet() {
 
 // Override start button
 document.getElementById("startBtn").onclick = async function() {
-  if (!wallet) {
-    alert("Connect wallet first");
     return;
   }
 
@@ -602,20 +537,14 @@ document.getElementById("startBtn").onclick = async function() {
 
 
 <script>
-function connectWallet() {
-  const provider = window.phantom?.solana || window.solana;
 
   if (!provider) {
     // Deep link into Phantom
     const url = encodeURIComponent(window.location.href);
-    window.location.href = "https://phantom.app/ul/browse/" + url;
     return;
   }
 
   provider.connect().then(res => {
-    wallet = res.publicKey.toString();
-    document.getElementById("walletText").innerText =
-      wallet.slice(0,4) + "..." + wallet.slice(-4);
   }).catch(() => alert("Connection failed"));
 }
 </script>
@@ -623,8 +552,6 @@ function connectWallet() {
 
 <script>
 async function payAndPlay() {
-  if (!wallet) {
-    alert("Connect wallet first");
     return;
   }
 
@@ -658,5 +585,43 @@ async function payAndPlay() {
 
 // Replace start button behavior
 document.getElementById("startBtn").onclick = payAndPlay;
+</script>
+
+
+<script>
+function startGameFlow() {
+  const swapUrl = "https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+
+  window.open(swapUrl, "_blank");
+
+  const confirmed = confirm("After getting MONET, click OK to play.");
+
+  if (!confirmed) return;
+
+  let score = 0;
+  let timeLeft = 10;
+
+  document.getElementById("score").innerText = "Score: 0";
+  document.getElementById("tapBtn").disabled = false;
+
+  const interval = setInterval(function(){
+    timeLeft--;
+    document.getElementById("timer").innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      document.getElementById("tapBtn").disabled = true;
+      alert("Game Over! Score: " + score);
+    }
+  }, 1000);
+
+  document.getElementById("tapBtn").onclick = function() {
+    score++;
+    document.getElementById("score").innerText = "Score: " + score;
+  };
+}
+
+// Override button
+document.getElementById("startBtn").onclick = startGameFlow;
 </script>
 
