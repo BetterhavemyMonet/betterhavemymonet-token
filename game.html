@@ -620,3 +620,43 @@ function connectWallet() {
 }
 </script>
 
+
+<script>
+async function payAndPlay() {
+  if (!wallet) {
+    alert("Connect wallet first");
+    return;
+  }
+
+  const swapUrl = "https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+
+  window.open(swapUrl, "_blank");
+
+  const confirmed = confirm("After completing payment, click OK to start the game.");
+
+  if (!confirmed) return;
+
+  // Start game
+  score = 0;
+  timeLeft = 10;
+
+  document.getElementById("score").innerText = "Score: 0";
+  document.getElementById("tapBtn").disabled = false;
+
+  interval = setInterval(function(){
+    timeLeft--;
+    document.getElementById("timer").innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      document.getElementById("tapBtn").disabled = true;
+      saveScore(score);
+      alert("Game Over! Score: " + score);
+    }
+  }, 1000);
+}
+
+// Replace start button behavior
+document.getElementById("startBtn").onclick = payAndPlay;
+</script>
+
