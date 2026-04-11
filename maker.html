@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MONET Maker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background:#0b0b0f;
+      color:#00ffa3;
+      font-family:Arial;
+      text-align:center;
+    }
+    #grid {
+      display:grid;
+      grid-template-columns:repeat(10,40px);
+      gap:2px;
+      justify-content:center;
+      margin:20px;
+    }
+    .cell {
+      width:40px;
+      height:40px;
+      background:#111;
+      cursor:pointer;
+    }
+    .block {
+      background:#00ffa3;
+    }
+    button {
+      padding:10px 15px;
+      margin:5px;
+      border:none;
+      border-radius:8px;
+      background:#00ffa3;
+      color:#000;
+    }
+    canvas {
+      background:#111;
+      margin-top:20px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🛠️ MONET Maker</h1>
+
+<div id="grid"></div>
+
+<button onclick="saveLevel()">Save</button>
+<button onclick="loadLevel()">Load</button>
+<button onclick="playLevel()">Play</button>
+
+<canvas id="game" width="400" height="300"></canvas>
+
+<script>
+const grid = document.getElementById("grid");
+let level = Array(100).fill(0);
+
+// Build grid
+for (let i=0;i<100;i++){
+  const cell = document.createElement("div");
+  cell.className="cell";
+  cell.onclick = () => {
+    level[i] = level[i] ? 0 : 1;
+    cell.classList.toggle("block");
+  };
+  grid.appendChild(cell);
+}
+
+// Save/load
+function saveLevel(){
+  localStorage.setItem("monetLevel", JSON.stringify(level));
+  alert("Level saved");
+}
+
+function loadLevel(){
+  const data = JSON.parse(localStorage.getItem("monetLevel")||"[]");
+  if (!data.length) return;
+
+  level = data;
+  document.querySelectorAll(".cell").forEach((c,i)=>{
+    c.classList.toggle("block", level[i]);
+  });
+}
+
+// Play mode
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let player = {x:20,y:150,w:20,h:20,dy:0};
+let gravity = 0.5;
+let playing = false;
+
+function playLevel(){
+  player.y = 150;
+  player.dy = 0;
+  playing = true;
+  loop();
+}
+
+document.addEventListener("click",()=>{
+  if (playing) player.dy = -8;
+});
+
+function loop(){
+  if (!playing) return;
+
+  ctx.clearRect(0,0,400,300);
+
+  // Player physics
+  player.dy += gravity;
+  player.y += player.dy;
+
+  ctx.fillStyle="#00ffa3";
+  ctx.fillRect(player.x,player.y,player.w,player.h);
+
+  // Draw blocks
+  level.forEach((b,i)=>{
+    if (!b) return;
+
+    let x = (i%10)*40;
+    let y = Math.floor(i/10)*40;
+
+    ctx.fillStyle="#ff0040";
+    ctx.fillRect(x,y,40,40);
+
+    // Collision
+    if (
+      player.x < x+40 &&
+      player.x+player.w > x &&
+      player.y < y+40 &&
+      player.y+player.h > y
+    ){
+      playing = false;
+      alert("Game Over");
+    }
+  });
+
+  requestAnimationFrame(loop);
+}
+</script>
+
+</body>
+</html>
