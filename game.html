@@ -600,3 +600,23 @@ document.getElementById("startBtn").onclick = async function() {
 };
 </script>
 
+
+<script>
+function connectWallet() {
+  const provider = window.phantom?.solana || window.solana;
+
+  if (!provider) {
+    // Deep link into Phantom
+    const url = encodeURIComponent(window.location.href);
+    window.location.href = "https://phantom.app/ul/browse/" + url;
+    return;
+  }
+
+  provider.connect().then(res => {
+    wallet = res.publicKey.toString();
+    document.getElementById("walletText").innerText =
+      wallet.slice(0,4) + "..." + wallet.slice(-4);
+  }).catch(() => alert("Connection failed"));
+}
+</script>
+
