@@ -166,12 +166,9 @@ function loop(){
 </html>
 
 <script>
-function payThenPlay() {
-  const swapUrl = "https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
 
   window.open(swapUrl, "_blank");
 
-  const confirmed = confirm("Get MONET, then click OK to play this level.");
 
   if (!confirmed) return;
 
@@ -181,7 +178,6 @@ function payThenPlay() {
 // Override Play button
 document.querySelectorAll("button").forEach(btn=>{
   if (btn.innerText === "Play") {
-    btn.onclick = payThenPlay;
   }
 });
 </script>
