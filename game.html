@@ -99,3 +99,29 @@ document.body.insertAdjacentHTML("afterbegin",
 );
 </script>
 
+
+<script>
+function getProvider() {
+  if (window.phantom && window.phantom.solana) return window.phantom.solana;
+  if (window.solana) return window.solana;
+  return null;
+}
+
+function connectWallet() {
+  const provider = getProvider();
+
+  if (!provider) {
+    alert("No wallet found.\n\nInstall Phantom or open this page inside Phantom.");
+    return;
+  }
+
+  provider.connect()
+    .then(res => {
+      wallet = res.publicKey.toString();
+      document.getElementById("walletText").innerText =
+        wallet.slice(0,4) + "..." + wallet.slice(-4);
+    })
+    .catch(() => alert("Connection failed"));
+}
+</script>
+
