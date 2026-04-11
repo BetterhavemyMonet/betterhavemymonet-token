@@ -153,3 +153,68 @@ document.getElementById("startBtn").onclick = function() {
 };
 </script>
 
+
+<script>
+async function payToPlay() {
+  const provider = window.phantom?.solana || window.solana;
+  if (!provider) {
+    alert("Wallet not found");
+    return false;
+  }
+
+  const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+
+  const tx = new solanaWeb3.Transaction().add(
+    solanaWeb3.SystemProgram.transfer({
+      fromPubkey: provider.publicKey,
+      toPubkey: new solanaWeb3.PublicKey("BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z"),
+      lamports: 10000 // tiny amount for testing
+    })
+  );
+
+  tx.feePayer = provider.publicKey;
+  tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+
+  const signed = await provider.signTransaction(tx);
+  const sig = await connection.sendRawTransaction(signed.serialize());
+
+  await connection.confirmTransaction(sig);
+
+  return true;
+}
+
+// Override start again (payment + game)
+document.getElementById("startBtn").onclick = async function() {
+  if (!wallet) {
+    alert("Connect wallet first");
+    return;
+  }
+
+  try {
+    await payToPlay();
+  } catch (e) {
+    alert("Payment failed");
+    return;
+  }
+
+  score = 0;
+  timeLeft = 10;
+
+  document.getElementById("score").innerText = "Score: 0";
+  document.getElementById("tapBtn").disabled = false;
+
+  interval = setInterval(function(){
+    timeLeft--;
+    document.getElementById("timer").innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      document.getElementById("tapBtn").disabled = true;
+      alert("Game Over! Score: " + score);
+    }
+  }, 1000);
+};
+</script>
+
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+
