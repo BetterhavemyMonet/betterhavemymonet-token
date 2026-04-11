@@ -316,3 +316,62 @@ document.body.insertAdjacentHTML("beforeend", '<div id="leaderboard"></div>');
 renderLeaderboard();
 </script>
 
+
+<script>
+async function payWithMonet(amount) {
+  const provider = window.phantom?.solana || window.solana;
+  if (!provider) {
+    alert("Wallet not found");
+    return false;
+  }
+
+  const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+
+  const user = provider.publicKey;
+  const treasury = new solanaWeb3.PublicKey("BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z");
+  const mint = new solanaWeb3.PublicKey("6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b");
+
+  const TOKEN_PROGRAM = new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+  const ATA_PROGRAM = new solanaWeb3.PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
+
+  function getATA(owner) {
+    return solanaWeb3.PublicKey.findProgramAddressSync(
+      [owner.toBuffer(), TOKEN_PROGRAM.toBuffer(), mint.toBuffer()],
+      ATA_PROGRAM
+    )[0];
+  }
+
+  const userATA = getATA(user);
+  const treasuryATA = getATA(treasury);
+
+  const amountRaw = BigInt(amount) * 1000000000n; // 9 decimals
+
+  const data = new Uint8Array([
+    3,
+    ...new Uint8Array(new BigUint64Array([amountRaw]).buffer)
+  ]);
+
+  const tx = new solanaWeb3.Transaction().add(
+    new solanaWeb3.TransactionInstruction({
+      keys: [
+        { pubkey: userATA, isSigner: false, isWritable: true },
+        { pubkey: treasuryATA, isSigner: false, isWritable: true },
+        { pubkey: user, isSigner: true, isWritable: false }
+      ],
+      programId: TOKEN_PROGRAM,
+      data: data
+    })
+  );
+
+  tx.feePayer = user;
+  tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+
+  const signed = await provider.signTransaction(tx);
+  const sig = await connection.sendRawTransaction(signed.serialize());
+
+  await connection.confirmTransaction(sig);
+
+  return true;
+}
+</script>
+
