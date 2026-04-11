@@ -504,3 +504,51 @@ async function payWithMonet(amount) {
 }
 </script>
 
+
+<script>
+async function payWithMonet() {
+  if (!wallet) {
+    alert("Connect wallet first");
+    return false;
+  }
+
+  // Open Jupiter swap with MONET prefilled
+  const url = "https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+
+  window.open(url, "_blank");
+
+  alert("Complete swap/payment, then return to play");
+
+  return true;
+}
+
+// Override start button
+document.getElementById("startBtn").onclick = async function() {
+  if (!wallet) {
+    alert("Connect wallet first");
+    return;
+  }
+
+  await payWithMonet();
+
+  // Start game AFTER user returns
+  score = 0;
+  timeLeft = 10;
+
+  document.getElementById("score").innerText = "Score: 0";
+  document.getElementById("tapBtn").disabled = false;
+
+  interval = setInterval(function(){
+    timeLeft--;
+    document.getElementById("timer").innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      document.getElementById("tapBtn").disabled = true;
+      saveScore(score);
+      alert("Game Over! Score: " + score);
+    }
+  }, 1000);
+};
+</script>
+
