@@ -66,3 +66,36 @@ document.getElementById("tapBtn").onclick = function() {
 
 </body>
 </html>
+
+<script>
+var wallet = null;
+
+function getProvider() {
+  return window.phantom && window.phantom.solana
+    ? window.phantom.solana
+    : window.solana || null;
+}
+
+function connectWallet() {
+  var provider = getProvider();
+
+  if (!provider) {
+    alert("Open inside Phantom wallet");
+    return;
+  }
+
+  provider.connect().then(function(res){
+    wallet = res.publicKey.toString();
+    document.getElementById("walletText").innerText = wallet;
+  }).catch(function(){
+    alert("Connection failed");
+  });
+}
+
+// Inject UI safely
+document.body.insertAdjacentHTML("afterbegin",
+  '<p id="walletText">Not connected</p>' +
+  '<button onclick="connectWallet()">Connect Wallet</button><br><br>'
+);
+</script>
+
