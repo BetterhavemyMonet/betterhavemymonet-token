@@ -432,3 +432,75 @@ async function payWithMonet(amount) {
 }
 </script>
 
+
+<script>
+async function payWithMonet(amount) {
+  try {
+    const provider = window.phantom?.solana || window.solana;
+    if (!provider) throw "No wallet";
+
+    const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+
+    const user = provider.publicKey;
+    const treasury = new solanaWeb3.PublicKey("BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z");
+    const mint = new solanaWeb3.PublicKey("6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b");
+
+    const userATA = await splToken.getAssociatedTokenAddress(mint, user);
+    const treasuryATA = await splToken.getAssociatedTokenAddress(mint, treasury);
+
+    const tx = new solanaWeb3.Transaction();
+
+    // Ensure USER ATA exists
+    const userInfo = await connection.getAccountInfo(userATA);
+    if (!userInfo) {
+      tx.add(
+        splToken.createAssociatedTokenAccountInstruction(
+          user,
+          userATA,
+          user,
+          mint
+        )
+      );
+    }
+
+    // Ensure TREASURY ATA exists
+    const treasuryInfo = await connection.getAccountInfo(treasuryATA);
+    if (!treasuryInfo) {
+      tx.add(
+        splToken.createAssociatedTokenAccountInstruction(
+          user,
+          treasuryATA,
+          treasury,
+          mint
+        )
+      );
+    }
+
+    // Transfer instruction
+    tx.add(
+      splToken.createTransferInstruction(
+        userATA,
+        treasuryATA,
+        user,
+        amount * 1_000_000_000
+      )
+    );
+
+    tx.feePayer = user;
+    tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+
+    const signed = await provider.signTransaction(tx);
+    const sig = await connection.sendRawTransaction(signed.serialize());
+
+    await connection.confirmTransaction(sig, "confirmed");
+
+    return true;
+
+  } catch (e) {
+    console.log("PAY ERROR:", e);
+    alert("Payment failed: " + e);
+    return false;
+  }
+}
+</script>
+
