@@ -109,9 +109,10 @@ function loadLevel(){
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-let player = {x:20,y:150,w:20,h:20,dy:0};
+let player = {x:50,y:150,w:20,h:20,dy:0};
 let gravity = 0.5;
 let playing = false;
+let scrollOffset = 0;
 
 function playLevel(){
   player.y = 150;
@@ -140,7 +141,7 @@ function loop(){
   level.forEach((b,i)=>{
     if (!b) return;
 
-    let x = (i%10)*40;
+    let x = (i%10)*40 - scrollOffset;
     let y = Math.floor(i/10)*40;
 
     ctx.fillStyle="#ff0040";
@@ -158,6 +159,7 @@ function loop(){
     }
   });
 
+  scrollOffset += 2;
   requestAnimationFrame(loop);
 }
 </script>
