@@ -287,3 +287,32 @@ document.getElementById("startBtn").onclick = async function() {
 };
 </script>
 
+
+<script>
+function saveScore(score) {
+  let scores = JSON.parse(localStorage.getItem("monetScores") || "[]");
+
+  scores.push({ score: score, time: Date.now() });
+
+  scores.sort((a,b)=>b.score-a.score);
+  scores = scores.slice(0,5);
+
+  localStorage.setItem("monetScores", JSON.stringify(scores));
+  renderLeaderboard();
+}
+
+function renderLeaderboard() {
+  let scores = JSON.parse(localStorage.getItem("monetScores") || "[]");
+
+  let html = "<h3>🏆 Top Scores</h3>";
+  scores.forEach((s,i)=>{
+    html += `<p>#${i+1} - ${s.score}</p>`;
+  });
+
+  document.getElementById("leaderboard").innerHTML = html;
+}
+
+document.body.insertAdjacentHTML("beforeend", '<div id="leaderboard"></div>');
+renderLeaderboard();
+</script>
+
