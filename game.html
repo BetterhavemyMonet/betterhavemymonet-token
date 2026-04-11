@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Monet Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background:#0b0b0f;
+      color:#00ffa3;
+      font-family:Arial;
+      text-align:center;
+      padding:40px;
+    }
+    button {
+      padding:15px 20px;
+      margin:10px;
+      font-size:18px;
+      border:none;
+      border-radius:10px;
+      background:#00ffa3;
+      color:#000;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>💵 Monet Tap Game</h1>
+
+<button id="startBtn">Start Game</button>
+
+<h2 id="timer">10</h2>
+<h2 id="score">Score: 0</h2>
+
+<button id="tapBtn" disabled>TAP</button>
+
+<script>
+let score = 0;
+let timeLeft = 10;
+let interval;
+
+document.getElementById("startBtn").onclick = function() {
+  score = 0;
+  timeLeft = 10;
+
+  document.getElementById("score").innerText = "Score: 0";
+  document.getElementById("tapBtn").disabled = false;
+
+  interval = setInterval(function(){
+    timeLeft--;
+    document.getElementById("timer").innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      document.getElementById("tapBtn").disabled = true;
+      alert("Game Over! Score: " + score);
+    }
+  }, 1000);
+};
+
+document.getElementById("tapBtn").onclick = function() {
+  score++;
+  document.getElementById("score").innerText = "Score: " + score;
+};
+</script>
+
+</body>
+</html>
