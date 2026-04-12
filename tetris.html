@@ -115,3 +115,44 @@ document.addEventListener("DOMContentLoaded", function(){
 </div>
 
 
+
+<script>
+// --- FINAL CLEAN FLOW ---
+async function handlePlay(){
+  if (!window.solana){
+    const url = window.location.href;
+    window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
+    return;
+  }
+
+  try {
+    const provider = window.solana;
+    await provider.connect();
+
+    console.log("Wallet connected");
+
+    startGameEngine(); // ONLY THIS
+
+  } catch(e){
+    console.log(e);
+    alert("Wallet error");
+  }
+}
+
+// --- GAME START (ONLY RUNS ONCE) ---
+function startGameEngine(){
+  if(window.gameRunning) return;
+  window.gameRunning = true;
+
+  alert("Game starting...");
+}
+
+// bind button
+document.addEventListener("DOMContentLoaded", function(){
+  const btn = document.getElementById("playBtn");
+  if(btn){
+    btn.onclick = handlePlay;
+  }
+});
+</script>
+
