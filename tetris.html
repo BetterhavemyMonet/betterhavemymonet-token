@@ -37,12 +37,29 @@ function openWallet(){
 }
 
 async function handlePlay(){
-  console.log("PLAY CLICKED");
+  try {
+    if (!window.solana){
+      const url = window.location.href;
+      window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
+      return;
+    }
 
-  if (!isInWallet()){
-    openWallet();
-    return;
+    let provider = window.solana;
+
+    // only connect if not already connected
+    if (!provider.isConnected){
+      await provider.connect();
+    }
+
+    console.log("Wallet ready");
+
+    startGameEngine();
+
+  } catch(e){
+    console.log("REAL ERROR:", e);
+    alert("Wallet failed: " + (e.message || e));
   }
+}
 
   try {
     const provider = window.solana;
@@ -119,11 +136,29 @@ document.addEventListener("DOMContentLoaded", function(){
 <script>
 // --- FINAL CLEAN FLOW ---
 async function handlePlay(){
-  if (!window.solana){
-    const url = window.location.href;
-    window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
-    return;
+  try {
+    if (!window.solana){
+      const url = window.location.href;
+      window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
+      return;
+    }
+
+    let provider = window.solana;
+
+    // only connect if not already connected
+    if (!provider.isConnected){
+      await provider.connect();
+    }
+
+    console.log("Wallet ready");
+
+    startGameEngine();
+
+  } catch(e){
+    console.log("REAL ERROR:", e);
+    alert("Wallet failed: " + (e.message || e));
   }
+}
 
   try {
     const provider = window.solana;
@@ -193,11 +228,29 @@ function startGameEngine(){
 
 // --- BUTTON FLOW ---
 async function handlePlay(){
-  if (!window.solana){
-    const url = window.location.href;
-    window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
-    return;
+  try {
+    if (!window.solana){
+      const url = window.location.href;
+      window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
+      return;
+    }
+
+    let provider = window.solana;
+
+    // only connect if not already connected
+    if (!provider.isConnected){
+      await provider.connect();
+    }
+
+    console.log("Wallet ready");
+
+    startGameEngine();
+
+  } catch(e){
+    console.log("REAL ERROR:", e);
+    alert("Wallet failed: " + (e.message || e));
   }
+}
 
   try {
     await window.solana.connect();
