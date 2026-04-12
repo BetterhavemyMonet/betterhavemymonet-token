@@ -241,3 +241,41 @@ function loop(){
 }
 </script>
 
+
+<script>
+// --- SCORE SYSTEM ---
+let score = 0;
+
+// Reset score when game starts
+const originalPlay = playLevel;
+playLevel = function() {
+  score = 0;
+  originalPlay();
+};
+
+// Draw + update score inside loop
+const originalLoop = loop;
+loop = function() {
+  if (!playing) return;
+
+  score += 1;
+
+  // Draw score
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "20px Arial";
+  ctx.fillText("Score: " + score, 10, 25);
+
+  originalLoop();
+};
+
+// Show score on game over
+const originalAlert = window.alert;
+window.alert = function(msg) {
+  if (msg === "Game Over") {
+    originalAlert("Game Over! Score: " + score);
+  } else {
+    originalAlert(msg);
+  }
+};
+</script>
+
