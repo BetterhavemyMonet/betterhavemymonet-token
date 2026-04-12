@@ -14,13 +14,32 @@
 
 <h2>🧱 MONET Tetris</h2>
 
-<button onclick="startGame()">▶️ Play (1 MONET)</button>
+<button onclick="if(!window.solana){ openInWallet(); return; } startGame()">▶️ Play (1 MONET)</button>
 
 <p id="status">💰 Costs 1 MONET to play</p>
 <canvas id="game" width="300" height="600"></canvas>
 <p id="score">Score: 0</p>
 
 <script>
+// --- AUTO WALLET REDIRECT ---
+function openInWallet(){
+  const url = window.location.href;
+
+  // Phantom deep link
+  const phantom = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
+
+  // Solflare deep link
+  const solflare = "https://solflare.com/ul/v1/browse/" + encodeURIComponent(url);
+
+  // try Phantom first
+  window.location.href = phantom;
+
+  // fallback to Solflare
+  setTimeout(() => {
+    window.location.href = solflare;
+  }, 1500);
+}
+
 const TOKEN = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
 const TREASURY = "BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z";
 const connection = new solanaWeb3.Connection("https://rpc.ankr.com/solana");
@@ -59,7 +78,7 @@ async function payToPlay(){
 }
 
 // --- START GAME ---
-async function startGame(){
+async function if(!window.solana){ openInWallet(); return; } startGame(){
   document.getElementById("status").innerText = "Processing payment...";
 
   const paid = await payToPlay();
