@@ -4,32 +4,71 @@
   <title>MONET Maker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { background:#0b0b0f; color:#00ffa3; text-align:center; font-family:Arial; }
-    #grid { display:grid; grid-template-columns:repeat(10,40px); gap:2px; justify-content:center; margin:20px; }
-    .cell { width:40px; height:40px; background:#111; cursor:pointer; }
-    .block { background:#00ffa3; }
-    button { padding:12px; margin:6px; border:none; border-radius:10px; background:#00ffa3; color:#000; font-weight:bold; }
+    body {
+      margin:0;
+      background:#0b0b0f;
+      color:#00ffa3;
+      font-family:Arial;
+      display:flex;
+      flex-direction:column;
+      height:100vh;
+    }
+
+    h1 {
+      text-align:center;
+      margin:10px 0;
+    }
+
+    #grid {
+      flex:1;
+      display:grid;
+      grid-template-columns:repeat(10,1fr);
+      gap:3px;
+      padding:10px;
+    }
+
+    .cell {
+      background:#111;
+      aspect-ratio:1;
+    }
+
+    .block {
+      background:#00ffa3;
+    }
+
+    #controls {
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      padding:10px;
+      background:#111;
+    }
+
+    button {
+      padding:12px 16px;
+      border:none;
+      border-radius:10px;
+      background:#00ffa3;
+      color:#000;
+      font-weight:bold;
+    }
   </style>
 </head>
 <body>
 
 <h1>🛠️ MONET Maker</h1>
 
-<p>Tap squares to build your level</p>
-
 <div id="grid"></div>
 
-<div>
+<div id="controls">
   <button id="saveBtn">Save</button>
   <button id="loadBtn">Load</button>
   <button id="playBtn">Play</button>
 </div>
 
 <script>
-// --- LEVEL ---
 let level = Array(100).fill(0);
 
-// --- GRID ---
 const grid = document.getElementById("grid");
 
 for (let i=0;i<100;i++){
@@ -44,20 +83,17 @@ for (let i=0;i<100;i++){
   grid.appendChild(cell);
 }
 
-// --- RENDER ---
 function render(){
   document.querySelectorAll(".cell").forEach((c,i)=>{
     c.classList.toggle("block", level[i]);
   });
 }
 
-// --- SAVE ---
 document.getElementById("saveBtn").onclick = ()=>{
   localStorage.setItem("monetLevel", JSON.stringify(level));
   alert("Saved");
 };
 
-// --- LOAD ---
 document.getElementById("loadBtn").onclick = ()=>{
   const data = JSON.parse(localStorage.getItem("monetLevel")||"[]");
   if (!data.length) return;
@@ -65,7 +101,6 @@ document.getElementById("loadBtn").onclick = ()=>{
   render();
 };
 
-// --- PLAY ---
 document.getElementById("playBtn").onclick = ()=>{
   const encoded = btoa(JSON.stringify(level));
   window.location.href = "play.html?level=" + encoded;
