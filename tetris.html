@@ -3,19 +3,62 @@
 <head>
   <title>MONET Tetris</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
   <style>
     body { margin:0; background:#0a0014; color:#00ffa3; text-align:center; font-family:Arial; }
     canvas { display:block; margin:auto; background:#111; }
-    h2 { margin:10px; }
+    button { padding:12px; margin:10px; border:none; border-radius:10px; background:#00ffa3; color:#000; }
   </style>
 </head>
 <body>
 
 <h2>🧱 MONET Tetris</h2>
+
+<button onclick="connectWallet()">🔗 Connect Wallet</button>
+<button onclick="startGame()">▶️ Play (Requires MONET)</button>
+
+<p id="status">🔒 Not connected</p>
 <canvas id="game" width="300" height="600"></canvas>
 <p id="score">Score: 0</p>
 
 <script>
+const TOKEN = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+
+let wallet = null;
+
+// --- WALLET ---
+async function connectWallet(){
+  if (!window.solana){
+    alert("Install Phantom or Solana wallet");
+    return;
+  }
+
+  const resp = await window.solana.connect();
+  wallet = resp.publicKey.toString();
+  document.getElementById("status").innerText = "✅ Connected";
+}
+
+// --- TOKEN CHECK ---
+async function hasMonet(){
+  if (!wallet) return false;
+
+  const pubkey = new solanaWeb3.PublicKey(wallet);
+
+  const tokens = await connection.getParsedTokenAccountsByOwner(pubkey,{
+    programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
+  });
+
+  for (let t of tokens.value){
+    if (t.account.data.parsed.info.mint === TOKEN){
+      return t.account.data.parsed.info.tokenAmount.uiAmount > 0;
+    }
+  }
+
+  return false;
+}
+
+// --- GAME LOGIC ---
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
@@ -23,7 +66,7 @@ const ROWS = 20;
 const COLS = 10;
 const SIZE = 30;
 
-let board = Array.from({length:ROWS},()=>Array(COLS).fill(0));
+let board, piece, pos, score, running = false;
 
 const SHAPES = [
   [[1,1,1,1]],
@@ -33,7 +76,11 @@ const SHAPES = [
   [[0,0,1],[1,1,1]]
 ];
 
-let piece, pos, score = 0;
+function resetGame(){
+  board = Array.from({length:ROWS},()=>Array(COLS).fill(0));
+  score = 0;
+  document.getElementById("score").innerText = "Score: 0";
+}
 
 function newPiece(){
   piece = SHAPES[Math.floor(Math.random()*SHAPES.length)];
@@ -43,20 +90,18 @@ function newPiece(){
 function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  // board
   board.forEach((row,y)=>{
-    row.forEach((val,x)=>{
-      if(val){
+    row.forEach((v,x)=>{
+      if(v){
         ctx.fillStyle="#00ffa3";
         ctx.fillRect(x*SIZE,y*SIZE,SIZE,SIZE);
       }
     });
   });
 
-  // piece
   piece.forEach((row,y)=>{
-    row.forEach((val,x)=>{
-      if(val){
+    row.forEach((v,x)=>{
+      if(v){
         ctx.fillStyle="#ff0040";
         ctx.fillRect((pos.x+x)*SIZE,(pos.y+y)*SIZE,SIZE,SIZE);
       }
@@ -66,21 +111,19 @@ function draw(){
 
 function collide(){
   return piece.some((row,y)=>
-    row.some((val,x)=>{
-      if(!val) return false;
-      let newX = pos.x + x;
-      let newY = pos.y + y;
-      return newX<0 || newX>=COLS || newY>=ROWS || board[newY][newX];
+    row.some((v,x)=>{
+      if(!v) return false;
+      let nx = pos.x+x;
+      let ny = pos.y+y;
+      return nx<0 || nx>=COLS || ny>=ROWS || board[ny][nx];
     })
   );
 }
 
 function merge(){
   piece.forEach((row,y)=>{
-    row.forEach((val,x)=>{
-      if(val){
-        board[pos.y+y][pos.x+x] = 1;
-      }
+    row.forEach((v,x)=>{
+      if(v) board[pos.y+y][pos.x+x]=1;
     });
   });
 }
@@ -90,18 +133,11 @@ function clearLines(){
     if(board[y].every(v=>v)){
       board.splice(y,1);
       board.unshift(Array(COLS).fill(0));
-      score += 10;
-      document.getElementById("score").innerText = "Score: "+score;
+      score+=10;
+      document.getElementById("score").innerText="Score: "+score;
       y++;
     }
   }
-}
-
-function rotate(){
-  const rotated = piece[0].map((_,i)=>piece.map(r=>r[i]).reverse());
-  const old = piece;
-  piece = rotated;
-  if(collide()) piece = old;
 }
 
 function drop(){
@@ -112,33 +148,58 @@ function drop(){
     clearLines();
     newPiece();
     if(collide()){
+      running=false;
       alert("Game Over! Score: "+score);
-      board = Array.from({length:ROWS},()=>Array(COLS).fill(0));
-      score = 0;
     }
   }
 }
 
+function loop(){
+  if(!running) return;
+  drop();
+  draw();
+  setTimeout(loop,400);
+}
+
+// --- START GAME WITH PAYWALL ---
+async function startGame(){
+  document.getElementById("status").innerText = "Checking MONET...";
+
+  const ok = await hasMonet();
+
+  if(!ok){
+    document.getElementById("status").innerText = "❌ Need MONET";
+    window.open("https://jup.ag/swap/SOL-"+TOKEN, "_blank");
+    return;
+  }
+
+  document.getElementById("status").innerText = "✅ Access granted";
+
+  resetGame();
+  newPiece();
+  running = true;
+  loop();
+}
+
+// controls
 document.addEventListener("keydown",e=>{
+  if(!running) return;
+
   if(e.key==="ArrowLeft") pos.x--;
   if(e.key==="ArrowRight") pos.x++;
   if(e.key==="ArrowDown") drop();
-  if(e.key==="ArrowUp") rotate();
+  if(e.key==="ArrowUp"){
+    const rot = piece[0].map((_,i)=>piece.map(r=>r[i]).reverse());
+    const old = piece;
+    piece = rot;
+    if(collide()) piece = old;
+  }
 
   if(collide()){
     if(e.key==="ArrowLeft") pos.x++;
     if(e.key==="ArrowRight") pos.x--;
   }
 });
-
-function loop(){
-  drop();
-  draw();
-  setTimeout(loop,400);
-}
-
-newPiece();
-loop();
 </script>
 
 </body>
