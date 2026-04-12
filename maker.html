@@ -118,3 +118,39 @@ function loop(){
 
 </body>
 </html>
+
+<style>
+#controls {
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:9999;
+}
+.ctrl-btn {
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:#00ffa3;
+  color:#000;
+  font-size:24px;
+  border:none;
+}
+</style>
+
+<div id="controls">
+  <button class="ctrl-btn" id="jumpBtn">⬆️</button>
+</div>
+
+<script>
+// Jump button control
+document.getElementById("jumpBtn").addEventListener("touchstart", function(e){
+  e.preventDefault();
+  if (playing && player) player.dy = -8;
+});
+
+document.getElementById("jumpBtn").addEventListener("mousedown", function(){
+  if (playing && player) player.dy = -8;
+});
+</script>
+
