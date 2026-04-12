@@ -279,3 +279,58 @@ window.alert = function(msg) {
 };
 </script>
 
+
+<script>
+// --- SHOP SYSTEM ---
+let unlocked = {
+  basic: true,
+  spike: false
+};
+
+let currentTool = "basic";
+
+// UI
+const shop = document.createElement("div");
+shop.innerHTML = `
+<h3>🛒 MONET Shop</h3>
+<button onclick="selectTool('basic')">🟩 Block (Free)</button>
+<button onclick="buySpike()">🔺 Spike (Locked)</button>
+`;
+document.body.insertBefore(shop, document.getElementById("grid"));
+
+function selectTool(tool){
+  currentTool = tool;
+}
+
+// fake purchase (we'll hook MONET later)
+function buySpike(){
+  if (unlocked.spike) {
+    currentTool = "spike";
+    return;
+  }
+
+  const confirmBuy = confirm("Unlock Spike for MONET?");
+  if (!confirmBuy) return;
+
+  unlocked.spike = true;
+  alert("Spike unlocked!");
+}
+
+// update grid behavior
+document.querySelectorAll(".cell").forEach((cell,i)=>{
+  cell.onclick = (e)=>{
+    e.stopPropagation();
+
+    if (currentTool === "basic") {
+      pages[currentPage][i] = 1;
+      cell.classList.add("block");
+    }
+
+    if (currentTool === "spike" && unlocked.spike) {
+      pages[currentPage][i] = 2;
+      cell.style.background = "#ff0040";
+    }
+  };
+});
+</script>
+
