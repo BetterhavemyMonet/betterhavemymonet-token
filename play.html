@@ -30,11 +30,10 @@ let groundY = canvas.height-120;
 let score = 0;
 let playing = true;
 
-function jump(){
+// jump
+canvas.addEventListener("click", ()=>{
   if (player.y >= groundY) velocity = -12;
-}
-
-canvas.addEventListener("click", jump);
+});
 
 function loop(){
   if (!playing) return;
