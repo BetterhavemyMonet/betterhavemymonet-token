@@ -9,7 +9,7 @@
     .cell { width:40px; height:40px; background:#111; cursor:pointer; }
     .block { background:#00ffa3; }
     button { padding:10px; margin:5px; border:none; border-radius:8px; background:#00ffa3; color:#000; }
-    canvas { background:#111; margin-top:20px; }
+    canvas { width:95vw; height:70vh; display:block; margin:10px auto; background:#111; }
   </style>
 </head>
 <body>
@@ -22,7 +22,7 @@
 <button onclick="loadLevel()">Load</button>
 <button onclick="playLevel()">Play</button>
 
-<canvas id="game" width="500" height="400"></canvas>
+<canvas id="game"></canvas></canvas>
 
 <script>window.onerror=function(e){alert("JS ERROR: "+e)};
 const grid = document.getElementById("grid");
