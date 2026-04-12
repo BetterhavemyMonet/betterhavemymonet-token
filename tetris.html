@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MONET Tetris</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin:0; background:#0a0014; color:#00ffa3; text-align:center; }
+    canvas { display:block; margin:auto; background:#111; }
+    button { margin:10px; padding:10px; border:none; background:#00ffa3; color:#000; }
+  </style>
+</head>
+<body>
+
+<h2>🧱 MONET Tetris</h2>
+<canvas id="game" width="300" height="500"></canvas>
+<button onclick="startGame()">Start</button>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const grid = 20;
+let board = Array.from({length:25},()=>Array(15).fill(0));
+
+let piece = {x:5,y:0};
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // draw board
+  board.forEach((row,y)=>{
+    row.forEach((val,x)=>{
+      if(val){
+        ctx.fillStyle="#00ffa3";
+        ctx.fillRect(x*grid,y*grid,grid,grid);
+      }
+    });
+  });
+
+  // draw piece
+  ctx.fillStyle="#ff0040";
+  ctx.fillRect(piece.x*grid,piece.y*grid,grid,grid);
+}
+
+function update(){
+  piece.y++;
+
+  if(piece.y >= 24){
+    board[piece.y-1][piece.x] = 1;
+    piece.y = 0;
+  }
+
+  draw();
+}
+
+let interval;
+
+function startGame(){
+  clearInterval(interval);
+  interval = setInterval(update,400);
+}
+
+// controls
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="ArrowLeft") piece.x--;
+  if(e.key==="ArrowRight") piece.x++;
+  if(e.key==="ArrowDown") piece.y++;
+});
+</script>
+
+</body>
+</html>
