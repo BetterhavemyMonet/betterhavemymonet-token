@@ -218,6 +218,28 @@ document.addEventListener("keydown",e=>{
 });
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const btn = document.querySelector("button");
+
+  btn.onclick = async function(){
+    if (!(window.solana && (window.solana.isPhantom || window.solana))) {
+      const url = window.location.href;
+      document.getElementById("walletLoader").style.display = "flex";
+
+      window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
+      setTimeout(()=>{
+        window.location.href = "https://solflare.com/ul/v1/browse/" + encodeURIComponent(url);
+      },1500);
+      return;
+    }
+
+    // run payment + game
+    await startGame();
+  };
+});
+</script>
+
 </body>
 </html>
 
