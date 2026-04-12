@@ -4,7 +4,7 @@
   <title>MONET Play</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { margin:0; background:#0b0b0f; }
+    body { margin:0; background:#0b0b0f; overflow:hidden; }
     canvas { width:100vw; height:100vh; display:block; background:#111; }
   </style>
 </head>
@@ -20,15 +20,15 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const params = new URLSearchParams(window.location.search);
-let level = JSON.parse(atob(params.get("level") || "W10=")); // fallback
+let level = JSON.parse(atob(params.get("level") || "W10="));
 
-let player = {x:80,y:300,w:25,h:25};
+let player = {x:80,y:canvas.height-120,w:25,h:25};
 let velocity = 0;
 let gravity = 0.5;
 let scroll = 0;
-let groundY = canvas.height - 120;
-let playing = true;
+let groundY = canvas.height-120;
 let score = 0;
+let playing = true;
 
 function jump(){
   if (player.y >= groundY) velocity = -12;
@@ -44,7 +44,7 @@ function loop(){
   velocity += gravity;
   player.y += velocity;
 
-  if (player.y >= groundY) {
+  if (player.y >= groundY){
     player.y = groundY;
     velocity = 0;
   }
