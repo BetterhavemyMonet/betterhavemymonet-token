@@ -20,7 +20,7 @@
 
 <button onclick="saveLevel()">Save</button>
 <button onclick="loadLevel()">Load</button>
-<button onclick="playLevel()">Play</button>
+<button onclick="window.location.href="play.html?level="+btoa(JSON.stringify(pages.flat()))">Play</button>
 
 <canvas id="game"></canvas></canvas>
 
@@ -67,7 +67,7 @@ let gravity = 0.5;
 let scroll = 0;
 let playing = false;
 
-function playLevel(){
+function window.location.href="play.html?level="+btoa(JSON.stringify(pages.flat())){
   player = {x:50,y:150,w:20,h:20,dy:0};
   scroll = 0;
   playing = true;
@@ -162,7 +162,7 @@ let groundY = 220;
 let velocity = 0;
 let isJumping = false;
 
-function playLevel(){
+function window.location.href="play.html?level="+btoa(JSON.stringify(pages.flat())){
   player = {x:80, y:groundY, w:25, h:25};
   scroll = 0;
   velocity = 0;
