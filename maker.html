@@ -334,3 +334,27 @@ document.querySelectorAll(".cell").forEach((cell,i)=>{
 });
 </script>
 
+
+<script>
+// --- MONET PAYMENT FOR SPIKE ---
+function buySpike(){
+  if (unlocked.spike) {
+    currentTool = "spike";
+    return;
+  }
+
+  const swapUrl = "https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+
+  window.open(swapUrl, "_blank");
+
+  const confirmBuy = confirm("After getting MONET, click OK to unlock Spike.");
+
+  if (!confirmBuy) return;
+
+  unlocked.spike = true;
+  currentTool = "spike";
+
+  alert("🔺 Spike unlocked! You can now place it.");
+}
+</script>
+
