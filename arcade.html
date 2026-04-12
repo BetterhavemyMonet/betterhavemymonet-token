@@ -12,9 +12,7 @@
       text-align:center;
     }
 
-    h1 {
-      margin:15px 0;
-    }
+    h1 { margin:15px 0; }
 
     #gameContainer {
       width:100%;
@@ -28,30 +26,51 @@
     }
 
     button {
-      padding:12px 18px;
+      padding:14px 20px;
       margin:10px;
       border:none;
-      border-radius:10px;
+      border-radius:12px;
       background:#00ffa3;
       color:#000;
       font-weight:bold;
+      font-size:16px;
+    }
+
+    #locked {
+      margin-top:40px;
+      color:#aaa;
     }
   </style>
 </head>
 <body>
 
 <h1>🕹️ MONET Arcade</h1>
-
-<p>Select a game to play</p>
+<p>Unlock games using MONET</p>
 
 <div>
-  <button onclick="loadGame('mario')">🍄 Mario</button>
-  <button onclick="loadGame('tetris')">🧱 Tetris</button>
+  <button onclick="startGame('mario')">🍄 Mario</button>
+  <button onclick="startGame('tetris')">🧱 Tetris</button>
 </div>
+
+<div id="locked">🔒 Games require MONET to play</div>
 
 <div id="gameContainer"></div>
 
 <script>
+function startGame(game){
+  const swapUrl = "https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+
+  // Step 1: open Jupiter
+  window.open(swapUrl, "_blank");
+
+  // Step 2: confirm
+  const ok = confirm("After getting MONET, click OK to unlock the game.");
+
+  if(!ok) return;
+
+  loadGame(game);
+}
+
 function loadGame(game){
   let url = "";
 
@@ -62,6 +81,8 @@ function loadGame(game){
   if(game === "tetris"){
     url = "https://www.retrogames.cc/embed/41235-tetris.html";
   }
+
+  document.getElementById("locked").innerText = "✅ Unlocked";
 
   document.getElementById("gameContainer").innerHTML =
     '<iframe src="'+url+'" allowfullscreen></iframe>';
