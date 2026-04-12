@@ -228,3 +228,55 @@ async function startGame(){
 }
 </script>
 
+
+<script>
+// --- UNIVERSAL WALLET CONNECT ---
+async function connectWallet(){
+  try {
+    if (window.solana && window.solana.connect) {
+      const resp = await window.solana.connect();
+      wallet = resp.publicKey.toString();
+      document.getElementById("status").innerText = "✅ Wallet Connected";
+      return;
+    }
+
+    alert("Open in a Solana wallet browser (Phantom, Backpack, Solflare)");
+  } catch(e){
+    console.log(e);
+    alert("Connection failed");
+  }
+}
+
+// --- STRONGER TOKEN CHECK ---
+async function hasMonet(){
+  if (!wallet) return false;
+
+  try {
+    const pubkey = new solanaWeb3.PublicKey(wallet);
+
+    const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
+      pubkey,
+      { programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA") }
+    );
+
+    for (let acc of tokenAccounts.value) {
+      const info = acc.account.data.parsed.info;
+
+      if (info.mint === TOKEN) {
+        const amount = parseFloat(info.tokenAmount.uiAmount || 0);
+
+        console.log("MONET balance:", amount);
+
+        if (amount > 0) return true;
+      }
+    }
+
+    return false;
+
+  } catch (e) {
+    console.log("Token check error:", e);
+    return false;
+  }
+}
+</script>
+
