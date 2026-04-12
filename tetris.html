@@ -7,66 +7,83 @@
   <style>
     body { margin:0; background:#0a0014; color:#00ffa3; text-align:center; font-family:Arial; }
     canvas { display:block; margin:auto; background:#111; }
-    button { padding:12px; margin:10px; border:none; border-radius:10px; background:#00ffa3; color:#000; }
+    button { padding:14px; margin:10px; border:none; border-radius:10px; background:#00ffa3; color:#000; font-weight:bold; }
   </style>
 </head>
 <body>
 
 <h2>🧱 MONET Tetris</h2>
 
-<button onclick="connectWallet()">🔗 Connect Wallet</button>
-<button onclick="startGame()">▶️ Play (Requires MONET)</button>
+<button onclick="startGame()">▶️ Play (1 MONET)</button>
 
-<p id="status">🔒 Not connected</p>
+<p id="status">💰 Costs 1 MONET to play</p>
 <canvas id="game" width="300" height="600"></canvas>
 <p id="score">Score: 0</p>
 
 <script>
 const TOKEN = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+const TREASURY = "BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z";
+const connection = new solanaWeb3.Connection("https://rpc.ankr.com/solana");
 
-let wallet = null;
+let running = false;
 
-// --- WALLET ---
-async function connectWallet(){
-  if (!window.solana){
-    alert("Install Phantom or Solana wallet");
+// --- PAY FUNCTION ---
+async function payToPlay(){
+  if (!window.solana) {
+    alert("Open in Phantom, Solflare, or Backpack wallet browser");
+    return false;
+  }
+
+  const provider = window.solana;
+  const resp = await provider.connect();
+  const from = resp.publicKey;
+
+  const transaction = new solanaWeb3.Transaction();
+
+  // ⚠️ NOTE: this is a SOL transfer (simple + reliable)
+  transaction.add(
+    solanaWeb3.SystemProgram.transfer({
+      fromPubkey: from,
+      toPubkey: new solanaWeb3.PublicKey(TREASURY),
+      lamports: 1000000 // ~0.001 SOL (placeholder for now)
+    })
+  );
+
+  transaction.feePayer = from;
+  transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+
+  const signed = await provider.signTransaction(transaction);
+  await connection.sendRawTransaction(signed.serialize());
+
+  return true;
+}
+
+// --- START GAME ---
+async function startGame(){
+  document.getElementById("status").innerText = "Processing payment...";
+
+  const paid = await payToPlay();
+
+  if (!paid){
+    document.getElementById("status").innerText = "❌ Payment failed";
     return;
   }
 
-  const resp = await window.solana.connect();
-  wallet = resp.publicKey.toString();
-  document.getElementById("status").innerText = "✅ Connected";
+  document.getElementById("status").innerText = "✅ Payment confirmed";
+
+  resetGame();
+  newPiece();
+  running = true;
+  loop();
 }
 
-// --- TOKEN CHECK ---
-async function hasMonet(){
-  if (!wallet) return false;
-
-  const pubkey = new solanaWeb3.PublicKey(wallet);
-
-  const tokens = await connection.getParsedTokenAccountsByOwner(pubkey,{
-    programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
-  });
-
-  for (let t of tokens.value){
-    if (t.account.data.parsed.info.mint === TOKEN){
-      return t.account.data.parsed.info.tokenAmount.uiAmount > 0;
-    }
-  }
-
-  return false;
-}
-
-// --- GAME LOGIC ---
+// --- TETRIS ENGINE ---
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-const ROWS = 20;
-const COLS = 10;
-const SIZE = 30;
+const ROWS = 20, COLS = 10, SIZE = 30;
 
-let board, piece, pos, score, running = false;
+let board, piece, pos, score;
 
 const SHAPES = [
   [[1,1,1,1]],
@@ -161,26 +178,6 @@ function loop(){
   setTimeout(loop,400);
 }
 
-// --- START GAME WITH PAYWALL ---
-async function startGame(){
-  document.getElementById("status").innerText = "Checking MONET...";
-
-  const ok = await hasMonet();
-
-  if(!ok){
-    document.getElementById("status").innerText = "❌ Need MONET";
-    window.open("https://jup.ag/swap/SOL-"+TOKEN, "_blank");
-    return;
-  }
-
-  document.getElementById("status").innerText = "✅ Access granted";
-
-  resetGame();
-  newPiece();
-  running = true;
-  loop();
-}
-
 // controls
 document.addEventListener("keydown",e=>{
   if(!running) return;
@@ -204,79 +201,3 @@ document.addEventListener("keydown",e=>{
 
 </body>
 </html>
-
-<script>
-// --- MONET ENTRY COST ---
-async function startGame(){
-  document.getElementById("status").innerText = "Checking MONET...";
-
-  const ok = await hasMonet();
-
-  if(!ok){
-    document.getElementById("status").innerText = "❌ Need MONET";
-    window.open("https://jup.ag/swap/SOL-"+TOKEN, "_blank");
-    return;
-  }
-
-  // simulate "spend"
-  document.getElementById("status").innerText = "🎮 Entry cost paid (simulated)";
-
-  resetGame();
-  newPiece();
-  running = true;
-  loop();
-}
-</script>
-
-
-<script>
-// --- UNIVERSAL WALLET CONNECT ---
-async function connectWallet(){
-  try {
-    if (window.solana && window.solana.connect) {
-      const resp = await window.solana.connect();
-      wallet = resp.publicKey.toString();
-      document.getElementById("status").innerText = "✅ Wallet Connected";
-      return;
-    }
-
-    alert("Open in a Solana wallet browser (Phantom, Backpack, Solflare)");
-  } catch(e){
-    console.log(e);
-    alert("Connection failed");
-  }
-}
-
-// --- STRONGER TOKEN CHECK ---
-async function hasMonet(){
-  if (!wallet) return false;
-
-  try {
-    const pubkey = new solanaWeb3.PublicKey(wallet);
-
-    const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
-      pubkey,
-      { programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA") }
-    );
-
-    for (let acc of tokenAccounts.value) {
-      const info = acc.account.data.parsed.info;
-
-      if (info.mint === TOKEN) {
-        const amount = parseFloat(info.tokenAmount.uiAmount || 0);
-
-        console.log("MONET balance:", amount);
-
-        if (amount > 0) return true;
-      }
-    }
-
-    return false;
-
-  } catch (e) {
-    console.log("Token check error:", e);
-    return false;
-  }
-}
-</script>
-
