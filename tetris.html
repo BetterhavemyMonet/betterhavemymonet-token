@@ -270,3 +270,59 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 </script>
 
+
+<script>
+// --- WAIT FOR WALLET INJECTION ---
+function waitForWallet(){
+  return new Promise(resolve => {
+    let count = 0;
+
+    const check = setInterval(() => {
+      if (window.solana && window.solana.isPhantom){
+        clearInterval(check);
+        resolve(window.solana);
+      }
+
+      count++;
+      if(count > 20){ // ~2 seconds max
+        clearInterval(check);
+        resolve(null);
+      }
+    }, 100);
+  });
+}
+
+// --- CLEAN PLAY FLOW ---
+async function handlePlay(){
+  const provider = await waitForWallet();
+
+  if (!provider){
+    const url = window.location.href;
+    window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
+    return;
+  }
+
+  try {
+    if (!provider.isConnected){
+      await provider.connect();
+    }
+
+    console.log("Wallet connected");
+
+    startGameEngine();
+
+  } catch(e){
+    console.log("REAL ERROR:", e);
+    alert("Wallet error: " + (e.message || e));
+  }
+}
+
+// bind button
+document.addEventListener("DOMContentLoaded", function(){
+  const btn = document.getElementById("playBtn");
+  if(btn){
+    btn.onclick = handlePlay;
+  }
+});
+</script>
+
