@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { margin:0; background:#0b0b0f; overflow:hidden; }
-    canvas { width:100vw; height:100vh; display:block; background:#111; }
+    canvas { width:100vw; height:100vh; display:block; background:#0a0014; }
   </style>
 </head>
 <body>
@@ -39,6 +39,10 @@ function loop(){
   if (!playing) return;
 
   ctx.clearRect(0,0,canvas.width,canvas.height);
+  // background glow
+  ctx.fillStyle="#0a0014";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
 
   velocity += gravity;
   player.y += velocity;
@@ -48,7 +52,7 @@ function loop(){
     velocity = 0;
   }
 
-  ctx.fillStyle="#00ffa3";
+  ctx.ctx.shadowBlur=15;ctx.shadowColor="#00ffa3";ctx.fillStyle="#00ffa3";
   ctx.fillRect(player.x,player.y,player.w,player.h);
 
   scroll += 6;
@@ -63,7 +67,7 @@ function loop(){
     let x = i*60 - scroll;
     let y = groundY;
 
-    ctx.fillStyle="#ff0040";
+    ctx.ctx.shadowBlur=10;ctx.shadowColor="#ff0040";ctx.fillStyle="#ff0040";
     ctx.fillRect(x,y,30,30);
 
     if (
