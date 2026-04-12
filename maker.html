@@ -8,8 +8,8 @@
     #grid { display:grid; grid-template-columns:repeat(10,40px); gap:2px; justify-content:center; margin:20px; }
     .cell { width:40px; height:40px; background:#111; cursor:pointer; }
     .block { background:#00ffa3; }
+    canvas { width:95vw; height:60vh; background:#111; display:block; margin:auto; }
     button { padding:10px; margin:5px; border:none; border-radius:8px; background:#00ffa3; color:#000; }
-    canvas { width:95vw; height:70vh; display:block; margin:10px auto; background:#111; }
   </style>
 </head>
 <body>
@@ -18,33 +18,36 @@
 
 <div id="grid"></div>
 
-<button onclick="saveLevel()">Save</button>
-<button onclick="loadLevel()">Load</button>
-<button onclick="window.location.href="play.html?level="+btoa(JSON.stringify(pages.flat()))">Play</button>
+<button id="saveBtn">Save</button>
+<button id="loadBtn">Load</button>
+<button id="playBtn">Play</button>
 
-<canvas id="game"></canvas></canvas>
+<canvas id="game"></canvas>
 
-<script>window.onerror=function(e){alert("JS ERROR: "+e)};
+<script>
+// --- GRID ---
+let pages = [Array(100).fill(0)];
+let currentPage = 0;
+let currentTool = "basic";
+
 const grid = document.getElementById("grid");
-let level = Array(100).fill(0);
 
-// BUILD GRID
 for (let i=0;i<100;i++){
   const cell = document.createElement("div");
   cell.className="cell";
 
-  cell.onclick = (e) => {
-    e.stopPropagation(); // 🔥 prevents freeze
-    level[i] = level[i] ? 0 : 1;
+  cell.onclick = (e)=>{
+    e.stopPropagation();
+    pages[currentPage][i] = pages[currentPage][i] ? 0 : 1;
     cell.classList.toggle("block");
   };
 
   grid.appendChild(cell);
 }
 
-// SAVE / LOAD
+// --- SAVE / LOAD ---
 function saveLevel(){
-  localStorage.setItem("monetLevel", JSON.stringify(level));
+  localStorage.setItem("monetLevel", JSON.stringify(pages));
   alert("Saved");
 }
 
@@ -52,513 +55,92 @@ function loadLevel(){
   const data = JSON.parse(localStorage.getItem("monetLevel")||"[]");
   if (!data.length) return;
 
-  level = data;
+  pages = data;
+  renderPage();
+}
+
+function renderPage(){
   document.querySelectorAll(".cell").forEach((c,i)=>{
-    c.classList.toggle("block", level[i]);
+    c.classList.toggle("block", pages[currentPage][i]);
   });
 }
 
-// GAME
+// --- GAME ---
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-let player = null;
-let gravity = 0.5;
-let scroll = 0;
-let playing = false;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight * 0.6;
 
-function window.location.href="play.html?level="+btoa(JSON.stringify(pages.flat())){
-  player = {x:50,y:150,w:20,h:20,dy:0};
+let player, velocity, playing, scroll, score;
+
+function playLevel(){
+  player = {x:80,y:300,w:25,h:25};
+  velocity = 0;
   scroll = 0;
+  score = 0;
   playing = true;
   loop();
 }
 
-// ONLY jump when clicking canvas
-canvas.addEventListener("click", () => {
-  if (playing && player) player.dy = -8;
+// jump
+canvas.addEventListener("click", ()=>{
+  if (playing && player.y >= 300) velocity = -12;
 });
 
 function loop(){
   if (!playing) return;
 
-  ctx.clearRect(0,0,400,300);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  player.dy += gravity;
-  player.y += player.dy;
+  velocity += 0.5;
+  player.y += velocity;
+
+  if (player.y >= 300){
+    player.y = 300;
+    velocity = 0;
+  }
 
   ctx.fillStyle="#00ffa3";
   ctx.fillRect(player.x,player.y,player.w,player.h);
 
-  scroll += 2;
+  scroll += 6;
+  score++;
 
-  level.forEach((b,i)=>{
+  ctx.fillStyle="#fff";
+  ctx.fillText("Score: "+score,20,30);
+
+  let full = pages.flat();
+
+  full.forEach((b,i)=>{
     if (!b) return;
 
-    let x = (i%10)*40 - scroll;
-    let y = Math.floor(i/10)*40;
+    let x = i*60 - scroll;
+    let y = 300;
 
     ctx.fillStyle="#ff0040";
-    ctx.fillRect(x,y,40,40);
+    ctx.fillRect(x,y,30,30);
 
     if (
-      player.x < x+40 &&
+      player.x < x+30 &&
       player.x+player.w > x &&
-      player.y < y+40 &&
+      player.y < y+30 &&
       player.y+player.h > y
     ){
       playing = false;
-      alert("Game Over");
+      alert("Game Over! Score: "+score);
     }
   });
 
   requestAnimationFrame(loop);
 }
+
+// --- BUTTONS ---
+document.getElementById("saveBtn").onclick = saveLevel;
+document.getElementById("loadBtn").onclick = loadLevel;
+document.getElementById("playBtn").onclick = playLevel;
+
 </script>
 
 </body>
 </html>
-
-<style>
-#controls {
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:9999;
-}
-.ctrl-btn {
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  background:#00ffa3;
-  color:#000;
-  font-size:32px;
-  border:none;
-}
-</style>
-
-<div id="controls">
-  <button class="ctrl-btn" id="jumpBtn">⬆️</button>
-</div>
-
-<script>
-// Jump button control
-document.getElementById("jumpBtn").addEventListener("touchstart", function(e){
-  e.preventDefault();
-  if (playing && player) player.dy = -8;
-});
-
-document.getElementById("jumpBtn").addEventListener("mousedown", function(){
-  if (playing && player) player.dy = -8;
-});
-</script>
-
-
-<script>
-// --- OVERRIDE GAME LOOP FOR RUNNER STYLE ---
-
-let groundY = 220;
-let velocity = 0;
-let isJumping = false;
-
-function window.location.href="play.html?level="+btoa(JSON.stringify(pages.flat())){
-  player = {x:80, y:groundY, w:25, h:25};
-  scroll = 0;
-  velocity = 0;
-  isJumping = false;
-  playing = true;
-  loop();
-}
-
-// Jump button / canvas
-function jump(){
-  if (!isJumping) {
-    velocity = -10;
-    isJumping = true;
-  }
-}
-
-// Hook jump button if exists
-const jumpBtn = document.getElementById("jumpBtn");
-if (jumpBtn) {
-  jumpBtn.onclick = jump;
-}
-
-// Canvas click jump
-const canvasEl = document.getElementById("game");
-canvasEl.addEventListener("click", jump);
-
-function loop(){
-  if (!playing) return;
-
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  // gravity
-  velocity += 0.5;
-  player.y += velocity;
-
-  // ground collision
-  if (player.y >= groundY) {
-    player.y = groundY;
-    velocity = 0;
-    isJumping = false;
-  }
-
-  // draw ground
-  ctx.fillStyle = "#222";
-  ctx.fillRect(0, groundY + player.h, canvas.width, 5);
-
-  // draw player
-  ctx.fillStyle = "#00ffa3";
-  ctx.fillRect(player.x, player.y, player.w, player.h);
-
-  // scroll world
-  scroll += 4;
-
-  level.forEach((b,i)=>{
-    if (!b) return;
-
-    let x = (i%10)*60 - scroll;
-    let y = groundY;
-
-    ctx.fillStyle = "#ff0040";
-    ctx.fillRect(x,y,30,30);
-
-    // collision
-    if (
-      player.x < x+30 &&
-      player.x+player.w > x &&
-      player.y < y+30 &&
-      player.y+player.h > y
-    ){
-      playing = false;
-      alert("Game Over");
-    }
-  });
-
-  requestAnimationFrame(loop);
-}
-</script>
-
-
-<script>
-// --- SCORE SYSTEM ---
-let score = 0;
-
-// Reset score when game starts
-const originalPlay = playLevel;
-playLevel = function() {
-  score = 0;
-  originalPlay();
-};
-
-// Draw + update score inside loop
-const originalLoop = loop;
-loop = function() {
-  if (!playing) return;
-
-  score += 1;
-
-  // Draw score
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "20px Arial";
-  ctx.fillText("Score: " + score, 10, 25);
-
-  originalLoop();
-};
-
-// Show score on game over
-const originalAlert = window.alert;
-window.alert = function(msg) {
-  if (msg === "Game Over") {
-    originalAlert("Game Over! Score: " + score);
-  } else {
-    originalAlert(msg);
-  }
-};
-</script>
-
-
-<script>
-// --- SHOP SYSTEM ---
-let unlocked = {
-  basic: true,
-  spike: false
-};
-
-let currentTool = "basic";
-
-// UI
-const shop = document.createElement("div");
-shop.innerHTML = `
-<h3>🛒 MONET Shop</h3>
-<button onclick="selectTool('basic')">🟩 Block (Free)</button>
-<button onclick="buySpike()">🔺 Spike (Locked)</button>
-`;
-document.body.insertBefore(shop, document.getElementById("grid"));
-
-function selectTool(tool){
-  currentTool = tool;
-}
-
-// fake purchase (we'll hook MONET later)
-function buySpike(){
-  if (unlocked.spike) {
-    currentTool = "spike";
-    return;
-  }
-
-  const confirmBuy = confirm("Unlock Spike for MONET?");
-  if (!confirmBuy) return;
-
-  unlocked.spike = true;
-  alert("Spike unlocked!");
-}
-
-// update grid behavior
-document.querySelectorAll(".cell").forEach((cell,i)=>{
-  cell.onclick = (e)=>{
-    e.stopPropagation();
-
-    if (currentTool === "basic") {
-      pages[currentPage][i] = 1;
-      cell.classList.add("block");
-    }
-
-    if (currentTool === "spike" && unlocked.spike) {
-      pages[currentPage][i] = 2;
-      cell.style.background = "#ff0040";
-    }
-  };
-});
-</script>
-
-
-<script>
-// --- MONET PAYMENT FOR SPIKE ---
-function buySpike(){
-  if (unlocked.spike) {
-    currentTool = "spike";
-    return;
-  }
-
-  const swapUrl = "https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-
-  window.open(swapUrl, "_blank");
-
-  const confirmBuy = confirm("After getting MONET, click OK to unlock Spike.");
-
-  if (!confirmBuy) return;
-
-  unlocked.spike = true;
-  currentTool = "spike";
-
-  alert("🔺 Spike unlocked! You can now place it.");
-}
-</script>
-
-
-<script>
-// --- EXPANDED SHOP ---
-let unlocked = {
-  basic: true,
-  spike: false,
-  fast: false,
-  double: false,
-  speed: false
-};
-
-let currentTool = "basic";
-let hasDoubleJump = false;
-let speedBoost = 4;
-
-// Replace shop UI
-const shopUI = document.createElement("div");
-shopUI.innerHTML = `
-<h3>🛒 MONET Shop</h3>
-<button onclick="selectTool('basic')">🟩 Block (Free)</button>
-<button onclick="buyItem('spike')">🔺 Spike</button>
-<button onclick="buyItem('fast')">⚡ Fast Block</button>
-<button onclick="buyItem('double')">🦘 Double Jump</button>
-<button onclick="buyItem('speed')">🚀 Speed Boost</button>
-`;
-document.body.insertBefore(shopUI, document.getElementById("grid"));
-
-// Tool select
-function selectTool(tool){
-  if (!unlocked[tool]) {
-    alert("Unlock this first!");
-    return;
-  }
-  currentTool = tool;
-}
-
-// Purchase system (Jupiter)
-function buyItem(item){
-  if (unlocked[item]) {
-    selectTool(item);
-    return;
-  }
-
-  const url = "https://jup.ag/swap/SOL-6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-  window.open(url, "_blank");
-
-  const confirmBuy = confirm("Get MONET, then click OK to unlock.");
-
-  if (!confirmBuy) return;
-
-  unlocked[item] = true;
-
-  if (item === "double") hasDoubleJump = true;
-  if (item === "speed") speedBoost = 7;
-
-  alert("Unlocked: " + item);
-}
-
-// Grid placement logic upgrade
-document.querySelectorAll(".cell").forEach((cell,i)=>{
-  cell.onclick = (e)=>{
-    e.stopPropagation();
-
-    if (currentTool === "basic") {
-      pages[currentPage][i] = 1;
-      cell.className = "cell block";
-    }
-
-    if (currentTool === "spike" && unlocked.spike) {
-      pages[currentPage][i] = 2;
-      cell.style.background = "#ff0040";
-    }
-
-    if (currentTool === "fast" && unlocked.fast) {
-      pages[currentPage][i] = 3;
-      cell.style.background = "#ffaa00";
-    }
-  };
-});
-
-// --- GAME UPGRADES ---
-let jumps = 0;
-
-// Override jump
-function jump(){
-  if (!playing) return;
-
-  if (!hasDoubleJump && jumps >= 1) return;
-  if (hasDoubleJump && jumps >= 2) return;
-
-  velocity = -10;
-  jumps++;
-}
-
-// Reset jumps on ground
-function resetJump(){
-  jumps = 0;
-}
-
-// Modify loop behavior
-const oldLoop2 = loop;
-loop = function(){
-  if (!playing) return;
-
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  velocity += 0.5;
-  player.y += velocity;
-
-  if (player.y >= groundY) {
-    player.y = groundY;
-    velocity = 0;
-    resetJump();
-  }
-
-  ctx.fillStyle="#00ffa3";
-  ctx.fillRect(player.x,player.y,player.w,player.h);
-
-  scroll += speedBoost;
-
-  let fullLevel = pages.flat();
-
-  fullLevel.forEach((b,i)=>{
-    if (!b) return;
-
-    let x = i*60 - scroll;
-    let y = groundY;
-
-    if (b === 1) ctx.fillStyle="#00ffa3";
-    if (b === 2) ctx.fillStyle="#ff0040";
-    if (b === 3) ctx.fillStyle="#ffaa00";
-
-    ctx.fillRect(x,y,30,30);
-
-    if (
-      player.x < x+30 &&
-      player.x+player.w > x &&
-      player.y < y+30 &&
-      player.y+player.h > y
-    ){
-      playing = false;
-      alert("Game Over");
-    }
-  });
-
-  requestAnimationFrame(loop);
-};
-</script>
-
-
-<script>
-// --- FIX ALL BUTTONS + EVENTS CLEANLY ---
-
-// Rebind Play button safely
-const playBtn = document.querySelector("button[onclick='playLevel()']");
-if (playBtn) {
-  playBtn.onclick = function() {
-    playLevel();
-  };
-}
-
-// Fix Save button
-const saveBtn = document.querySelector("button[onclick='saveLevel()']");
-if (saveBtn) {
-  saveBtn.onclick = function() {
-    saveLevel();
-  };
-}
-
-// Fix Load button
-const loadBtn = document.querySelector("button[onclick='loadLevel()']");
-if (loadBtn) {
-  loadBtn.onclick = function() {
-    loadLevel();
-  };
-}
-
-// Fix grid clicks (restore functionality)
-document.querySelectorAll(".cell").forEach((cell,i)=>{
-  cell.onclick = function(e){
-    e.stopPropagation();
-
-    if (!pages || !pages[currentPage]) return;
-
-    if (currentTool === "basic") {
-      pages[currentPage][i] = 1;
-      cell.className = "cell block";
-    }
-
-    if (currentTool === "spike" && unlocked.spike) {
-      pages[currentPage][i] = 2;
-      cell.style.background = "#ff0040";
-    }
-
-    if (currentTool === "fast" && unlocked.fast) {
-      pages[currentPage][i] = 3;
-      cell.style.background = "#ffaa00";
-    }
-  };
-});
-
-console.log("✅ Buttons + grid fully restored");
-</script>
-
