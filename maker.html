@@ -24,7 +24,7 @@
 
 <canvas id="game" width="400" height="300"></canvas>
 
-<script>
+<script>window.onerror=function(e){alert("JS ERROR: "+e)};
 const grid = document.getElementById("grid");
 let level = Array(100).fill(0);
 
