@@ -204,3 +204,27 @@ document.addEventListener("keydown",e=>{
 
 </body>
 </html>
+
+<script>
+// --- MONET ENTRY COST ---
+async function startGame(){
+  document.getElementById("status").innerText = "Checking MONET...";
+
+  const ok = await hasMonet();
+
+  if(!ok){
+    document.getElementById("status").innerText = "❌ Need MONET";
+    window.open("https://jup.ag/swap/SOL-"+TOKEN, "_blank");
+    return;
+  }
+
+  // simulate "spend"
+  document.getElementById("status").innerText = "🎮 Entry cost paid (simulated)";
+
+  resetGame();
+  newPiece();
+  running = true;
+  loop();
+}
+</script>
+
