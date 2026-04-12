@@ -4,68 +4,141 @@
   <title>MONET Tetris</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { margin:0; background:#0a0014; color:#00ffa3; text-align:center; }
+    body { margin:0; background:#0a0014; color:#00ffa3; text-align:center; font-family:Arial; }
     canvas { display:block; margin:auto; background:#111; }
-    button { margin:10px; padding:10px; border:none; background:#00ffa3; color:#000; }
+    h2 { margin:10px; }
   </style>
 </head>
 <body>
 
 <h2>🧱 MONET Tetris</h2>
-<canvas id="game" width="300" height="500"></canvas>
-<button onclick="startGame()">Start</button>
+<canvas id="game" width="300" height="600"></canvas>
+<p id="score">Score: 0</p>
 
 <script>
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-const grid = 20;
-let board = Array.from({length:25},()=>Array(15).fill(0));
+const ROWS = 20;
+const COLS = 10;
+const SIZE = 30;
 
-let piece = {x:5,y:0};
+let board = Array.from({length:ROWS},()=>Array(COLS).fill(0));
+
+const SHAPES = [
+  [[1,1,1,1]],
+  [[1,1],[1,1]],
+  [[0,1,0],[1,1,1]],
+  [[1,0,0],[1,1,1]],
+  [[0,0,1],[1,1,1]]
+];
+
+let piece, pos, score = 0;
+
+function newPiece(){
+  piece = SHAPES[Math.floor(Math.random()*SHAPES.length)];
+  pos = {x:3,y:0};
+}
 
 function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  // draw board
+  // board
   board.forEach((row,y)=>{
     row.forEach((val,x)=>{
       if(val){
         ctx.fillStyle="#00ffa3";
-        ctx.fillRect(x*grid,y*grid,grid,grid);
+        ctx.fillRect(x*SIZE,y*SIZE,SIZE,SIZE);
       }
     });
   });
 
-  // draw piece
-  ctx.fillStyle="#ff0040";
-  ctx.fillRect(piece.x*grid,piece.y*grid,grid,grid);
+  // piece
+  piece.forEach((row,y)=>{
+    row.forEach((val,x)=>{
+      if(val){
+        ctx.fillStyle="#ff0040";
+        ctx.fillRect((pos.x+x)*SIZE,(pos.y+y)*SIZE,SIZE,SIZE);
+      }
+    });
+  });
 }
 
-function update(){
-  piece.y++;
+function collide(){
+  return piece.some((row,y)=>
+    row.some((val,x)=>{
+      if(!val) return false;
+      let newX = pos.x + x;
+      let newY = pos.y + y;
+      return newX<0 || newX>=COLS || newY>=ROWS || board[newY][newX];
+    })
+  );
+}
 
-  if(piece.y >= 24){
-    board[piece.y-1][piece.x] = 1;
-    piece.y = 0;
+function merge(){
+  piece.forEach((row,y)=>{
+    row.forEach((val,x)=>{
+      if(val){
+        board[pos.y+y][pos.x+x] = 1;
+      }
+    });
+  });
+}
+
+function clearLines(){
+  for(let y=ROWS-1;y>=0;y--){
+    if(board[y].every(v=>v)){
+      board.splice(y,1);
+      board.unshift(Array(COLS).fill(0));
+      score += 10;
+      document.getElementById("score").innerText = "Score: "+score;
+      y++;
+    }
   }
-
-  draw();
 }
 
-let interval;
-
-function startGame(){
-  clearInterval(interval);
-  interval = setInterval(update,400);
+function rotate(){
+  const rotated = piece[0].map((_,i)=>piece.map(r=>r[i]).reverse());
+  const old = piece;
+  piece = rotated;
+  if(collide()) piece = old;
 }
 
-// controls
-document.addEventListener("keydown",(e)=>{
-  if(e.key==="ArrowLeft") piece.x--;
-  if(e.key==="ArrowRight") piece.x++;
-  if(e.key==="ArrowDown") piece.y++;
+function drop(){
+  pos.y++;
+  if(collide()){
+    pos.y--;
+    merge();
+    clearLines();
+    newPiece();
+    if(collide()){
+      alert("Game Over! Score: "+score);
+      board = Array.from({length:ROWS},()=>Array(COLS).fill(0));
+      score = 0;
+    }
+  }
+}
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowLeft") pos.x--;
+  if(e.key==="ArrowRight") pos.x++;
+  if(e.key==="ArrowDown") drop();
+  if(e.key==="ArrowUp") rotate();
+
+  if(collide()){
+    if(e.key==="ArrowLeft") pos.x++;
+    if(e.key==="ArrowRight") pos.x--;
+  }
 });
+
+function loop(){
+  drop();
+  draw();
+  setTimeout(loop,400);
+}
+
+newPiece();
+loop();
 </script>
 
 </body>
