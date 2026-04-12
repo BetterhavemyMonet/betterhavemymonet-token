@@ -8,7 +8,6 @@
     #grid { display:grid; grid-template-columns:repeat(10,40px); gap:2px; justify-content:center; margin:20px; }
     .cell { width:40px; height:40px; background:#111; cursor:pointer; }
     .block { background:#00ffa3; }
-    canvas { width:95vw; height:60vh; background:#111; display:block; margin:auto; }
     button { padding:10px; margin:5px; border:none; border-radius:8px; background:#00ffa3; color:#000; }
   </style>
 </head>
@@ -18,7 +17,66 @@
 
 <div id="grid"></div>
 
-<button id="saveBtn">Save</button>
-<button id="loadBtn">Load</button>
-<button id="playBtn">Play</button>
+<div>
+  <button id="saveBtn">Save</button>
+  <button id="loadBtn">Load</button>
+  <button id="playBtn">Play</button>
+</div>
 
+<script>
+// --- LEVEL DATA ---
+let pages = [Array(100).fill(0)];
+let currentPage = 0;
+
+// --- GRID ---
+const grid = document.getElementById("grid");
+
+for (let i=0;i<100;i++){
+  const cell = document.createElement("div");
+  cell.className="cell";
+
+  cell.onclick = ()=>{
+    pages[currentPage][i] = pages[currentPage][i] ? 0 : 1;
+    cell.classList.toggle("block");
+  };
+
+  grid.appendChild(cell);
+}
+
+// --- RENDER ---
+function render(){
+  document.querySelectorAll(".cell").forEach((c,i)=>{
+    c.classList.toggle("block", pages[currentPage][i]);
+  });
+}
+
+// --- SAVE / LOAD ---
+function saveLevel(){
+  localStorage.setItem("monetLevel", JSON.stringify(pages));
+  alert("Saved");
+}
+
+function loadLevel(){
+  const data = JSON.parse(localStorage.getItem("monetLevel")||"[]");
+  if (!data.length) return;
+
+  pages = data;
+  render();
+}
+
+// --- PLAY (SEND TO GAME PAGE) ---
+function playLevel(){
+  const fullLevel = pages.flat();
+  const encoded = btoa(JSON.stringify(fullLevel));
+  window.location.href = "play.html?level=" + encoded;
+}
+
+// --- BUTTONS ---
+document.getElementById("saveBtn").onclick = saveLevel;
+document.getElementById("loadBtn").onclick = loadLevel;
+document.getElementById("playBtn").onclick = playLevel;
+
+</script>
+
+</body>
+</html>
