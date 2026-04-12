@@ -20,223 +20,56 @@
 <canvas id="game" width="300" height="600"></canvas>
 <p id="score">Score: 0</p>
 
+
+
 <script>
-// --- AUTO WALLET REDIRECT ---
-function openInWallet(){
-  const url = window.location.href;
-
-  // Phantom deep link
-  const phantom = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
-
-  // Solflare deep link
-  const solflare = "https://solflare.com/ul/v1/browse/" + encodeURIComponent(url);
-
-  // try Phantom first
-  window.location.href = phantom;
-
-  // fallback to Solflare
-  setTimeout(() => {
-    window.location.href = solflare;
-  }, 1500);
-}
-
 const TOKEN = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
 const TREASURY = "BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z";
-const connection = new solanaWeb3.Connection("https://rpc.ankr.com/solana");
 
-let running = false;
-
-// --- PAY FUNCTION ---
-async function payToPlay(){
-  if (!window.solana) {
-    alert("Open in Phantom, Solflare, or Backpack wallet browser");
-    return false;
-  }
-
-  const provider = window.solana;
-  const resp = await provider.connect();
-  const from = resp.publicKey;
-
-  const transaction = new solanaWeb3.Transaction();
-
-  // ⚠️ NOTE: this is a SOL transfer (simple + reliable)
-  transaction.add(
-    solanaWeb3.SystemProgram.transfer({
-      fromPubkey: from,
-      toPubkey: new solanaWeb3.PublicKey(TREASURY),
-      lamports: 1000000 // ~0.001 SOL (placeholder for now)
-    })
-  );
-
-  transaction.feePayer = from;
-  transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-
-  const signed = await provider.signTransaction(transaction);
-  await connection.sendRawTransaction(signed.serialize());
-
-  return true;
+function isInWallet(){
+  return window.solana && window.solana.isPhantom;
 }
 
-// --- START GAME ---
-async function if(!window.solana){ openInWallet(); return; } startGame(){
-  document.getElementById("status").innerText = "Processing payment...";
+function openWallet(){
+  const url = window.location.href;
+  document.body.innerHTML = "<h2 style=color:#00ffa3;text-align:center;margin-top:40px;>Opening Wallet...</h2>";
+  window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
+}
 
-  const paid = await payToPlay();
+async function handlePlay(){
+  console.log("PLAY CLICKED");
 
-  if (!paid){
-    document.getElementById("status").innerText = "❌ Payment failed";
+  if (!isInWallet()){
+    openWallet();
     return;
   }
 
-  document.getElementById("status").innerText = "✅ Payment confirmed";
+  try {
+    const provider = window.solana;
+    const resp = await provider.connect();
 
-  resetGame();
-  newPiece();
-  running = true;
-  loop();
-}
+    alert("Wallet connected: " + resp.publicKey.toString());
 
-// --- TETRIS ENGINE ---
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+    // TEMP: skip payment to confirm flow
+    startGameEngine();
 
-const ROWS = 20, COLS = 10, SIZE = 30;
-
-let board, piece, pos, score;
-
-const SHAPES = [
-  [[1,1,1,1]],
-  [[1,1],[1,1]],
-  [[0,1,0],[1,1,1]],
-  [[1,0,0],[1,1,1]],
-  [[0,0,1],[1,1,1]]
-];
-
-function resetGame(){
-  board = Array.from({length:ROWS},()=>Array(COLS).fill(0));
-  score = 0;
-  document.getElementById("score").innerText = "Score: 0";
-}
-
-function newPiece(){
-  piece = SHAPES[Math.floor(Math.random()*SHAPES.length)];
-  pos = {x:3,y:0};
-}
-
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  board.forEach((row,y)=>{
-    row.forEach((v,x)=>{
-      if(v){
-        ctx.fillStyle="#00ffa3";
-        ctx.fillRect(x*SIZE,y*SIZE,SIZE,SIZE);
-      }
-    });
-  });
-
-  piece.forEach((row,y)=>{
-    row.forEach((v,x)=>{
-      if(v){
-        ctx.fillStyle="#ff0040";
-        ctx.fillRect((pos.x+x)*SIZE,(pos.y+y)*SIZE,SIZE,SIZE);
-      }
-    });
-  });
-}
-
-function collide(){
-  return piece.some((row,y)=>
-    row.some((v,x)=>{
-      if(!v) return false;
-      let nx = pos.x+x;
-      let ny = pos.y+y;
-      return nx<0 || nx>=COLS || ny>=ROWS || board[ny][nx];
-    })
-  );
-}
-
-function merge(){
-  piece.forEach((row,y)=>{
-    row.forEach((v,x)=>{
-      if(v) board[pos.y+y][pos.x+x]=1;
-    });
-  });
-}
-
-function clearLines(){
-  for(let y=ROWS-1;y>=0;y--){
-    if(board[y].every(v=>v)){
-      board.splice(y,1);
-      board.unshift(Array(COLS).fill(0));
-      score+=10;
-      document.getElementById("score").innerText="Score: "+score;
-      y++;
-    }
+  } catch(e){
+    console.log(e);
+    alert("Wallet error");
   }
 }
 
-function drop(){
-  pos.y++;
-  if(collide()){
-    pos.y--;
-    merge();
-    clearLines();
-    newPiece();
-    if(collide()){
-      running=false;
-      alert("Game Over! Score: "+score);
-    }
-  }
+function startGameEngine(){
+  alert("Game starting...");
 }
 
-function loop(){
-  if(!running) return;
-  drop();
-  draw();
-  setTimeout(loop,400);
-}
-
-// controls
-document.addEventListener("keydown",e=>{
-  if(!running) return;
-
-  if(e.key==="ArrowLeft") pos.x--;
-  if(e.key==="ArrowRight") pos.x++;
-  if(e.key==="ArrowDown") drop();
-  if(e.key==="ArrowUp"){
-    const rot = piece[0].map((_,i)=>piece.map(r=>r[i]).reverse());
-    const old = piece;
-    piece = rot;
-    if(collide()) piece = old;
-  }
-
-  if(collide()){
-    if(e.key==="ArrowLeft") pos.x++;
-    if(e.key==="ArrowRight") pos.x--;
-  }
-});
-</script>
-
-<script>
 document.addEventListener("DOMContentLoaded", function(){
   const btn = document.querySelector("button");
-
-  btn.onclick = async function(){
-    if (!(window.solana && (window.solana.isPhantom || window.solana))) {
-      const url = window.location.href;
-      document.getElementById("walletLoader").style.display = "flex";
-
-      window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
-      setTimeout(()=>{
-        window.location.href = "https://solflare.com/ul/v1/browse/" + encodeURIComponent(url);
-      },1500);
-      return;
-    }
-
-    // run payment + game
-    await startGame();
-  };
+  if(btn){
+    btn.onclick = handlePlay;
+  } else {
+    console.log("NO BUTTON FOUND");
+  }
 });
 </script>
 
@@ -281,45 +114,4 @@ document.addEventListener("DOMContentLoaded", function(){
   <div class="loader"></div>
 </div>
 
-<script>
-// --- DETECT WALLET ENV ---
-function isInWallet(){
-  return window.solana && window.solana.isPhantom || window.solflare;
-}
-
-// --- SHOW LOADER ---
-function showLoader(){
-  document.getElementById("walletLoader").style.display = "flex";
-}
-
-// --- SMART REDIRECT ---
-function openInWallet(){
-  const url = window.location.href;
-
-  showLoader();
-
-  const phantom = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
-  const solflare = "https://solflare.com/ul/v1/browse/" + encodeURIComponent(url);
-
-  // try Phantom
-  window.location.href = phantom;
-
-  // fallback
-  setTimeout(() => {
-    window.location.href = solflare;
-  }, 1800);
-}
-
-// --- OVERRIDE START ---
-const originalStart = startGame;
-
-startGame = async function(){
-  if (!isInWallet()){
-    openInWallet();
-    return;
-  }
-
-  originalStart();
-};
-</script>
 
