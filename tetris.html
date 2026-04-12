@@ -220,3 +220,84 @@ document.addEventListener("keydown",e=>{
 
 </body>
 </html>
+
+<style>
+#walletLoader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0a0014;
+  color: #00ffa3;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+  font-size: 18px;
+}
+
+.loader {
+  margin-top: 20px;
+  border: 4px solid #222;
+  border-top: 4px solid #00ffa3;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+<div id="walletLoader">
+  <div>🔗 Opening Wallet...</div>
+  <div class="loader"></div>
+</div>
+
+<script>
+// --- DETECT WALLET ENV ---
+function isInWallet(){
+  return window.solana && window.solana.isPhantom || window.solflare;
+}
+
+// --- SHOW LOADER ---
+function showLoader(){
+  document.getElementById("walletLoader").style.display = "flex";
+}
+
+// --- SMART REDIRECT ---
+function openInWallet(){
+  const url = window.location.href;
+
+  showLoader();
+
+  const phantom = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
+  const solflare = "https://solflare.com/ul/v1/browse/" + encodeURIComponent(url);
+
+  // try Phantom
+  window.location.href = phantom;
+
+  // fallback
+  setTimeout(() => {
+    window.location.href = solflare;
+  }, 1800);
+}
+
+// --- OVERRIDE START ---
+const originalStart = startGame;
+
+startGame = async function(){
+  if (!isInWallet()){
+    openInWallet();
+    return;
+  }
+
+  originalStart();
+};
+</script>
+
