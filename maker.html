@@ -4,67 +4,17 @@
   <title>MONET Maker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      background:#0b0b0f;
-      color:#00ffa3;
-      font-family:Arial;
-      text-align:center;
-    }
-    #grid {
-      display:grid;
-      grid-template-columns:repeat(10,40px);
-      gap:2px;
-      justify-content:center;
-      margin:20px;
-    }
-    .cell {
-      width:40px;
-      height:40px;
-      background:#111;
-      cursor:pointer;
-    }
-    .block {
-      background:#00ffa3;
-    }
-    button {
-      padding:10px 15px;
-      margin:5px;
-      border:none;
-      border-radius:8px;
-      background:#00ffa3;
-      color:#000;
-    }
-    canvas {
-      background:#111;
-      margin-top:20px;
-    }
+    body { background:#0b0b0f; color:#00ffa3; text-align:center; font-family:Arial; }
+    #grid { display:grid; grid-template-columns:repeat(10,40px); gap:2px; justify-content:center; margin:20px; }
+    .cell { width:40px; height:40px; background:#111; cursor:pointer; }
+    .block { background:#00ffa3; }
+    button { padding:10px; margin:5px; border:none; border-radius:8px; background:#00ffa3; color:#000; }
+    canvas { background:#111; margin-top:20px; }
   </style>
 </head>
 <body>
 
 <h1>🛠️ MONET Maker</h1>
-<div style="max-width:400px;margin:10px auto;background:#111;padding:15px;border-radius:10px;color:#ccc;font-size:14px;">
-<b>What is this?</b><br>
-Create your own level and challenge others.<br><br>
-<b>How to play:</b><br>
-1. Tap squares to place obstacles<br>
-2. Click <b>Save</b> to store your level<br>
-3. Click <b>Play</b> to try it<br><br>
-<b>Goal:</b><br>
-Avoid obstacles and survive as long as possible<br><br>
-💡 Soon: Players will pay MONET to play your levels
-</div>
-<div style="max-width:400px;margin:10px auto;background:#111;padding:15px;border-radius:10px;color:#ccc;font-size:14px;">
-<b>What is this?</b><br>
-Create your own level and challenge others.<br><br>
-<b>How to play:</b><br>
-1. Tap squares to place obstacles<br>
-2. Click <b>Save</b> to store your level<br>
-3. Click <b>Play</b> to try it<br><br>
-<b>Goal:</b><br>
-Avoid obstacles and survive as long as possible<br><br>
-💡 Soon: Players will pay MONET to play your levels
-</div>
 
 <div id="grid"></div>
 
@@ -78,21 +28,24 @@ Avoid obstacles and survive as long as possible<br><br>
 const grid = document.getElementById("grid");
 let level = Array(100).fill(0);
 
-// Build grid
+// BUILD GRID
 for (let i=0;i<100;i++){
   const cell = document.createElement("div");
   cell.className="cell";
-  cell.onclick = () => {
+
+  cell.onclick = (e) => {
+    e.stopPropagation(); // 🔥 prevents freeze
     level[i] = level[i] ? 0 : 1;
     cell.classList.toggle("block");
   };
+
   grid.appendChild(cell);
 }
 
-// Save/load
+// SAVE / LOAD
 function saveLevel(){
   localStorage.setItem("monetLevel", JSON.stringify(level));
-  alert("Level saved");
+  alert("Saved");
 }
 
 function loadLevel(){
@@ -105,27 +58,63 @@ function loadLevel(){
   });
 }
 
-// Play mode
+// GAME
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let player = null;
+let gravity = 0.5;
+let scroll = 0;
+let playing = false;
+
+function playLevel(){
+  player = {x:50,y:150,w:20,h:20,dy:0};
+  scroll = 0;
+  playing = true;
+  loop();
 }
-</script><script src="fix_runner.js"></script>
+
+// ONLY jump when clicking canvas
+canvas.addEventListener("click", () => {
+  if (playing && player) player.dy = -8;
+});
+
+function loop(){
+  if (!playing) return;
+
+  ctx.clearRect(0,0,400,300);
+
+  player.dy += gravity;
+  player.y += player.dy;
+
+  ctx.fillStyle="#00ffa3";
+  ctx.fillRect(player.x,player.y,player.w,player.h);
+
+  scroll += 2;
+
+  level.forEach((b,i)=>{
+    if (!b) return;
+
+    let x = (i%10)*40 - scroll;
+    let y = Math.floor(i/10)*40;
+
+    ctx.fillStyle="#ff0040";
+    ctx.fillRect(x,y,40,40);
+
+    if (
+      player.x < x+40 &&
+      player.x+player.w > x &&
+      player.y < y+40 &&
+      player.y+player.h > y
+    ){
+      playing = false;
+      alert("Game Over");
+    }
+  });
+
+  requestAnimationFrame(loop);
+}
+</script>
 
 </body>
 </html>
-
-<script>
-
-  window.open(swapUrl, "_blank");
-
-
-  if (!confirmed) return;
-
-  playLevel();
-}
-
-// Override Play button
-document.querySelectorAll("button").forEach(btn=>{
-  if (btn.innerText === "Play") {
-  }
-});
-</script><script src="fix_runner.js"></script>
-
