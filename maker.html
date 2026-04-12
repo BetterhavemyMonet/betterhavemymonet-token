@@ -8,12 +8,14 @@
     #grid { display:grid; grid-template-columns:repeat(10,40px); gap:2px; justify-content:center; margin:20px; }
     .cell { width:40px; height:40px; background:#111; cursor:pointer; }
     .block { background:#00ffa3; }
-    button { padding:10px; margin:5px; border:none; border-radius:8px; background:#00ffa3; color:#000; }
+    button { padding:12px; margin:6px; border:none; border-radius:10px; background:#00ffa3; color:#000; font-weight:bold; }
   </style>
 </head>
 <body>
 
 <h1>🛠️ MONET Maker</h1>
+
+<p>Tap squares to build your level</p>
 
 <div id="grid"></div>
 
@@ -24,9 +26,8 @@
 </div>
 
 <script>
-// --- LEVEL DATA ---
-let pages = [Array(100).fill(0)];
-let currentPage = 0;
+// --- LEVEL ---
+let level = Array(100).fill(0);
 
 // --- GRID ---
 const grid = document.getElementById("grid");
@@ -36,7 +37,7 @@ for (let i=0;i<100;i++){
   cell.className="cell";
 
   cell.onclick = ()=>{
-    pages[currentPage][i] = pages[currentPage][i] ? 0 : 1;
+    level[i] = level[i] ? 0 : 1;
     cell.classList.toggle("block");
   };
 
@@ -46,36 +47,29 @@ for (let i=0;i<100;i++){
 // --- RENDER ---
 function render(){
   document.querySelectorAll(".cell").forEach((c,i)=>{
-    c.classList.toggle("block", pages[currentPage][i]);
+    c.classList.toggle("block", level[i]);
   });
 }
 
-// --- SAVE / LOAD ---
-function saveLevel(){
-  localStorage.setItem("monetLevel", JSON.stringify(pages));
+// --- SAVE ---
+document.getElementById("saveBtn").onclick = ()=>{
+  localStorage.setItem("monetLevel", JSON.stringify(level));
   alert("Saved");
-}
+};
 
-function loadLevel(){
+// --- LOAD ---
+document.getElementById("loadBtn").onclick = ()=>{
   const data = JSON.parse(localStorage.getItem("monetLevel")||"[]");
   if (!data.length) return;
-
-  pages = data;
+  level = data;
   render();
-}
+};
 
-// --- PLAY (SEND TO GAME PAGE) ---
-function playLevel(){
-  const fullLevel = pages.flat();
-  const encoded = btoa(JSON.stringify(fullLevel));
+// --- PLAY ---
+document.getElementById("playBtn").onclick = ()=>{
+  const encoded = btoa(JSON.stringify(level));
   window.location.href = "play.html?level=" + encoded;
-}
-
-// --- BUTTONS ---
-document.getElementById("saveBtn").onclick = saveLevel;
-document.getElementById("loadBtn").onclick = loadLevel;
-document.getElementById("playBtn").onclick = playLevel;
-
+};
 </script>
 
 </body>
