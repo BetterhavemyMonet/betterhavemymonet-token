@@ -7,200 +7,118 @@
   <style>
     body { margin:0; background:#0a0014; color:#00ffa3; text-align:center; font-family:Arial; }
     canvas { display:block; margin:auto; background:#111; }
-    button { padding:12px; margin:10px; border:none; border-radius:10px; background:#00ffa3; color:#000; }
+    button { padding:14px; margin:10px; border:none; border-radius:10px; background:#00ffa3; color:#000; font-weight:bold; }
   </style>
 </head>
 <body>
 
 <h2>🧱 MONET Tetris</h2>
 
-<button onclick="connectWallet()">🔗 Connect Wallet</button>
-<button onclick="startGame()">▶️ Play (Requires MONET)</button>
+<button onclick="if(!window.solana){ openInWallet(); return; } startGameEngine()">▶️ Play (1 MONET)</button>
 
-<p id="status">🔒 Not connected</p>
+<p id="status">💰 Costs 1 MONET to play</p>
 <canvas id="game" width="300" height="600"></canvas>
 <p id="score">Score: 0</p>
 
+
+
+
 <script>
-const TOKEN = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+function openWallet(){
+  const url = window.location.href;
+  window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
+}
 
-let wallet = null;
+async function handlePlay(){
+  console.log("CLICK WORKING");
 
-// --- WALLET ---
-async function connectWallet(){
   if (!window.solana){
-    alert("Install Phantom or Solana wallet");
+    openWallet();
     return;
   }
 
-  const resp = await window.solana.connect();
-  wallet = resp.publicKey.toString();
-  document.getElementById("status").innerText = "✅ Connected";
-}
+  try {
+    let provider = window.solana;
 
-// --- TOKEN CHECK ---
-async function hasMonet(){
-  if (!wallet) return false;
-
-  const pubkey = new solanaWeb3.PublicKey(wallet);
-
-  const tokens = await connection.getParsedTokenAccountsByOwner(pubkey,{
-    programId: new solanaWeb3.PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
-  });
-
-  for (let t of tokens.value){
-    if (t.account.data.parsed.info.mint === TOKEN){
-      return t.account.data.parsed.info.tokenAmount.uiAmount > 0;
+    if (!provider.isConnected){
+      await provider.connect();
     }
-  }
 
-  return false;
-}
+    alert("✅ Wallet connected");
 
-// --- GAME LOGIC ---
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+    // TEMP: prove flow works
+    startGameEngine();
 
-const ROWS = 20;
-const COLS = 10;
-const SIZE = 30;
-
-let board, piece, pos, score, running = false;
-
-const SHAPES = [
-  [[1,1,1,1]],
-  [[1,1],[1,1]],
-  [[0,1,0],[1,1,1]],
-  [[1,0,0],[1,1,1]],
-  [[0,0,1],[1,1,1]]
-];
-
-function resetGame(){
-  board = Array.from({length:ROWS},()=>Array(COLS).fill(0));
-  score = 0;
-  document.getElementById("score").innerText = "Score: 0";
-}
-
-function newPiece(){
-  piece = SHAPES[Math.floor(Math.random()*SHAPES.length)];
-  pos = {x:3,y:0};
-}
-
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  board.forEach((row,y)=>{
-    row.forEach((v,x)=>{
-      if(v){
-        ctx.fillStyle="#00ffa3";
-        ctx.fillRect(x*SIZE,y*SIZE,SIZE,SIZE);
-      }
-    });
-  });
-
-  piece.forEach((row,y)=>{
-    row.forEach((v,x)=>{
-      if(v){
-        ctx.fillStyle="#ff0040";
-        ctx.fillRect((pos.x+x)*SIZE,(pos.y+y)*SIZE,SIZE,SIZE);
-      }
-    });
-  });
-}
-
-function collide(){
-  return piece.some((row,y)=>
-    row.some((v,x)=>{
-      if(!v) return false;
-      let nx = pos.x+x;
-      let ny = pos.y+y;
-      return nx<0 || nx>=COLS || ny>=ROWS || board[ny][nx];
-    })
-  );
-}
-
-function merge(){
-  piece.forEach((row,y)=>{
-    row.forEach((v,x)=>{
-      if(v) board[pos.y+y][pos.x+x]=1;
-    });
-  });
-}
-
-function clearLines(){
-  for(let y=ROWS-1;y>=0;y--){
-    if(board[y].every(v=>v)){
-      board.splice(y,1);
-      board.unshift(Array(COLS).fill(0));
-      score+=10;
-      document.getElementById("score").innerText="Score: "+score;
-      y++;
-    }
+  } catch(e){
+    console.log(e);
+    alert("Wallet error: " + (e.message || e));
   }
 }
 
-function drop(){
-  pos.y++;
-  if(collide()){
-    pos.y--;
-    merge();
-    clearLines();
-    newPiece();
-    if(collide()){
-      running=false;
-      alert("Game Over! Score: "+score);
-    }
-  }
+function startGameEngine(){
+  const canvas = document.getElementById("game");
+  const ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "#00ffa3";
+  ctx.fillRect(50,50,200,200);
 }
 
-function loop(){
-  if(!running) return;
-  drop();
-  draw();
-  setTimeout(loop,400);
-}
+document.addEventListener("DOMContentLoaded", function(){
+  const btn = document.getElementById("playBtn");
 
-// --- START GAME WITH PAYWALL ---
-async function startGame(){
-  document.getElementById("status").innerText = "Checking MONET...";
-
-  const ok = await hasMonet();
-
-  if(!ok){
-    document.getElementById("status").innerText = "❌ Need MONET";
-    window.open("https://jup.ag/swap/SOL-"+TOKEN, "_blank");
-    return;
-  }
-
-  document.getElementById("status").innerText = "✅ Access granted";
-
-  resetGame();
-  newPiece();
-  running = true;
-  loop();
-}
-
-// controls
-document.addEventListener("keydown",e=>{
-  if(!running) return;
-
-  if(e.key==="ArrowLeft") pos.x--;
-  if(e.key==="ArrowRight") pos.x++;
-  if(e.key==="ArrowDown") drop();
-  if(e.key==="ArrowUp"){
-    const rot = piece[0].map((_,i)=>piece.map(r=>r[i]).reverse());
-    const old = piece;
-    piece = rot;
-    if(collide()) piece = old;
-  }
-
-  if(collide()){
-    if(e.key==="ArrowLeft") pos.x++;
-    if(e.key==="ArrowRight") pos.x--;
+  if(btn){
+    btn.onclick = handlePlay;
+  } else {
+    console.log("BUTTON NOT FOUND");
   }
 });
 </script>
 
 </body>
 </html>
+
+<style>
+#walletLoader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0a0014;
+  color: #00ffa3;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+  font-size: 18px;
+}
+
+.loader {
+  margin-top: 20px;
+  border: 4px solid #222;
+  border-top: 4px solid #00ffa3;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+<div id="walletLoader">
+  <div>🔗 Opening Wallet...</div>
+  <div class="loader"></div>
+</div>
+
+
+
+
+
+
+
+
