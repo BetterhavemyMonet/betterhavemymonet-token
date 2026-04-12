@@ -22,70 +22,54 @@
 
 
 
+
 <script>
-const TOKEN = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
-const TREASURY = "BmEAUUkKcj7BLNAxTF6wqFx6r25wbX5josw4voMbin9z";
-
-function isInWallet(){
-  return window.solana && window.solana.isPhantom;
-}
-
 function openWallet(){
   const url = window.location.href;
-  document.body.innerHTML = "<h2 style=color:#00ffa3;text-align:center;margin-top:40px;>Opening Wallet...</h2>";
   window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
 }
 
 async function handlePlay(){
-  try {
-    if (!window.solana){
-      const url = window.location.href;
-      window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
-      return;
-    }
+  console.log("CLICK WORKING");
 
+  if (!window.solana){
+    openWallet();
+    return;
+  }
+
+  try {
     let provider = window.solana;
 
-    // only connect if not already connected
     if (!provider.isConnected){
       await provider.connect();
     }
 
-    console.log("Wallet ready");
+    alert("✅ Wallet connected");
 
-    startGameEngine();
-
-  } catch(e){
-    console.log("REAL ERROR:", e);
-    alert("Wallet failed: " + (e.message || e));
-  }
-}
-
-  try {
-    const provider = window.solana;
-    const resp = await provider.connect();
-
-    alert("Wallet connected: " + resp.publicKey.toString());
-
-    // TEMP: skip payment to confirm flow
+    // TEMP: prove flow works
     startGameEngine();
 
   } catch(e){
     console.log(e);
-    alert("Wallet error");
+    alert("Wallet error: " + (e.message || e));
   }
 }
 
 function startGameEngine(){
-  alert("Game starting...");
+  const canvas = document.getElementById("game");
+  const ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "#00ffa3";
+  ctx.fillRect(50,50,200,200);
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-  const btn = document.querySelector("button");
+  const btn = document.getElementById("playBtn");
+
   if(btn){
     btn.onclick = handlePlay;
   } else {
-    console.log("NO BUTTON FOUND");
+    console.log("BUTTON NOT FOUND");
   }
 });
 </script>
@@ -133,196 +117,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 
-<script>
-// --- FINAL CLEAN FLOW ---
-async function handlePlay(){
-  try {
-    if (!window.solana){
-      const url = window.location.href;
-      window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
-      return;
-    }
-
-    let provider = window.solana;
-
-    // only connect if not already connected
-    if (!provider.isConnected){
-      await provider.connect();
-    }
-
-    console.log("Wallet ready");
-
-    startGameEngine();
-
-  } catch(e){
-    console.log("REAL ERROR:", e);
-    alert("Wallet failed: " + (e.message || e));
-  }
-}
-
-  try {
-    const provider = window.solana;
-    await provider.connect();
-
-    console.log("Wallet connected");
-
-    startGameEngine(); // ONLY THIS
-
-  } catch(e){
-    console.log(e);
-    alert("Wallet error");
-  }
-}
-
-// --- GAME START (ONLY RUNS ONCE) ---
-function startGameEngine(){
-  if(window.gameRunning) return;
-  window.gameRunning = true;
-
-  alert("Game starting...");
-}
-
-// bind button
-document.addEventListener("DOMContentLoaded", function(){
-  const btn = document.getElementById("playBtn");
-  if(btn){
-    btn.onclick = handlePlay;
-  }
-});
-</script>
 
 
-<script>
-// --- FORCE GAME START ---
-function startGameEngine(){
-  console.log("GAME STARTING");
-
-  const canvas = document.getElementById("game");
-  const ctx = canvas.getContext("2d");
-
-  const ROWS = 20, COLS = 10, SIZE = 30;
-
-  let board = Array.from({length:ROWS},()=>Array(COLS).fill(0));
-  let score = 0;
-
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    board.forEach((row,y)=>{
-      row.forEach((v,x)=>{
-        if(v){
-          ctx.fillStyle="#00ffa3";
-          ctx.fillRect(x*SIZE,y*SIZE,SIZE,SIZE);
-        }
-      });
-    });
-  }
-
-  function loop(){
-    draw();
-    requestAnimationFrame(loop);
-  }
-
-  loop();
-}
-
-// --- BUTTON FLOW ---
-async function handlePlay(){
-  try {
-    if (!window.solana){
-      const url = window.location.href;
-      window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
-      return;
-    }
-
-    let provider = window.solana;
-
-    // only connect if not already connected
-    if (!provider.isConnected){
-      await provider.connect();
-    }
-
-    console.log("Wallet ready");
-
-    startGameEngine();
-
-  } catch(e){
-    console.log("REAL ERROR:", e);
-    alert("Wallet failed: " + (e.message || e));
-  }
-}
-
-  try {
-    await window.solana.connect();
-    startGameEngine();
-  } catch(e){
-    console.log(e);
-    alert("Wallet error");
-  }
-}
-
-// bind button
-document.addEventListener("DOMContentLoaded", function(){
-  const btn = document.getElementById("playBtn");
-  if(btn){
-    btn.onclick = handlePlay;
-  }
-});
-</script>
 
 
-<script>
-// --- WAIT FOR WALLET INJECTION ---
-function waitForWallet(){
-  return new Promise(resolve => {
-    let count = 0;
-
-    const check = setInterval(() => {
-      if (window.solana && window.solana.isPhantom){
-        clearInterval(check);
-        resolve(window.solana);
-      }
-
-      count++;
-      if(count > 20){ // ~2 seconds max
-        clearInterval(check);
-        resolve(null);
-      }
-    }, 100);
-  });
-}
-
-// --- CLEAN PLAY FLOW ---
-async function handlePlay(){
-  const provider = await waitForWallet();
-
-  if (!provider){
-    const url = window.location.href;
-    window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(url);
-    return;
-  }
-
-  try {
-    if (!provider.isConnected){
-      await provider.connect();
-    }
-
-    console.log("Wallet connected");
-
-    startGameEngine();
-
-  } catch(e){
-    console.log("REAL ERROR:", e);
-    alert("Wallet error: " + (e.message || e));
-  }
-}
-
-// bind button
-document.addEventListener("DOMContentLoaded", function(){
-  const btn = document.getElementById("playBtn");
-  if(btn){
-    btn.onclick = handlePlay;
-  }
-});
-</script>
 
