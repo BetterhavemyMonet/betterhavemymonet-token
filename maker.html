@@ -154,3 +154,90 @@ document.getElementById("jumpBtn").addEventListener("mousedown", function(){
 });
 </script>
 
+
+<script>
+// --- OVERRIDE GAME LOOP FOR RUNNER STYLE ---
+
+let groundY = 220;
+let velocity = 0;
+let isJumping = false;
+
+function playLevel(){
+  player = {x:80, y:groundY, w:25, h:25};
+  scroll = 0;
+  velocity = 0;
+  isJumping = false;
+  playing = true;
+  loop();
+}
+
+// Jump button / canvas
+function jump(){
+  if (!isJumping) {
+    velocity = -10;
+    isJumping = true;
+  }
+}
+
+// Hook jump button if exists
+const jumpBtn = document.getElementById("jumpBtn");
+if (jumpBtn) {
+  jumpBtn.onclick = jump;
+}
+
+// Canvas click jump
+const canvasEl = document.getElementById("game");
+canvasEl.addEventListener("click", jump);
+
+function loop(){
+  if (!playing) return;
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // gravity
+  velocity += 0.5;
+  player.y += velocity;
+
+  // ground collision
+  if (player.y >= groundY) {
+    player.y = groundY;
+    velocity = 0;
+    isJumping = false;
+  }
+
+  // draw ground
+  ctx.fillStyle = "#222";
+  ctx.fillRect(0, groundY + player.h, canvas.width, 5);
+
+  // draw player
+  ctx.fillStyle = "#00ffa3";
+  ctx.fillRect(player.x, player.y, player.w, player.h);
+
+  // scroll world
+  scroll += 4;
+
+  level.forEach((b,i)=>{
+    if (!b) return;
+
+    let x = (i%10)*60 - scroll;
+    let y = groundY;
+
+    ctx.fillStyle = "#ff0040";
+    ctx.fillRect(x,y,30,30);
+
+    // collision
+    if (
+      player.x < x+30 &&
+      player.x+player.w > x &&
+      player.y < y+30 &&
+      player.y+player.h > y
+    ){
+      playing = false;
+      alert("Game Over");
+    }
+  });
+
+  requestAnimationFrame(loop);
+}
+</script>
+
