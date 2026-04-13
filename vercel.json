@@ -1,1 +1,1 @@
-{ "routes": [{ "src": "/", "dest": "/public/index.html" }] }
+{ "outputDirectory": ".", "routes": [{ "src": "/(.*)", "dest": "/index.html" }] }
