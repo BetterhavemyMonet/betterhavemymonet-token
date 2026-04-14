@@ -5,6 +5,12 @@
 [build.environment]
   NODE_VERSION = "18"
 
+[context.production]
+  branch = "live-fix"
+
+[context.deploy-preview]
+  branch = "live-fix"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
