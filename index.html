@@ -3,84 +3,170 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Better Have My MONET</title>
+<title>Better Have My Monet</title>
+
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script src="https://unpkg.com/@solana/spl-token@latest/lib/index.iife.js"></script>
 
 <style>
 body {
   margin:0;
   font-family:sans-serif;
-  background:#000;
-  color:#fff;
+  background:linear-gradient(135deg,#0b0b0f,#1a1a2e);
+  color:white;
 }
 
-.pyramid {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  margin-top:20px;
-}
-
-.money-icon {
-  font-size:28px;
-  margin-bottom:6px;
-  filter: drop-shadow(0 0 6px rgba(255,230,140,0.8));
-}
-
-.hero-emblem {
-  width:70px;
-  margin:4px 0;
-  filter: drop-shadow(0 0 10px rgba(0,255,180,0.4))
-          drop-shadow(0 0 20px rgba(140,0,255,0.25));
-}
-
-.desc {
+.section {
+  padding:60px 20px;
   text-align:center;
-  line-height:1.6;
 }
 
-/* 💜 Purple base + 💚 emerald glow */
-section {
-  background: linear-gradient(145deg, rgba(40,0,60,0.6), rgba(10,0,30,0.8));
-  box-shadow: 0 0 12px rgba(0,255,163,0.25), 0 0 24px rgba(0,255,163,0.15);
-  border-radius: 12px;
-  padding:30px;
-  margin:30px;
-  transition: all 0.3s ease;
+.hero img {
+  max-width:160px;
+  margin-bottom:20px;
 }
 
-section:hover {
-  box-shadow: 0 0 20px rgba(0,255,163,0.45), 0 0 40px rgba(0,255,163,0.25);
-  transform: translateY(-2px);
+h1 { font-size:34px; }
+
+button {
+  padding:14px 26px;
+  margin:10px;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  background:#00ffcc;
+  color:black;
+  cursor:pointer;
 }
 
-.button {
-  display:inline-block;
-  padding:16px 28px;
-  font-size:18px;
-  font-weight:700;
-  background:linear-gradient(135deg,#00ffa3,#00cc88);
-  color:#000;
-  border-radius:14px;
-  text-decoration:none;
-  box-shadow:0 0 20px rgba(0,255,163,0.4);
+button:hover { transform:scale(1.05); }
+
+.card {
+  background:#141428;
+  padding:20px;
+  border-radius:16px;
+  margin:20px auto;
+  max-width:500px;
+}
+
+img.section-img {
+  max-width:220px;
+  margin-top:20px;
 }
 </style>
 </head>
 
 <body>
 
-<section>
-  <div class="pyramid">
-    <div class="money-icon">💵</div>
-    <img src="/assets/monet.png" class="hero-emblem" />
-    <p class="desc">Built on Solana. Powered by MONET.</p>
-  </div>
-</section>
+<!-- HERO -->
+<div class="section hero">
+  <img src="assets/monet-hero.png" onerror="this.style.display='none'">
+  <h1>💸 Better Have My Monet</h1>
+  <p>Money moves powered by MONET</p>
 
-<div style="text-align:center;margin:40px 0;">
-  <a href="/maker.html" class="button">🎮 Play & Earn MONET</a>
+  <button onclick="connectWallet()">Connect Wallet</button>
+  <button onclick="payMonet()">Play & Earn MONET</button>
 </div>
+
+<!-- GAME SECTION -->
+<div class="section">
+  <div class="card">
+    <h2>🎮 Play & Earn</h2>
+    <p>Pay 1 MONET to start the game</p>
+    <img src="assets/game-preview.png" class="section-img" onerror="this.style.display='none'">
+  </div>
+</div>
+
+<!-- CHART SECTION -->
+<div class="section">
+  <div class="card">
+    <h2>📊 Token Chart</h2>
+    <p>Track MONET performance</p>
+    <img src="assets/chart.png" class="section-img" onerror="this.style.display='none'">
+  </div>
+</div>
+
+<!-- COMMUNITY -->
+<div class="section">
+  <div class="card">
+    <h2>💬 Join the Movement</h2>
+    <p>Stay connected with MONET</p>
+    <button onclick="window.open('https://t.me/Libra_Token_Solana')">Join Telegram</button>
+  </div>
+</div>
+
+<script>
+let wallet = null;
+
+const MONET_MINT = "6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+const RECEIVER = "2H5yp77LMdAqo8er1znx2jRApyCPExcHVpZPYHKkD68F";
+const DECIMALS = 1000000000;
+
+async function connectWallet() {
+  if (window.solana && window.solana.isPhantom) {
+    wallet = await window.solana.connect();
+    alert("Connected: " + wallet.publicKey.toString());
+  } else {
+    alert("Install Phantom Wallet");
+  }
+}
+
+async function payMonet() {
+  if (!wallet) return alert("Connect wallet first");
+
+  const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+
+  const from = wallet.publicKey;
+  const mint = new solanaWeb3.PublicKey(MONET_MINT);
+  const to = new solanaWeb3.PublicKey(RECEIVER);
+
+  const fromATA = await splToken.getAssociatedTokenAddress(mint, from);
+  const toATA = await splToken.getAssociatedTokenAddress(mint, to);
+
+  const balance = await connection.getTokenAccountBalance(fromATA).catch(()=>null);
+
+  if (!balance || balance.value.uiAmount < 1) {
+    return alert("You need at least 1 MONET 💸");
+  }
+
+  const tx = new solanaWeb3.Transaction();
+
+  const toAccount = await connection.getAccountInfo(toATA);
+  if (!toAccount) {
+    tx.add(
+      splToken.createAssociatedTokenAccountInstruction(
+        from,
+        toATA,
+        to,
+        mint
+      )
+    );
+  }
+
+  tx.add(
+    splToken.createTransferInstruction(
+      fromATA,
+      toATA,
+      from,
+      DECIMALS
+    )
+  );
+
+  tx.feePayer = from;
+  tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+
+  const signed = await window.solana.signTransaction(tx);
+  const sig = await connection.sendRawTransaction(signed.serialize());
+
+  alert("1 MONET sent 🚀\nTX: " + sig);
+
+  startGame();
+}
+
+function startGame() {
+  alert("Game starting 🎮");
+}
+</script>
 
 </body>
 </html>
