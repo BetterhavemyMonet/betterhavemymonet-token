@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Monet Arcade</title>
+<style>
+body { background:#050014; color:white; text-align:center; font-family:Arial; }
+.grid { display:flex; flex-wrap:wrap; justify-content:center; }
+.card { width:250px; margin:15px; padding:20px; border:1px solid #444; border-radius:12px; }
+button { padding:10px 20px; background:#00ffc3; border:none; border-radius:8px; cursor:pointer; }
+</style>
+</head>
+
+<body>
+
+<h1>🎮 Monet Arcade</h1>
+<p>Select a game (Cost: 1 MONET)</p>
+
+<div class="grid">
+
+<div class="card">
+<h2>🧱 Tetris</h2>
+<button onclick="launch('/games/tetris.html')">Play</button>
+</div>
+
+<div class="card">
+<h2>🦖 Dino Run</h2>
+<button onclick="launch('/games/dino.html')">Play</button>
+</div>
+
+<div class="card">
+<h2>🍄 Monet Maker</h2>
+<button onclick="launch('/games/mario.html')">Play</button>
+</div>
+
+</div>
+
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script src="https://unpkg.com/@solana/spl-token@latest/lib/index.iife.js"></script>
+
+<script>
+const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+const MONET = new solanaWeb3.PublicKey("6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b");
+const TREASURY = new solanaWeb3.PublicKey("2H5yp77LMdAqo8er1znx2jRApyCPExcHVpZPYHKkD68F");
+
+async function pay(){
+  const provider = window.solana;
+  await provider.connect();
+  const user = provider.publicKey;
+
+  const userATA = await splToken.getAssociatedTokenAddress(MONET, user);
+  const treasuryATA = await splToken.getAssociatedTokenAddress(MONET, TREASURY);
+
+  const tx = new solanaWeb3.Transaction().add(
+    splToken.createTransferInstruction(
+      userATA,
+      treasuryATA,
+      user,
+      1000000
+    )
+  );
+
+  tx.feePayer = user;
+  tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+
+  const signed = await provider.signTransaction(tx);
+  await connection.sendRawTransaction(signed.serialize());
+}
+
+async function launch(game){
+  try {
+    await pay();
+    window.location.href = game;
+  } catch(e){
+    alert("Payment failed");
+  }
+}
+</script>
+
+</body>
+</html>
