@@ -411,7 +411,7 @@ alert("Copied!");
 <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 
 <div id="wallet-ui" style="position:fixed; z-index:9999;;top:15px;right:15px;z-index:9999;text-align:right;">
-<button id="connectBtn" class="btn"><button onclick="connectWallet()">Connect Wallet</button></button>
+<button id="connectBtn" class="btn"><button onclick="connectWallet()"><button onclick="connectWallet()">Connect Wallet</button></button></button>
 <div id="walletInfo" style="margin-top:8px;font-size:12px;opacity:.8;"></div>
 </div>
 
@@ -666,6 +666,65 @@ async function payMonet(){
 }
 function startGame(){ alert("Game starting 🎮"); }
 </script>
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script src="https://unpkg.com/@solana/spl-token@latest/lib/index.iife.js"></script>
+<script>
+let wallet=null;
+const MONET_MINT="6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+const RECEIVER="2H5yp77LMdAqo8er1znx2jRApyCPExcHVpZPYHKkD68F";
+
+async function connectWallet(){
+ if(window.solana&&window.solana.isPhantom){
+  wallet=await window.solana.connect();
+  alert("Connected: "+wallet.publicKey.toString());
+ } else { alert("Install Phantom Wallet"); }
+}
+
+async function payMonet(){
+ if(!wallet) return alert("Connect wallet first");
+ const connection=new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+ const fromWallet=wallet.publicKey;
+ const mint=new solanaWeb3.PublicKey(MONET_MINT);
+ const toWallet=new solanaWeb3.PublicKey(RECEIVER);
+
+ const fromATA=await splToken.getAssociatedTokenAddress(mint,fromWallet);
+ const toATA=await splToken.getAssociatedTokenAddress(mint,toWallet);
+
+ const accountInfo=await connection.getTokenAccountBalance(fromATA).catch(()=>null);
+ if(!accountInfo||accountInfo.value.uiAmount<1){
+  return alert("You need at least 1 MONET to play 💸");
+ }
+
+ const tx=new solanaWeb3.Transaction();
+
+ const toAccount=await connection.getAccountInfo(toATA);
+ if(!toAccount){
+  tx.add(splToken.createAssociatedTokenAccountInstruction(
+    fromWallet,toATA,toWallet,mint
+  ));
+ }
+
+ tx.add(splToken.createTransferInstruction(
+  fromATA,
+  toATA,
+  fromWallet,
+  1
+ ));
+
+ tx.feePayer=fromWallet;
+ tx.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
+
+ const signed=await window.solana.signTransaction(tx);
+ const sig=await connection.sendRawTransaction(signed.serialize());
+
+ alert("1 MONET sent 🚀 TX: "+sig);
+ startGame();
+}
+
+function startGame(){
+ alert("Game starting 🎮");
+}
+</script>
 <a href="/maker.html" style="display:inline-block;padding:16px 28px;font-size:18px;font-weight:700;background:linear-gradient(135deg,#00ffa3,#00cc88);color:#000;border-radius:14px;text-decoration:none;box-shadow:0 0 20px rgba(0,255,163,0.4);">🎮 Play </body> Earn MONET</a>
 <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
 <script>
@@ -694,6 +753,65 @@ async function payMonet(){
  startGame();
 }
 function startGame(){ alert("Game starting 🎮"); }
+</script>
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script src="https://unpkg.com/@solana/spl-token@latest/lib/index.iife.js"></script>
+<script>
+let wallet=null;
+const MONET_MINT="6eACLGXCGdw9D5zb5eBKyFnFNTX9pTihDEpZQ7gYAX1b";
+const RECEIVER="2H5yp77LMdAqo8er1znx2jRApyCPExcHVpZPYHKkD68F";
+
+async function connectWallet(){
+ if(window.solana&&window.solana.isPhantom){
+  wallet=await window.solana.connect();
+  alert("Connected: "+wallet.publicKey.toString());
+ } else { alert("Install Phantom Wallet"); }
+}
+
+async function payMonet(){
+ if(!wallet) return alert("Connect wallet first");
+ const connection=new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+ const fromWallet=wallet.publicKey;
+ const mint=new solanaWeb3.PublicKey(MONET_MINT);
+ const toWallet=new solanaWeb3.PublicKey(RECEIVER);
+
+ const fromATA=await splToken.getAssociatedTokenAddress(mint,fromWallet);
+ const toATA=await splToken.getAssociatedTokenAddress(mint,toWallet);
+
+ const accountInfo=await connection.getTokenAccountBalance(fromATA).catch(()=>null);
+ if(!accountInfo||accountInfo.value.uiAmount<1){
+  return alert("You need at least 1 MONET to play 💸");
+ }
+
+ const tx=new solanaWeb3.Transaction();
+
+ const toAccount=await connection.getAccountInfo(toATA);
+ if(!toAccount){
+  tx.add(splToken.createAssociatedTokenAccountInstruction(
+    fromWallet,toATA,toWallet,mint
+  ));
+ }
+
+ tx.add(splToken.createTransferInstruction(
+  fromATA,
+  toATA,
+  fromWallet,
+  1
+ ));
+
+ tx.feePayer=fromWallet;
+ tx.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
+
+ const signed=await window.solana.signTransaction(tx);
+ const sig=await connection.sendRawTransaction(signed.serialize());
+
+ alert("1 MONET sent 🚀 TX: "+sig);
+ startGame();
+}
+
+function startGame(){
+ alert("Game starting 🎮");
+}
 </script>
 </div></body>
 </html>
