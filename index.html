@@ -411,7 +411,7 @@ alert("Copied!");
 <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 
 <div id="wallet-ui" style="position:fixed; z-index:9999;;top:15px;right:15px;z-index:9999;text-align:right;">
-<button id="connectBtn" class="btn">Connect Wallet</button>
+<button id="connectBtn" class="btn"><button onclick="connectWallet()">Connect Wallet</button></button>
 <div id="walletInfo" style="margin-top:8px;font-size:12px;opacity:.8;"></div>
 </div>
 
@@ -638,6 +638,62 @@ section:hover, .section:hover, .card:hover, .container:hover, .box:hover {
 </style>
 <div style="position:fixed; z-index:9999;;bottom:90px;right:30px;z-index:9999;">
 </div><div style="text-align:center;margin:40px 0;">
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script>
+let wallet=null;
+async function connectWallet(){
+ if(window.solana&&window.solana.isPhantom){
+  wallet=await window.solana.connect();
+  alert("Connected: "+wallet.publicKey.toString());
+ } else { alert("Install Phantom Wallet"); }
+}
+async function payMonet(){
+ if(!wallet) return alert("Connect wallet first");
+ const connection=new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+ const tx=new solanaWeb3.Transaction().add(
+  solanaWeb3.SystemProgram.transfer({
+   fromPubkey:wallet.publicKey,
+   toPubkey:new solanaWeb3.PublicKey("REPLACE_WITH_YOUR_WALLET"),
+   lamports:1000000
+  })
+ );
+ tx.feePayer=wallet.publicKey;
+ tx.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
+ const signed=await window.solana.signTransaction(tx);
+ const sig=await connection.sendRawTransaction(signed.serialize());
+ alert("Payment sent 🚀: "+sig);
+ startGame();
+}
+function startGame(){ alert("Game starting 🎮"); }
+</script>
 <a href="/maker.html" style="display:inline-block;padding:16px 28px;font-size:18px;font-weight:700;background:linear-gradient(135deg,#00ffa3,#00cc88);color:#000;border-radius:14px;text-decoration:none;box-shadow:0 0 20px rgba(0,255,163,0.4);">🎮 Play </body> Earn MONET</a>
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script>
+let wallet=null;
+async function connectWallet(){
+ if(window.solana&&window.solana.isPhantom){
+  wallet=await window.solana.connect();
+  alert("Connected: "+wallet.publicKey.toString());
+ } else { alert("Install Phantom Wallet"); }
+}
+async function payMonet(){
+ if(!wallet) return alert("Connect wallet first");
+ const connection=new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+ const tx=new solanaWeb3.Transaction().add(
+  solanaWeb3.SystemProgram.transfer({
+   fromPubkey:wallet.publicKey,
+   toPubkey:new solanaWeb3.PublicKey("REPLACE_WITH_YOUR_WALLET"),
+   lamports:1000000
+  })
+ );
+ tx.feePayer=wallet.publicKey;
+ tx.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
+ const signed=await window.solana.signTransaction(tx);
+ const sig=await connection.sendRawTransaction(signed.serialize());
+ alert("Payment sent 🚀: "+sig);
+ startGame();
+}
+function startGame(){ alert("Game starting 🎮"); }
+</script>
 </div></body>
 </html>
