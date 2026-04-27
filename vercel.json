@@ -1,1 +1,6 @@
-{ "framework": null }
+{
+  "routes": [
+    { "src": "/", "dest": "/public/index.html" },
+    { "src": "/arcade/(.*)", "dest": "/public/arcade/$1" }
+  ]
+}
